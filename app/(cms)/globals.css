@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+
+@layer base {
+  :root {
+    font-family: var(--font-noto-sans-kr), sans-serif;
+  }
+}
