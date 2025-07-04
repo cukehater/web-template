@@ -1,37 +1,42 @@
 'use client'
 
-import { ADMIN_MENU_ITEMS } from '@/app/(cms)/_entities'
-import { Breadcrumb as AntdBreadcrumb } from 'antd'
-import { BreadcrumbItemType } from 'antd/es/breadcrumb/Breadcrumb'
-import { usePathname } from 'next/navigation'
+import React from 'react'
+import { v4 as uuid } from 'uuid'
+import {
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  Separator,
+  SidebarTrigger,
+} from '@/app/(cms)/_shared'
+
+import { useBreadcrumbPath } from '@/app/(cms)/_features/breadcrumb/model'
 
 export default function Breadcrumb() {
-  const pathname = usePathname()
+  const { breadcrumbPath } = useBreadcrumbPath()
 
-  const flattenMenuItems = (
-    items: typeof ADMIN_MENU_ITEMS,
-  ): Record<string, string> => {
-    const flattened: Record<string, string> = {}
+  return (
+    <header className='flex h-16 shrink-0 items-center gap-2 border-b px-4'>
+      <SidebarTrigger className='-ml-1' />
+      <Separator
+        orientation='vertical'
+        className='mr-2 data-[orientation=vertical]:h-4'
+      />
 
-    items.forEach(item => {
-      flattened[item.key] = item.label
-      if (item.children) {
-        item.children.forEach(child => {
-          flattened[child.key] = child.label
-        })
-      }
-    })
-
-    return flattened
-  }
-
-  const menuMap = flattenMenuItems(ADMIN_MENU_ITEMS)
-
-  const items: BreadcrumbItemType[] = pathname
-    .split('/')
-    .slice(2)
-    .map(segment => ({ title: menuMap[segment] || segment }))
-    .filter(item => item.title)
-
-  return <AntdBreadcrumb className='mb-4' items={items} />
+      <BreadcrumbList>
+        {breadcrumbPath?.parent.map((item, index) => (
+          <React.Fragment key={uuid()}>
+            <BreadcrumbItem>
+              <BreadcrumbPage>{item}</BreadcrumbPage>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+          </React.Fragment>
+        ))}
+        <BreadcrumbItem key={uuid()}>
+          <BreadcrumbPage>{breadcrumbPath?.title}</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </header>
+  )
 }

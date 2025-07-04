@@ -1,6 +1,8 @@
-export interface MenuItem {
-  key: string
-  label: string
-  icon?: React.ReactNode
-  children?: MenuItem[]
+import { LucideIcon } from 'lucide-react'
+
+export interface MenuItemType {
+  title: string
+  icon?: LucideIcon
+  url?: string
+  items?: MenuItemType[]
 }
