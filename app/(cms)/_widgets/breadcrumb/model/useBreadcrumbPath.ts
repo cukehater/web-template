@@ -1,10 +1,10 @@
 import {
   ADMIN_MENU_ITEMS,
-  BreadcrumbPathType,
   MenuItemType,
-} from '@/app/(cms)/_entities'
+} from '@/app/(cms)/_entities/navigation/model'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { BreadcrumbPathType } from './types'
 
 export function useBreadcrumbPath() {
   const pathname = usePathname()

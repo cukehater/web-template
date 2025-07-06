@@ -1,2 +1,2 @@
-export { default as Sider } from './sider/ui/Sider'
-export { default as Breadcrumb } from './breadcrumb/ui/Breadcrumb'
+export * from './sider'
+export * from './breadcrumb'

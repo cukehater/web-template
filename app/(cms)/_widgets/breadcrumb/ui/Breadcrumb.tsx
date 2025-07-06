@@ -10,8 +10,7 @@ import {
   Separator,
   SidebarTrigger,
 } from '@/app/(cms)/_shared'
-
-import { useBreadcrumbPath } from '@/app/(cms)/_features/breadcrumb/model'
+import { useBreadcrumbPath } from '../model'
 
 export default function Breadcrumb() {
   const { breadcrumbPath } = useBreadcrumbPath()
