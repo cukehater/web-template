@@ -1,11 +1,21 @@
-import { Sidebar, SidebarRail } from '@/app/(cms)/_shared'
-import { SiderContent, SiderHeader } from '@/app/(cms)/_widgets/sider/ui'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarRail,
+} from '@/app/(cms)/_shared/ui'
+import SiderHeader from './SiderHeader'
+import SiderMenu from './SiderMenu'
 
 export default function Sider() {
   return (
     <Sidebar collapsible='icon' className='group/sider'>
       <SiderHeader />
-      <SiderContent />
+      <SidebarContent>
+        <SidebarGroup>
+          <SiderMenu />
+        </SidebarGroup>
+      </SidebarContent>
       <SidebarRail />
     </Sidebar>
   )

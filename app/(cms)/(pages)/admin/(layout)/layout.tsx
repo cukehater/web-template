@@ -1,5 +1,6 @@
-import { Breadcrumb, Sider } from '../../_widgets'
-import { SidebarInset, SidebarProvider } from '../../_shared'
+import { SidebarInset, SidebarProvider } from '@/app/(cms)/_shared/ui'
+import { Breadcrumb } from '@/app/(cms)/_widgets/breadcrumb'
+import { Sider } from '@/app/(cms)/_widgets/sider'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
