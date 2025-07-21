@@ -3,7 +3,6 @@
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
-import { ADMIN_MENU_ITEMS } from '@//app/(cms)/_entities/menu'
 import {
   Collapsible,
   CollapsibleContent,
@@ -15,6 +14,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@//app/(cms)/_shared/shadcn'
+import { ADMIN_MENU_ITEMS } from '@/app/(cms)/_shared/model'
 
 import useActiveMenu from '../model/useActiveMenu'
 
@@ -23,7 +23,7 @@ export default function SiderMenu() {
 
   return (
     <SidebarMenu>
-      {ADMIN_MENU_ITEMS.map((item, _) => {
+      {ADMIN_MENU_ITEMS.map(item => {
         const isActive = isMenuActive(item)
 
         return (

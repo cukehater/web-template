@@ -1,7 +1,7 @@
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-import { ADMIN_MENU_ITEMS, MenuItemType } from '@//app/(cms)/_entities/menu'
+import { ADMIN_MENU_ITEMS, MenuItemType } from '@/app/(cms)/_shared/model'
 
 import { BreadcrumbPathType } from './types'
 
@@ -9,7 +9,7 @@ export function useBreadcrumbPath() {
   const pathname = usePathname()
   const [breadcrumbPath, setBreadcrumbPath] = useState<BreadcrumbPathType>()
 
-  const getBreadcrumbPath = () => {
+  const getBreadcrumbPath = useCallback(() => {
     const set = new Set<BreadcrumbPathType>()
 
     function recursion(list: MenuItemType[], parent: string[]) {
@@ -30,11 +30,11 @@ export function useBreadcrumbPath() {
     )[0]
 
     setBreadcrumbPath(result)
-  }
+  }, [pathname])
 
   useEffect(() => {
     getBreadcrumbPath()
-  }, [pathname])
+  }, [pathname, getBreadcrumbPath])
 
   return { breadcrumbPath }
 }

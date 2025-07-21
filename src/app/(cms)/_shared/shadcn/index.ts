@@ -48,3 +48,4 @@ export {
   TableHeader,
   TableRow,
 } from './table'
+export { Alert, AlertTitle, AlertDescription } from './alert'

@@ -12,10 +12,10 @@
   },
   "aliases": {
     "components": "@/app/(cms)/_shared",
-    "utils": "@/app/(cms)/_shared/utils",
+    "utils": "@/app/(cms)/_shared/lib",
     "ui": "@/app/(cms)/_shared/shadcn",
     "lib": "@/app/(cms)/_shared/lib",
-    "hooks": "@/app/(cms)/_shared/hooks"
+    "hooks": "@/app/(cms)/_shared/model"
   },
   "iconLibrary": "lucide"
 }

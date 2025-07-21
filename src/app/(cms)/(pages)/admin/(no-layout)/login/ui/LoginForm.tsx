@@ -1,8 +1,13 @@
 'use client'
 
-import { GalleryVerticalEnd, Loader2 } from 'lucide-react'
-
-import { Button, Input, Label } from '@/app/(cms)/_shared/shadcn'
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  Input,
+  Label,
+} from '@/app/(cms)/_shared/shadcn'
+import { AlertCircleIcon, GalleryVerticalEnd, Loader2 } from 'lucide-react'
 
 import { useLogin } from '../model/useLogin'
 
@@ -10,7 +15,7 @@ export default function LoginForm() {
   const { isLoading, error, register, handleSubmit, onSubmit } = useLogin()
 
   return (
-    <div className='flex h-screen flex-col w-screen items-center py-[50%]'>
+    <div className='flex h-screen flex-col w-screen items-center justify-center'>
       <form className='w-[90%] sm:w-96' onSubmit={handleSubmit(onSubmit)}>
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col items-center gap-2'>
@@ -49,9 +54,10 @@ export default function LoginForm() {
             </Button>
           </div>
           {error && (
-            <div className='p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md text-center'>
-              {error}
-            </div>
+            <Alert variant='destructive'>
+              <AlertCircleIcon />
+              <AlertTitle>{error}</AlertTitle>
+            </Alert>
           )}
         </div>
       </form>
