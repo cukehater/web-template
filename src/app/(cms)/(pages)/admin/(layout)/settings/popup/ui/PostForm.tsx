@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@//app/(cms)/_shared/ui/button'
-import { Input } from '@//app/(cms)/_shared/ui/input'
+
+import { Button } from '@//app/(cms)/_shared/shadcn/button'
+import { Input } from '@//app/(cms)/_shared/shadcn/input'
+
 import { CreatePostData } from '../model/types'
 
 interface PostFormProps {
@@ -47,66 +49,66 @@ export function PostForm({ onSubmit, isLoading = false }: PostFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-4'>
+    <form className='space-y-4' onSubmit={handleSubmit}>
       <div>
-        <label htmlFor='title' className='block text-sm font-medium mb-2'>
+        <label className='block text-sm font-medium mb-2' htmlFor='title'>
           제목
         </label>
         <Input
+          required
           id='title'
           name='title'
+          placeholder='게시글 제목을 입력하세요'
           value={formData.title}
           onChange={handleChange}
-          placeholder='게시글 제목을 입력하세요'
-          required
         />
       </div>
 
       <div>
-        <label htmlFor='author' className='block text-sm font-medium mb-2'>
+        <label className='block text-sm font-medium mb-2' htmlFor='author'>
           작성자
         </label>
         <Input
+          required
           id='author'
           name='author'
+          placeholder='작성자 이름을 입력하세요'
           value={formData.author}
           onChange={handleChange}
-          placeholder='작성자 이름을 입력하세요'
-          required
         />
       </div>
 
       <div>
-        <label htmlFor='content' className='block text-sm font-medium mb-2'>
+        <label className='block text-sm font-medium mb-2' htmlFor='content'>
           내용
         </label>
         <textarea
+          required
+          className='w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]'
           id='content'
           name='content'
+          placeholder='게시글 내용을 입력하세요'
+          rows={6}
           value={formData.content}
           onChange={handleChange}
-          placeholder='게시글 내용을 입력하세요'
-          required
-          rows={6}
-          className='w-full min-w-0 rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]'
         />
       </div>
 
       <div className='flex items-center space-x-2'>
         <input
+          checked={formData.isPublished}
+          className='h-4 w-4 rounded border-gray-300'
           id='isPublished'
           name='isPublished'
           type='checkbox'
-          checked={formData.isPublished}
           onChange={handleChange}
-          className='h-4 w-4 rounded border-gray-300'
         />
-        <label htmlFor='isPublished' className='text-sm font-medium'>
+        <label className='text-sm font-medium' htmlFor='isPublished'>
           즉시 발행
         </label>
       </div>
 
-      <Button type='submit' disabled={isLoading} className='w-full'>
+      <Button className='w-full' disabled={isLoading} type='submit'>
         {isLoading ? '저장 중...' : '게시글 저장'}
       </Button>
     </form>

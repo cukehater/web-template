@@ -1,8 +1,19 @@
 'use client'
 
+import {
+  Eye,
+  Image,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Save,
+  Trash2,
+  X,
+} from 'lucide-react'
 import { useState } from 'react'
-import { Button } from '@//app/(cms)/_shared/ui'
-import { Input } from '@//app/(cms)/_shared/ui'
+
+import { Button } from '@//app/(cms)/_shared/shadcn'
+import { Input } from '@//app/(cms)/_shared/shadcn'
 import {
   Table,
   TableBody,
@@ -10,23 +21,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@//app/(cms)/_shared/ui'
+} from '@//app/(cms)/_shared/shadcn'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@//app/(cms)/_shared/ui'
-import {
-  MoreHorizontal,
-  Pencil,
-  Trash2,
-  Save,
-  X,
-  Plus,
-  Image,
-  Eye,
-} from 'lucide-react'
+} from '@//app/(cms)/_shared/shadcn'
 
 interface GalleryPost {
   id: string
@@ -217,12 +218,12 @@ export default function GalleryPage() {
                     {isEditing ? (
                       <div className='space-y-2'>
                         <Input
+                          className='w-full'
+                          placeholder='이미지 URL'
                           value={editData.imageUrl || post.imageUrl}
                           onChange={e =>
                             handleInputChange('imageUrl', e.target.value)
                           }
-                          placeholder='이미지 URL'
-                          className='w-full'
                         />
                         {errors.imageUrl && (
                           <p className='text-xs text-red-500'>
@@ -231,9 +232,9 @@ export default function GalleryPage() {
                         )}
                         <div className='relative w-20 h-20 rounded-md overflow-hidden border'>
                           <img
-                            src={editData.imageUrl || post.imageUrl}
                             alt='미리보기'
                             className='w-full h-full object-cover'
+                            src={editData.imageUrl || post.imageUrl}
                             onError={e => {
                               e.currentTarget.src =
                                 'https://via.placeholder.com/80x80?text=이미지+없음'
@@ -244,9 +245,9 @@ export default function GalleryPage() {
                     ) : (
                       <div className='relative w-20 h-20 rounded-md overflow-hidden border'>
                         <img
-                          src={post.imageUrl}
                           alt={post.title}
                           className='w-full h-full object-cover'
+                          src={post.imageUrl}
                           onError={e => {
                             e.currentTarget.src =
                               'https://via.placeholder.com/80x80?text=이미지+없음'
@@ -262,11 +263,11 @@ export default function GalleryPage() {
                     {isEditing ? (
                       <div className='space-y-1'>
                         <Input
+                          className='w-full'
                           value={editData.title || post.title}
                           onChange={e =>
                             handleInputChange('title', e.target.value)
                           }
-                          className='w-full'
                         />
                         {errors.title && (
                           <p className='text-xs text-red-500'>{errors.title}</p>
@@ -287,12 +288,12 @@ export default function GalleryPage() {
                     {isEditing ? (
                       <div className='space-y-1'>
                         <textarea
+                          className='w-full p-2 border rounded-md text-sm resize-none'
+                          rows={3}
                           value={editData.description || post.description}
                           onChange={e =>
                             handleInputChange('description', e.target.value)
                           }
-                          className='w-full p-2 border rounded-md text-sm resize-none'
-                          rows={3}
                         />
                         {errors.description && (
                           <p className='text-xs text-red-500'>
@@ -309,11 +310,11 @@ export default function GalleryPage() {
                   <TableCell>
                     {isEditing ? (
                       <select
+                        className='w-full p-2 border rounded-md text-sm'
                         value={editData.category || post.category}
                         onChange={e =>
                           handleInputChange('category', e.target.value)
                         }
-                        className='w-full p-2 border rounded-md text-sm'
                       >
                         <option value='nature'>자연</option>
                         <option value='city'>도시</option>
@@ -333,11 +334,11 @@ export default function GalleryPage() {
                   <TableCell>
                     {isEditing ? (
                       <select
+                        className='w-full p-2 border rounded-md text-sm'
                         value={editData.status || post.status}
                         onChange={e =>
                           handleInputChange('status', e.target.value)
                         }
-                        className='w-full p-2 border rounded-md text-sm'
                       >
                         <option value='published'>발행됨</option>
                         <option value='draft'>임시저장</option>
@@ -372,18 +373,18 @@ export default function GalleryPage() {
                     {isEditing ? (
                       <div className='flex gap-1'>
                         <Button
+                          className='h-8 w-8 p-0'
                           size='sm'
                           variant='outline'
                           onClick={() => handleSave(post.id)}
-                          className='h-8 w-8 p-0'
                         >
                           <Save className='h-4 w-4' />
                         </Button>
                         <Button
+                          className='h-8 w-8 p-0'
                           size='sm'
                           variant='outline'
                           onClick={handleCancel}
-                          className='h-8 w-8 p-0'
                         >
                           <X className='h-4 w-4' />
                         </Button>
@@ -391,7 +392,7 @@ export default function GalleryPage() {
                     ) : (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant='ghost' className='h-8 w-8 p-0'>
+                          <Button className='h-8 w-8 p-0' variant='ghost'>
                             <MoreHorizontal className='h-4 w-4' />
                           </Button>
                         </DropdownMenuTrigger>
@@ -405,8 +406,8 @@ export default function GalleryPage() {
                             미리보기
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            onClick={() => handleDelete(post.id)}
                             className='text-red-600'
+                            onClick={() => handleDelete(post.id)}
                           >
                             <Trash2 className='mr-2 h-4 w-4' />
                             삭제
@@ -424,7 +425,7 @@ export default function GalleryPage() {
 
       {/* 갤러리 뷰 토글 버튼 */}
       <div className='flex justify-center'>
-        <Button variant='outline' className='w-full max-w-xs'>
+        <Button className='w-full max-w-xs' variant='outline'>
           <Image className='mr-2 h-4 w-4' />
           갤러리 뷰로 보기
         </Button>

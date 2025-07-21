@@ -1,10 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@//app/(cms)/_shared/ui/button'
+
+import { Button } from '@//app/(cms)/_shared/shadcn/button'
+
+import { CreatePostData, Post } from './model/types'
 import { PostForm } from './ui/PostForm'
 import { PostList } from './ui/PostList'
-import { CreatePostData, Post } from './model/types'
 
 export default function Page() {
   const [showForm, setShowForm] = useState(false)
@@ -72,7 +74,7 @@ export default function Page() {
         <div>
           <div className='flex justify-between items-center mb-4'>
             <h2 className='text-xl font-semibold'>게시글 목록</h2>
-            <Button onClick={() => setShowForm(true)} disabled={showForm}>
+            <Button disabled={showForm} onClick={() => setShowForm(true)}>
               새 게시글 작성
             </Button>
           </div>
@@ -87,11 +89,11 @@ export default function Page() {
                 <h2 className='text-xl font-semibold'>
                   {editingPost ? '게시글 수정' : '새 게시글 작성'}
                 </h2>
-                <Button variant='ghost' size='sm' onClick={handleCancel}>
+                <Button size='sm' variant='ghost' onClick={handleCancel}>
                   취소
                 </Button>
               </div>
-              <PostForm onSubmit={handleSubmit} isLoading={isSubmitting} />
+              <PostForm isLoading={isSubmitting} onSubmit={handleSubmit} />
             </div>
           </div>
         )}
@@ -102,19 +104,19 @@ export default function Page() {
         <h3 className='text-lg font-semibold mb-3'>사용된 기술 스택</h3>
         <div className='grid grid-cols-2 md:grid-cols-4 gap-4 text-sm'>
           <div className='flex items-center gap-2'>
-            <div className='w-3 h-3 bg-blue-500 rounded-full'></div>
+            <div className='w-3 h-3 bg-blue-500 rounded-full' />
             <span>SQLite</span>
           </div>
           <div className='flex items-center gap-2'>
-            <div className='w-3 h-3 bg-green-500 rounded-full'></div>
+            <div className='w-3 h-3 bg-green-500 rounded-full' />
             <span>Prisma ORM</span>
           </div>
           <div className='flex items-center gap-2'>
-            <div className='w-3 h-3 bg-purple-500 rounded-full'></div>
+            <div className='w-3 h-3 bg-purple-500 rounded-full' />
             <span>Next.js 15</span>
           </div>
           <div className='flex items-center gap-2'>
-            <div className='w-3 h-3 bg-orange-500 rounded-full'></div>
+            <div className='w-3 h-3 bg-orange-500 rounded-full' />
             <span>TypeScript</span>
           </div>
         </div>

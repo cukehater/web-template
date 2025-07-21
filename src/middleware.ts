@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+
 import { auth } from './app/(cms)/_entities/auth/model/auth'
 
 export async function middleware(request: NextRequest) {
@@ -15,11 +16,6 @@ export async function middleware(request: NextRequest) {
 
   // 관리자 페이지에 로그인하지 않은 사용자가 접근하는 경우
   if (pathname.startsWith('/admin') && !session) {
-    return NextResponse.redirect(new URL('/admin/login', request.url))
-  }
-
-  // 관리자 권한이 필요한 페이지 체크
-  if (pathname.startsWith('/admin') && session?.user?.role !== 'ADMIN') {
     return NextResponse.redirect(new URL('/admin/login', request.url))
   }
 

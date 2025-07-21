@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+
 import { EditableTable } from '@//app/(cms)/_features/editable-table'
 import { EditableTableColumn } from '@//app/(cms)/_features/editable-table'
 
@@ -209,15 +210,15 @@ export default function BoardPage() {
   return (
     <div className='space-y-4'>
       <EditableTable
-        data={boards}
+        showAddButton
+        addButtonText='새 게시판 추가'
         columns={columns}
-        onSave={handleSave}
-        onDelete={handleDelete}
-        onAdd={handleAdd}
+        data={boards}
         loading={loading}
         title='일반 게시판 관리'
-        showAddButton={true}
-        addButtonText='새 게시판 추가'
+        onAdd={handleAdd}
+        onDelete={handleDelete}
+        onSave={handleSave}
       />
     </div>
   )

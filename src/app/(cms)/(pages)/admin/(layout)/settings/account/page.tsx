@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+
 import { EditableTable } from '@//app/(cms)/_features/editable-table'
 import { EditableTableColumn } from '@//app/(cms)/_features/editable-table'
 
@@ -186,15 +187,15 @@ export default function AccountPage() {
   return (
     <div className='space-y-4'>
       <EditableTable
-        data={users}
+        showAddButton
+        addButtonText='새 계정 추가'
         columns={columns}
-        onSave={handleSave}
-        onDelete={handleDelete}
-        onAdd={handleAdd}
+        data={users}
         loading={loading}
         title='관리자 계정 관리'
-        showAddButton={true}
-        addButtonText='새 계정 추가'
+        onAdd={handleAdd}
+        onDelete={handleDelete}
+        onSave={handleSave}
       />
     </div>
   )

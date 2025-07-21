@@ -1,0 +1,32 @@
+import bcrypt from 'bcryptjs'
+
+import { prisma } from '../../db/model/prisma'
+
+const getUserByUserID = async (userId: string) => {
+  return prisma.user.findUnique({
+    where: { userId },
+  })
+}
+
+const verifyPassword = async (
+  password: string,
+  hashedPassword: string,
+): Promise<boolean> => {
+  return bcrypt.compare(password, hashedPassword)
+}
+
+export async function validateCredentials(userId: string, password: string) {
+  const user = await getUserByUserID(userId)
+
+  if (!user) {
+    return null
+  }
+
+  const isValidPassword = await verifyPassword(password, user.password)
+
+  if (!isValidPassword) {
+    return null
+  }
+
+  return user
+}

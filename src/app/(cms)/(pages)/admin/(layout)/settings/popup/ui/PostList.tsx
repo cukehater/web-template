@@ -1,7 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Button } from '@//app/(cms)/_shared/ui/button'
+import { useEffect, useState } from 'react'
+
+import { Button } from '@//app/(cms)/_shared/shadcn/button'
+
 import { Post } from '../model/types'
 
 interface PostListProps {
@@ -61,8 +63,8 @@ export function PostList({ onEdit, onDelete }: PostListProps) {
       <div className='space-y-4'>
         {[...Array(3)].map((_, i) => (
           <div key={i} className='animate-pulse'>
-            <div className='h-4 bg-gray-200 rounded w-3/4 mb-2'></div>
-            <div className='h-3 bg-gray-200 rounded w-1/2'></div>
+            <div className='h-4 bg-gray-200 rounded w-3/4 mb-2' />
+            <div className='h-3 bg-gray-200 rounded w-1/2' />
           </div>
         ))}
       </div>
@@ -73,7 +75,7 @@ export function PostList({ onEdit, onDelete }: PostListProps) {
     return (
       <div className='text-center py-8'>
         <p className='text-red-600 mb-4'>{error}</p>
-        <Button onClick={fetchPosts} variant='outline'>
+        <Button variant='outline' onClick={fetchPosts}>
           다시 시도
         </Button>
       </div>

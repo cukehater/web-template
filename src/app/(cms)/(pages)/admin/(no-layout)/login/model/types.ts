@@ -1,5 +1,4 @@
-export type FieldType = {
-  id?: string
+export type LoginFormType = {
+  userId: string
   password?: string
-  remember?: string
 }

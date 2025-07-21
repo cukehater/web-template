@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/app/(cms)/_entities/db/model/prisma'
+
 import { CreatePostData } from '@//app/(cms)/(pages)/admin/(layout)/settings/popup/model/types'
+import { prisma } from '@/app/(cms)/_entities/db/model/prisma'
 
 export async function GET() {
   try {

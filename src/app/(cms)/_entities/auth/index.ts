@@ -1,1 +1,1 @@
-export { handlers, signIn, signOut, auth } from './model/auth'
+export { auth,handlers, signIn, signOut } from './model/auth'

@@ -1,51 +1,30 @@
 'use client'
 
 import {
+  GalleryVerticalEnd,
+  GlobeIcon,
+  LogOutIcon,
+  MoreVerticalIcon,
+} from 'lucide-react'
+import Link from 'next/link'
+import { signOut } from 'next-auth/react'
+import React from 'react'
+
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@//app/(cms)/_shared/ui'
-import { useSidebar } from '@//app/(cms)/_shared/ui/sidebar'
-import {
-  AudioWaveform,
-  ChevronsUpDown,
-  Command,
-  GalleryVerticalEnd,
-  MoreVerticalIcon,
-  Plus,
-} from 'lucide-react'
-import Link from 'next/link'
-import React from 'react'
-
-const teams = [
-  {
-    name: 'Acme Inc',
-    logo: GalleryVerticalEnd,
-    plan: 'Enterprise',
-  },
-  {
-    name: 'Acme Corp.',
-    logo: AudioWaveform,
-    plan: 'Startup',
-  },
-  {
-    name: 'Evil Corp.',
-    logo: Command,
-    plan: 'Free',
-  },
-]
+} from '@//app/(cms)/_shared/shadcn'
+import { useSidebar } from '@//app/(cms)/_shared/shadcn/sidebar'
 
 export default function SiderHeader() {
   const { isMobile } = useSidebar()
-  const [activeTeam, setActiveTeam] = React.useState(teams[0])
 
   return (
     <SidebarHeader>
@@ -54,50 +33,47 @@ export default function SiderHeader() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
-                size='lg'
                 className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+                size='lg'
               >
                 <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
-                  <activeTeam.logo className='size-4' />
+                  <GalleryVerticalEnd className='size-4' />
                 </div>
                 <div className='grid flex-1 text-left text-sm leading-tight'>
-                  <span className='truncate font-semibold'>
-                    {activeTeam.name}
-                  </span>
-                  <span className='truncate text-xs'>{activeTeam.plan}</span>
+                  <span className='truncate font-semibold'>Acme Inc.</span>
+                  <span className='truncate text-xs'>Administrator</span>
                 </div>
                 <MoreVerticalIcon className='ml-auto' />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
               align='start'
+              className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
               side={isMobile ? 'bottom' : 'right'}
               sideOffset={4}
             >
               <DropdownMenuLabel className='text-xs text-muted-foreground'>
-                Teams
+                Acme Inc.
               </DropdownMenuLabel>
-              {teams.map((team, index) => (
-                <DropdownMenuItem
-                  key={team.name}
-                  onClick={() => setActiveTeam(team)}
-                  className='gap-2 p-2'
+              <DropdownMenuItem className='cursor-pointer p-2'>
+                <Link
+                  className='flex items-center gap-2'
+                  href='/'
+                  target='_blank'
                 >
-                  <div className='flex size-6 items-center justify-center rounded-sm border'>
-                    <team.logo className='size-4 shrink-0' />
+                  <GlobeIcon className='size-4' />
+                  <div className='font-medium text-muted-foreground'>
+                    웹사이트로 이동
                   </div>
-                  {team.name}
-                  <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              ))}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className='gap-2 p-2'>
-                <div className='flex size-6 items-center justify-center rounded-md border bg-background'>
-                  <Plus className='size-4' />
-                </div>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className='cursor-pointer gap-2 p-2'
+                onClick={() => signOut()}
+              >
+                <LogOutIcon className='size-4' />
                 <div className='font-medium text-muted-foreground'>
-                  Add team
+                  로그아웃
                 </div>
               </DropdownMenuItem>
             </DropdownMenuContent>

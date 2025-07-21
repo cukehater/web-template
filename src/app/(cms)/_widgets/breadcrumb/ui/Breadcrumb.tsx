@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { v4 as uuid } from 'uuid'
+
 import {
   BreadcrumbItem,
   BreadcrumbList,
@@ -9,7 +10,8 @@ import {
   BreadcrumbSeparator,
   Separator,
   SidebarTrigger,
-} from '@//app/(cms)/_shared/ui'
+} from '@//app/(cms)/_shared/shadcn'
+
 import { useBreadcrumbPath } from '../model/useBreadcrumbPath'
 
 export default function Breadcrumb() {
@@ -19,8 +21,8 @@ export default function Breadcrumb() {
     <header className='flex h-16 shrink-0 items-center gap-2 border-b px-4'>
       <SidebarTrigger className='-ml-1' />
       <Separator
-        orientation='vertical'
         className='mr-2 data-[orientation=vertical]:h-4'
+        orientation='vertical'
       />
 
       <BreadcrumbList>

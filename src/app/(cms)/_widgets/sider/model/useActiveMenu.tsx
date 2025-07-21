@@ -1,5 +1,6 @@
-import { MenuItemType } from '@//app/(cms)/_entities/menu'
 import { usePathname } from 'next/navigation'
+
+import { MenuItemType } from '@//app/(cms)/_entities/menu'
 
 export default function useActiveMenu() {
   const pathname = usePathname()

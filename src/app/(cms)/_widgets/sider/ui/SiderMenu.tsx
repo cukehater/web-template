@@ -1,6 +1,9 @@
 'use client'
 
+import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+
+import { ADMIN_MENU_ITEMS } from '@//app/(cms)/_entities/menu'
 import {
   Collapsible,
   CollapsibleContent,
@@ -11,9 +14,8 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '@//app/(cms)/_shared/ui'
-import { ChevronRight } from 'lucide-react'
-import { ADMIN_MENU_ITEMS } from '@//app/(cms)/_entities/menu'
+} from '@//app/(cms)/_shared/shadcn'
+
 import useActiveMenu from '../model/useActiveMenu'
 
 export default function SiderMenu() {
@@ -27,8 +29,8 @@ export default function SiderMenu() {
         return (
           <Collapsible
             key={item.title}
-            defaultOpen={isActive} // 활성화된 메뉴는 기본적으로 열려있음
             className='group/collapsible'
+            defaultOpen={isActive} // 활성화된 메뉴는 기본적으로 열려있음
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>

@@ -3,13 +3,14 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarRail,
-} from '@//app/(cms)/_shared/ui'
+} from '@//app/(cms)/_shared/shadcn'
+
 import SiderHeader from './SiderHeader'
 import SiderMenu from './SiderMenu'
 
 export default function Sider() {
   return (
-    <Sidebar collapsible='icon' className='group/sider'>
+    <Sidebar className='group/sider' collapsible='icon'>
       <SiderHeader />
       <SidebarContent>
         <SidebarGroup>

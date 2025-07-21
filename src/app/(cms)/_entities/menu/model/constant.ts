@@ -1,4 +1,5 @@
 import { LayoutPanelTop, Settings } from 'lucide-react'
+
 import { MenuItemType } from './types'
 
 export const ADMIN_MENU_ITEMS: MenuItemType[] = [
@@ -7,7 +8,7 @@ export const ADMIN_MENU_ITEMS: MenuItemType[] = [
     icon: Settings,
     items: [
       {
-        title: '기본 설정 관리',
+        title: '웹 사이트 기본 설정',
         url: '/admin/settings/basic',
       },
       {
