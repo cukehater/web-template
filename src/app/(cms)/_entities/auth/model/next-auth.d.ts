@@ -1,4 +1,5 @@
-import { User } from './type'
+import { User } from '@//app/(cms)/_shared/model'
+
 declare module 'next-auth' {
   interface Session {
     user: User

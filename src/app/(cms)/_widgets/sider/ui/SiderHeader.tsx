@@ -63,7 +63,7 @@ export default function SiderHeader() {
                 >
                   <GlobeIcon className='size-4' />
                   <div className='font-medium text-muted-foreground'>
-                    웹사이트로 이동
+                    사이트로 이동
                   </div>
                 </Link>
               </DropdownMenuItem>

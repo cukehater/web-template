@@ -166,7 +166,7 @@ export default function EditableTable<T extends Record<string, any>>({
   }
 
   return (
-    <div className='space-y-4'>
+    <div className='space-y-4 text-center'>
       {(title || showAddButton) && (
         <div className='flex justify-between items-center'>
           {title && <h2 className='text-xl font-semibold'>{title}</h2>}
@@ -181,20 +181,22 @@ export default function EditableTable<T extends Record<string, any>>({
 
       <div className='rounded-md border'>
         <Table>
-          <TableHeader>
+          <TableHeader className='bg-neutral-100'>
             <TableRow>
               {columns.map(column => (
                 <TableHead
                   key={String(column.key)}
+                  className='text-center'
                   style={{ width: column.width }}
                 >
                   {column.title}
                 </TableHead>
               ))}
-              <TableHead className='w-[50px]'>작업</TableHead>
+              <TableHead className='w-[100px] text-center'>작업</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
+            {/* eslint-disable-next-line no-nested-ternary */}
             {loading ? (
               <TableRow>
                 <TableCell

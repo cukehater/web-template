@@ -8,7 +8,7 @@ export const ADMIN_MENU_ITEMS: MenuItemType[] = [
     icon: Settings,
     items: [
       {
-        title: '웹사이트 기본 설정',
+        title: '사이트 기본 설정',
         url: '/admin/settings/basic',
       },
       {

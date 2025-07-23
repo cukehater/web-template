@@ -6,3 +6,9 @@ export interface MenuItemType {
   url?: string
   items?: MenuItemType[]
 }
+
+export interface User {
+  id: string
+  userId: string
+  name: string
+}
