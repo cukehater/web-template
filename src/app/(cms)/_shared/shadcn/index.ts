@@ -1,3 +1,4 @@
+export { Alert, AlertDescription, AlertTitle } from './alert'
 export {
   BreadcrumbItem,
   BreadcrumbList,
@@ -19,6 +20,15 @@ export {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from './dropdown-menu'
+export {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from './form'
 export { Input } from './input'
 export { Label } from './label'
 export { Separator } from './separator'
@@ -48,4 +58,3 @@ export {
   TableHeader,
   TableRow,
 } from './table'
-export { Alert, AlertTitle, AlertDescription } from './alert'

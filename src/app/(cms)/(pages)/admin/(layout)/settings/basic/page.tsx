@@ -1,4 +1,4 @@
-import { Facebook, Save, Settings2 } from 'lucide-react'
+import { FileCog, Save, Settings } from 'lucide-react'
 
 import { Button } from '@/app/(cms)/_shared/shadcn'
 import {
@@ -21,7 +21,7 @@ export default function BasicSettingsPage() {
         <FormContainer
           title={
             <>
-              <Settings2 className='w-5 h-5' />
+              <Settings className='w-5 h-5' />
               <p>기본 정보</p>
             </>
           }
@@ -98,7 +98,7 @@ export default function BasicSettingsPage() {
         <FormContainer
           title={
             <>
-              <Facebook className='w-5 h-5' />
+              <FileCog className='w-5 h-5' />
               <p>오픈 그래프</p>
             </>
           }
