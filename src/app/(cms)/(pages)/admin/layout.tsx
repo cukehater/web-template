@@ -9,6 +9,5 @@ export default async function Layout({
 }) {
   const session = await auth()
   console.log('session', session)
-
   return <SessionProvider>{children}</SessionProvider>
 }

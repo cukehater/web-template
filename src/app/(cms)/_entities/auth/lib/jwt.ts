@@ -6,13 +6,14 @@ const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'jwt-secret-key',
 )
 
-const ACCESS_TOKEN_EXPIRY = '15m'
+const ACCESS_TOKEN_EXPIRY = '5s'
 const REFRESH_TOKEN_EXPIRY = '7d'
 
 export interface TokenPayload {
   userId: string
   name: string
   exp?: number
+  iat?: number
 }
 
 // 액세스 토큰 생성
@@ -69,6 +70,7 @@ export const deleteRefreshToken = async (token: string): Promise<void> => {
   })
 }
 
+// 토큰 검증
 export const verifyToken = async (
   token: string,
 ): Promise<TokenPayload & { type: string }> => {
@@ -76,17 +78,19 @@ export const verifyToken = async (
   return payload as unknown as TokenPayload & { type: string }
 }
 
+// 엑세스 토큰 만료 시간 조회
+export const getTokenExpiry = async (currentToken: string): Promise<number> => {
+  const { exp } = await verifyToken(currentToken)
+
+  return new Date((exp || 0) * 1000).getTime()
+}
+
 // 리프레시 토큰 로테이션
 export const rotateRefreshToken = async (
   currentRefreshToken: string,
 ): Promise<{ newAccessToken: string; newRefreshToken: string }> => {
   try {
-    // JWT 토큰 검증
     const payload = await verifyToken(currentRefreshToken)
-
-    if (payload.type !== 'refresh') {
-      throw new Error('Invalid token type')
-    }
 
     // 새로운 토큰 생성
     const newAccessToken = await generateAccessToken({
@@ -99,14 +103,25 @@ export const rotateRefreshToken = async (
       name: payload.name,
     })
 
-    // 기존 토큰 삭제
-    await deleteRefreshToken(currentRefreshToken)
-
-    // 새 리프레시 토큰 저장
-    await saveRefreshToken(newRefreshToken, payload.userId)
+    // 기존 리프레시 토큰 삭제 & 새 리프레시 토큰 저장
+    // await deleteRefreshToken(currentRefreshToken)
+    // console.log('deleter refresh token success')
+    // await saveRefreshToken(newRefreshToken, payload.userId)
+    // console.log('save refresh token success')
 
     return { newAccessToken, newRefreshToken }
   } catch {
     throw new Error('Token rotation failed')
   }
 }
+
+// const main = async () => {
+//   const accessToken = await generateAccessToken({
+//     userId: '1',
+//     name: 'John Doe',
+//   })
+
+//   console.log(await verifyToken(accessToken))
+// }
+
+// main()

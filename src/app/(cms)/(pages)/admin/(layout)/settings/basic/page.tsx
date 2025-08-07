@@ -7,7 +7,7 @@ import {
   PageTopTitle,
 } from '@/app/(cms)/_shared/ui'
 
-export default function BasicSettingsPage() {
+export default async function BasicSettingsPage() {
   return (
     <section>
       <form className='space-y-6'>
