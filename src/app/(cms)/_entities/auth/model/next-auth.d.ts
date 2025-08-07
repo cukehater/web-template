@@ -5,7 +5,6 @@ declare module 'next-auth' {
     user: CustomUser
     accessToken?: string
     refreshToken?: string
-    expiresAt?: number
     error?: 'RefreshTokenError'
   }
 
@@ -14,7 +13,6 @@ declare module 'next-auth' {
     name: string
     accessToken?: string
     refreshToken?: string
-    expiresAt?: number
   }
 }
 
@@ -23,7 +21,6 @@ declare module 'next-auth/jwt' {
     userId?: string
     name?: string
     accessToken?: string
-    expiresAt?: number
     refreshToken?: string
     error?: 'RefreshTokenError'
   }
