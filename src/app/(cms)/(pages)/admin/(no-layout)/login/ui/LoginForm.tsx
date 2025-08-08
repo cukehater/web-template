@@ -3,11 +3,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircleIcon, GalleryVerticalEnd, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { useAuth } from '@/app/(cms)/_entities/auth'
 import {
   Alert,
   AlertTitle,
@@ -23,6 +23,7 @@ import {
 
 export default function LoginForm() {
   const router = useRouter()
+  const { login } = useAuth()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
@@ -52,18 +53,12 @@ export default function LoginForm() {
     setIsLoading(true)
 
     try {
-      const result = await signIn('credentials', {
-        userId,
-        password,
-        redirect: false,
-      })
-
+      const result = await login(userId, password)
       if (result?.error) {
         setError('아이디 또는 비밀번호가 올바르지 않습니다.')
         return
       }
       router.push('/admin')
-      router.refresh()
     } catch {
       setError('로그인 중 오류가 발생했습니다.')
     } finally {

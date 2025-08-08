@@ -15,7 +15,10 @@ const verifyPassword = async (
   return bcrypt.compare(password, hashedPassword)
 }
 
-export async function validateCredentials(userId: string, password: string) {
+export default async function validateCredentials(
+  userId: string,
+  password: string,
+) {
   const user = await getUserByUserID(userId)
 
   if (!user) {

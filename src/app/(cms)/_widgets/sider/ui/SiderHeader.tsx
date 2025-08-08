@@ -7,7 +7,6 @@ import {
   MoreVerticalIcon,
 } from 'lucide-react'
 import Link from 'next/link'
-import { signOut } from 'next-auth/react'
 import React from 'react'
 
 import {
@@ -22,8 +21,10 @@ import {
   SidebarMenuItem,
 } from '@//app/(cms)/_shared/shadcn'
 import { useSidebar } from '@//app/(cms)/_shared/shadcn/sidebar'
+import { useAuth } from '@/app/(cms)/_entities/auth'
 
 export default function SiderHeader() {
+  const { logout } = useAuth()
   const { isMobile } = useSidebar()
 
   return (
@@ -69,7 +70,7 @@ export default function SiderHeader() {
               </DropdownMenuItem>
               <DropdownMenuItem
                 className='cursor-pointer gap-2 p-2'
-                onClick={() => signOut()}
+                onClick={logout}
               >
                 <LogOutIcon className='size-4' />
                 <div className='font-medium text-muted-foreground'>

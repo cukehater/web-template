@@ -1,19 +1,27 @@
 import { jwtVerify, SignJWT } from 'jose'
+import { JWTExpired, JWTInvalid } from 'jose/errors'
 
 import { prisma } from '../../db/model/prisma'
+import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY } from '../model/constants'
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'jwt-secret-key',
-)
-
-const ACCESS_TOKEN_EXPIRY = '5s'
-const REFRESH_TOKEN_EXPIRY = '7d'
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
 
 export interface TokenPayload {
   userId: string
   name: string
   exp?: number
   iat?: number
+}
+
+// 커스텀 토큰 검증 오류 클래스
+export class TokenVerificationError extends Error {
+  constructor(
+    message: string,
+    public readonly code: 'EXPIRED' | 'INVALID' | 'UNKNOWN',
+  ) {
+    super(message)
+    this.name = 'TokenVerificationError'
+  }
 }
 
 // 액세스 토큰 생성
@@ -70,19 +78,35 @@ export const deleteRefreshToken = async (token: string): Promise<void> => {
   })
 }
 
-// 토큰 검증
+// 토큰 검증 (개선된 버전)
 export const verifyToken = async (
   token: string,
 ): Promise<TokenPayload & { type: string }> => {
-  const { payload } = await jwtVerify(token, JWT_SECRET)
-  return payload as unknown as TokenPayload & { type: string }
+  try {
+    const { payload } = await jwtVerify(token, JWT_SECRET)
+    return payload as unknown as TokenPayload & { type: string }
+  } catch (error) {
+    if (error instanceof JWTExpired) {
+      throw new TokenVerificationError('Token has expired', 'EXPIRED')
+    } else if (error instanceof JWTInvalid) {
+      throw new TokenVerificationError('Token is invalid', 'INVALID')
+    } else {
+      throw new TokenVerificationError('Token verification failed', 'UNKNOWN')
+    }
+  }
 }
 
 // 엑세스 토큰 만료 시간 조회
 export const getTokenExpiry = async (currentToken: string): Promise<number> => {
-  const { exp } = await verifyToken(currentToken)
-
-  return new Date((exp || 0) * 1000).getTime()
+  try {
+    const { exp } = await verifyToken(currentToken)
+    return new Date((exp || 0) * 1000).getTime()
+  } catch (error) {
+    if (error instanceof TokenVerificationError && error.code === 'EXPIRED') {
+      return 0 // 만료된 토큰은 0 반환
+    }
+    throw error
+  }
 }
 
 // 리프레시 토큰 로테이션
@@ -103,25 +127,14 @@ export const rotateRefreshToken = async (
       name: payload.name,
     })
 
-    // 기존 리프레시 토큰 삭제 & 새 리프레시 토큰 저장
     // await deleteRefreshToken(currentRefreshToken)
-    // console.log('deleter refresh token success')
     // await saveRefreshToken(newRefreshToken, payload.userId)
-    // console.log('save refresh token success')
 
     return { newAccessToken, newRefreshToken }
-  } catch {
+  } catch (error) {
+    if (error instanceof TokenVerificationError) {
+      throw new Error(`Token rotation failed: ${error.message}`)
+    }
     throw new Error('Token rotation failed')
   }
 }
-
-// const main = async () => {
-//   const accessToken = await generateAccessToken({
-//     userId: '1',
-//     name: 'John Doe',
-//   })
-
-//   console.log(await verifyToken(accessToken))
-// }
-
-// main()
