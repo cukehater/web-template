@@ -2,7 +2,7 @@ import { jwtVerify, SignJWT } from 'jose'
 import { JWTExpired, JWTInvalid } from 'jose/errors'
 
 import { prisma } from '../../db/model/prisma'
-import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY } from '../model/constants'
+import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY } from './constants'
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
 
@@ -71,11 +71,17 @@ export const deleteUserRefreshTokens = async (
   })
 }
 
-// 리프레시 토큰 삭제
+// 리프레시 토큰 삭제 (에러 처리 개선)
 export const deleteRefreshToken = async (token: string): Promise<void> => {
-  await prisma.refreshToken.deleteMany({
-    where: { token },
-  })
+  try {
+    await prisma.refreshToken.deleteMany({
+      where: { token },
+    })
+  } catch (error) {
+    console.error('Failed to delete refresh token:', error)
+    // 토큰 삭제 실패는 치명적이지 않으므로 에러를 던지지 않음
+    // 대신 로그만 남기고 계속 진행
+  }
 }
 
 // 토큰 검증 (개선된 버전)
@@ -109,7 +115,16 @@ export const getTokenExpiry = async (currentToken: string): Promise<number> => {
   }
 }
 
-// 리프레시 토큰 로테이션
+export const getRefreshTokenFromDB = async (
+  userId: string,
+): Promise<string | null> => {
+  const refreshToken = await prisma.refreshToken.findFirst({
+    where: { userId },
+  })
+  return refreshToken?.token || null
+}
+
+// 리프레시 토큰 로테이션 (에러 처리 개선)
 export const rotateRefreshToken = async (
   currentRefreshToken: string,
 ): Promise<{ newAccessToken: string; newRefreshToken: string }> => {
@@ -127,8 +142,8 @@ export const rotateRefreshToken = async (
       name: payload.name,
     })
 
-    // await deleteRefreshToken(currentRefreshToken)
-    // await saveRefreshToken(newRefreshToken, payload.userId)
+    await deleteRefreshToken(currentRefreshToken)
+    await saveRefreshToken(newRefreshToken, payload.userId)
 
     return { newAccessToken, newRefreshToken }
   } catch (error) {

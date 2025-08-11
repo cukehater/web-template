@@ -1,21 +1,9 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
-
-import { User } from '@/app/(cms)/_shared/model'
-
-interface Auth {
-  user: User | null
-  isLoading: boolean
-}
+import { useCallback } from 'react'
 
 export default function useAuth() {
-  const [auth, setAuth] = useState<Auth>({
-    user: null,
-    isLoading: true,
-  })
-
   const router = useRouter()
 
   // 로그인
@@ -30,7 +18,6 @@ export default function useAuth() {
 
     if (response.ok) {
       const { user } = await response.json()
-      localStorage.setItem('user', JSON.stringify(user))
       return { user }
     } else {
       const error = await response.json()
@@ -48,28 +35,9 @@ export default function useAuth() {
     } catch (error) {
       console.error('Logout error:', error)
     } finally {
-      localStorage.removeItem('user')
       router.push('/admin/login')
     }
   }, [router])
 
-  useEffect(() => {
-    const user = localStorage.getItem('user')
-
-    if (user) {
-      try {
-        const parsedUser = JSON.parse(user)
-        setAuth({ user: parsedUser, isLoading: false })
-      } catch (error) {
-        console.error('Invalid user data in localStorage:', error)
-        localStorage.removeItem('user')
-        router.push('/admin/login')
-      }
-    } else {
-      setAuth({ user: null, isLoading: false })
-      logout()
-    }
-  }, [router, logout])
-
-  return { auth, login, logout }
+  return { login, logout }
 }

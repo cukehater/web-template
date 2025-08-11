@@ -8,7 +8,7 @@ export const setHttpOnlyCookie = (
 ) => {
   response.cookies.set(name, value, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
     maxAge,
   })

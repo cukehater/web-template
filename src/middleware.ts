@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import {
-  ACCESS_TOKEN_MAX_AGE,
-  REFRESH_TOKEN_MAX_AGE,
-  rotateRefreshToken,
-  setHttpOnlyCookie,
-  TokenVerificationError,
-  verifyToken,
-} from './app/(cms)/_entities/auth'
+import { TokenVerificationError, verifyToken } from './app/(cms)/_entities/auth'
 
 /**
  * Next.js 미들웨어 함수
@@ -57,6 +50,7 @@ async function handleAdminPageAccess(
 ): Promise<NextResponse> {
   // 액세스 토큰이 없는 경우
   if (!accessToken) {
+    console.log('❌ 액세스 토큰 없음')
     return await handleMissingAccessToken(request, refreshToken)
   }
 
@@ -71,6 +65,7 @@ async function handleAdminPageAccess(
     }
 
     // 토큰이 유효한 경우 정상 처리
+    console.log('✅ 액세스 토큰 유효성 검증 성공')
     return NextResponse.next()
   } catch (error) {
     if (error instanceof TokenVerificationError) {
@@ -143,28 +138,33 @@ async function issueNewTokens(
   refreshToken: string,
 ): Promise<NextResponse> {
   try {
-    // 토큰 로테이션 (새로운 액세스 토큰과 리프레시 토큰 발급)
-    const { newAccessToken, newRefreshToken } =
-      await rotateRefreshToken(refreshToken)
+    console.log('🔁 리프레시 토큰 로테이션')
 
-    // 응답 객체 생성
-    const response = NextResponse.next()
+    // 토큰 로테이션을 위한 API 호출
+    const response = await fetch(`${request.nextUrl.origin}/api/auth/refresh`, {
+      method: 'POST',
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ refreshToken }),
+    })
 
-    // 새로운 토큰을 쿠키에 설정
-    setHttpOnlyCookie(
-      response,
-      'accessToken',
-      newAccessToken,
-      ACCESS_TOKEN_MAX_AGE,
-    )
-    setHttpOnlyCookie(
-      response,
-      'refreshToken',
-      newRefreshToken,
-      REFRESH_TOKEN_MAX_AGE,
-    )
+    if (!response.ok) {
+      throw new Error('Token refresh failed')
+    }
 
-    return response
+    // API 응답에서 쿠키를 추출하여 새로운 응답에 설정
+    const newResponse = NextResponse.next()
+
+    // Set-Cookie 헤더를 복사
+    const setCookieHeaders = response.headers.getSetCookie()
+
+    setCookieHeaders.forEach(cookie => {
+      newResponse.headers.append('Set-Cookie', cookie)
+    })
+
+    return newResponse
   } catch (error) {
     console.error('Token rotation failed:', error)
     return NextResponse.redirect(new URL('/admin/login', request.url))

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { setHttpOnlyCookie } from '@/app/(cms)/_entities/auth'
-import { deleteRefreshToken } from '@/app/(cms)/_entities/auth/lib/jwt'
+import { deleteRefreshToken } from '@/app/(cms)/_entities/auth/model/jwt'
 
 export async function POST(request: NextRequest) {
   try {
