@@ -21,10 +21,9 @@ import {
   SidebarMenuItem,
 } from '@//app/(cms)/_shared/shadcn'
 import { useSidebar } from '@//app/(cms)/_shared/shadcn/sidebar'
-import { useAuth } from '@/app/(cms)/_entities/auth'
+import { logout } from '@/app/(cms)/_entities/auth'
 
 export default function SiderHeader() {
-  const { logout } = useAuth()
   const { isMobile } = useSidebar()
 
   return (

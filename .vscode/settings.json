@@ -1,12 +1,5 @@
 {
   "cSpell.words": ["antd", "cuid", "shadcn", "Sider"],
-  "material-icon-theme.folders.associations": {
-    "admin": "",
-    "settings": "",
-    "templates": "",
-    "history": "",
-    "navigation": ""
-  },
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#2f7c47",
     "activityBar.background": "#2f7c47",
@@ -26,5 +19,12 @@
     "titleBar.inactiveBackground": "#21573299",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#215732"
+  "peacock.color": "#215732",
+  "material-icon-theme.folders.associations": {
+    "admin": "",
+    "settings": "",
+    "templates": "",
+    "history": "",
+    "navigation": ""
+  }
 }

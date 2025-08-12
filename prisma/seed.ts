@@ -46,7 +46,7 @@ async function main() {
   ])
 
   console.log('Seed 완료!')
-  console.log('생성된 사용자:', { admin: admin.id })
+  console.log('생성된 사용자:', { admin: admin.userId })
   console.log('생성된 게시물:', posts.length, '개')
 }
 

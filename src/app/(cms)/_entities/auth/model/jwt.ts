@@ -2,11 +2,16 @@ import { jwtVerify, SignJWT } from 'jose'
 import { JWTExpired, JWTInvalid } from 'jose/errors'
 
 import { prisma } from '../../db/model/prisma'
-import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY } from './constants'
+import {
+  ACCESS_TOKEN_EXPIRY,
+  REFRESH_TOKEN_EXPIRY,
+  REFRESH_TOKEN_MAX_AGE,
+} from './constants'
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
 
 export interface TokenPayload {
+  id: string
   userId: string
   name: string
   exp?: number
@@ -51,7 +56,7 @@ export const saveRefreshToken = async (
   token: string,
   userId: string,
 ): Promise<void> => {
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7일
+  const expiresAt = new Date(Date.now() + REFRESH_TOKEN_MAX_AGE * 1000)
 
   await prisma.refreshToken.create({
     data: {
@@ -63,28 +68,13 @@ export const saveRefreshToken = async (
 }
 
 // 사용자의 모든 리프레시 토큰 삭제
-export const deleteUserRefreshTokens = async (
-  userId: string,
-): Promise<void> => {
+export const deleteUserRefreshToken = async (userId: string): Promise<void> => {
   await prisma.refreshToken.deleteMany({
     where: { userId },
   })
 }
 
-// 리프레시 토큰 삭제 (에러 처리 개선)
-export const deleteRefreshToken = async (token: string): Promise<void> => {
-  try {
-    await prisma.refreshToken.deleteMany({
-      where: { token },
-    })
-  } catch (error) {
-    console.error('Failed to delete refresh token:', error)
-    // 토큰 삭제 실패는 치명적이지 않으므로 에러를 던지지 않음
-    // 대신 로그만 남기고 계속 진행
-  }
-}
-
-// 토큰 검증 (개선된 버전)
+// 토큰 검증
 export const verifyToken = async (
   token: string,
 ): Promise<TokenPayload & { type: string }> => {
@@ -102,19 +92,6 @@ export const verifyToken = async (
   }
 }
 
-// 엑세스 토큰 만료 시간 조회
-export const getTokenExpiry = async (currentToken: string): Promise<number> => {
-  try {
-    const { exp } = await verifyToken(currentToken)
-    return new Date((exp || 0) * 1000).getTime()
-  } catch (error) {
-    if (error instanceof TokenVerificationError && error.code === 'EXPIRED') {
-      return 0 // 만료된 토큰은 0 반환
-    }
-    throw error
-  }
-}
-
 export const getRefreshTokenFromDB = async (
   userId: string,
 ): Promise<string | null> => {
@@ -124,25 +101,26 @@ export const getRefreshTokenFromDB = async (
   return refreshToken?.token || null
 }
 
-// 리프레시 토큰 로테이션 (에러 처리 개선)
+// 리프레시 토큰 로테이션
 export const rotateRefreshToken = async (
   currentRefreshToken: string,
 ): Promise<{ newAccessToken: string; newRefreshToken: string }> => {
   try {
     const payload = await verifyToken(currentRefreshToken)
 
-    // 새로운 토큰 생성
     const newAccessToken = await generateAccessToken({
+      id: payload.id,
       userId: payload.userId,
       name: payload.name,
     })
 
     const newRefreshToken = await generateRefreshToken({
+      id: payload.id,
       userId: payload.userId,
       name: payload.name,
     })
 
-    await deleteRefreshToken(currentRefreshToken)
+    await deleteUserRefreshToken(payload.userId)
     await saveRefreshToken(newRefreshToken, payload.userId)
 
     return { newAccessToken, newRefreshToken }

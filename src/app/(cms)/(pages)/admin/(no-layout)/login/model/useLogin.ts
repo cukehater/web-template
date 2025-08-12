@@ -1,42 +1,43 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
 import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import z from 'zod'
 
-import { LoginFormType } from './types'
+import { login } from '@/app/(cms)/_entities/auth'
 
-export const useLogin = () => {
+import { formSchema } from './schema'
+
+export function useLogin() {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
-  const { register, handleSubmit } = useForm<LoginFormType>()
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      userId: '',
+      password: '',
+    },
+  })
 
-  const onSubmit: SubmitHandler<LoginFormType> = async ({
-    userId,
-    password,
-  }) => {
-    if (!userId || !password) {
-      setError('아이디와 비밀번호를 입력해 주세요.')
-      return
-    }
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (isLoading) return
 
     setIsLoading(true)
-    setError(null)
+
+    const { userId, password } = values
 
     try {
-      const result = await signIn('credentials', {
-        userId,
-        password,
-        redirect: false,
-      })
+      const result = await login(userId, password)
+
       if (result?.error) {
         setError('아이디 또는 비밀번호가 올바르지 않습니다.')
-      } else {
-        router.push('/admin')
-        router.refresh()
+        return
       }
+
+      router.push('/admin')
     } catch {
       setError('로그인 중 오류가 발생했습니다.')
     } finally {
@@ -44,11 +45,5 @@ export const useLogin = () => {
     }
   }
 
-  return {
-    isLoading,
-    error,
-    register,
-    handleSubmit,
-    onSubmit,
-  }
+  return { form, onSubmit, isLoading, error }
 }

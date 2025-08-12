@@ -14,8 +14,13 @@ export async function GET() {
       { status: 401 },
     )
   }
+  const payload = await verifyToken(accessToken as string)
+
+  if (payload.type !== 'access') {
+    return NextResponse.json({ error: 'Invalid access token' }, { status: 401 })
+  }
 
   const session = await verifyToken(accessToken)
 
-  return NextResponse.json({ user: session })
+  return NextResponse.json({ userId: session.userId, name: session.name })
 }

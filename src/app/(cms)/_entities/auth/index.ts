@@ -1,8 +1,10 @@
+export { login } from './api/login'
+export { logout } from './api/logout'
 export { setHttpOnlyCookie } from './lib/setHttpOnlyCookie'
-export { default as validateCredentials } from './lib/validateCredentials'
+export { default as validateUser } from './lib/validateUser'
 export { ACCESS_TOKEN_MAX_AGE, REFRESH_TOKEN_MAX_AGE } from './model/constants'
 export {
-  deleteUserRefreshTokens,
+  deleteUserRefreshToken,
   generateAccessToken,
   generateRefreshToken,
   getRefreshTokenFromDB,
@@ -11,5 +13,4 @@ export {
   TokenVerificationError,
   verifyToken,
 } from './model/jwt'
-export { default as useAuth } from './model/useAuth'
 export { default as useSession } from './model/useSession'

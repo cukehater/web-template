@@ -6,7 +6,7 @@ import { User } from '@/app/(cms)/_shared/model'
 
 export default function useSession() {
   const [session, setSession] = useState<{
-    session: { user: User } | null
+    session: User | null
     isLoading: boolean
   }>({
     session: null,
@@ -17,7 +17,6 @@ export default function useSession() {
     try {
       const response = await fetch('/api/auth/me', {
         credentials: 'include',
-        cache: 'force-cache',
       })
       if (response.ok) {
         const data = await response.json()

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import {
   ACCESS_TOKEN_MAX_AGE,
+  deleteUserRefreshToken,
   getRefreshTokenFromDB,
   REFRESH_TOKEN_MAX_AGE,
   rotateRefreshToken,
@@ -23,18 +24,25 @@ export async function POST(request: NextRequest) {
     const payload = await verifyToken(refreshToken)
     const currentRefreshToken = await getRefreshTokenFromDB(payload.userId)
 
-    console.log('refreshToken', refreshToken)
-    console.log('currentRefreshToken', currentRefreshToken)
+    if (payload.type !== 'refresh') {
+      return NextResponse.json(
+        { error: 'Invalid refresh token' },
+        { status: 400 },
+      )
+    }
 
     if (refreshToken !== currentRefreshToken) {
       console.log('❌ 리프레시 토큰 불일치')
+      const response = NextResponse.json({
+        error: 'Invalid refresh token',
+      })
 
-      // TODO: 쿠키 초기화
+      await deleteUserRefreshToken(payload.userId)
 
-      return NextResponse.json(
-        { error: 'Invalid refresh token' },
-        { status: 401 },
-      )
+      setHttpOnlyCookie(response, 'accessToken', '', 0)
+      setHttpOnlyCookie(response, 'refreshToken', '', 0)
+
+      return response
     }
 
     // 토큰 로테이션
@@ -44,7 +52,6 @@ export async function POST(request: NextRequest) {
     // 응답 객체 생성
     const response = NextResponse.json({
       success: true,
-      message: 'Tokens refreshed successfully',
     })
 
     // 새로운 토큰을 쿠키에 설정
