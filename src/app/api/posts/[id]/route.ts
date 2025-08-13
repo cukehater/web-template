@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { UpdatePostData } from '@//app/(cms)/(pages)/admin/(layout)/settings/popup/model/types'
-import { prisma } from '@/app/(cms)/_entities/db/model/prisma'
+import { prisma } from '@/app/(cms)/_shared/lib'
 
 export async function GET(
   request: NextRequest,

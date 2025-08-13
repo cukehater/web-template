@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 
-export const logout = async () => {
+export default async function logout() {
   try {
     await fetch('/api/auth/logout', {
       method: 'POST',

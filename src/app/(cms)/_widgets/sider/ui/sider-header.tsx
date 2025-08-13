@@ -21,7 +21,7 @@ import {
   SidebarMenuItem,
 } from '@//app/(cms)/_shared/shadcn'
 import { useSidebar } from '@//app/(cms)/_shared/shadcn/sidebar'
-import { logout } from '@/app/(cms)/_entities/auth'
+import { logout } from '@/app/(cms)/_features/logout'
 
 export default function SiderHeader() {
   const { isMobile } = useSidebar()

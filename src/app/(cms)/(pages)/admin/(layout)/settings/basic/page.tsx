@@ -1,8 +1,5 @@
-'use client'
-
 import { FileCog, Save, Settings } from 'lucide-react'
 
-import { useSession } from '@/app/(cms)/_entities/auth'
 import { Button } from '@/app/(cms)/_shared/shadcn'
 import {
   FormContainer,
@@ -11,9 +8,6 @@ import {
 } from '@/app/(cms)/_shared/ui'
 
 export default function BasicSettingsPage() {
-  const { session } = useSession()
-  console.log('session', session)
-
   return (
     <section>
       <form className='space-y-6'>

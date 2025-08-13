@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
-import { login } from '@/app/(cms)/_entities/auth'
+import { login } from '@/app/(cms)/_features/login'
 
 import { formSchema } from './schema'
 

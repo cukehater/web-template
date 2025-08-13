@@ -1,7 +1,8 @@
 import { jwtVerify, SignJWT } from 'jose'
 import { JWTExpired, JWTInvalid } from 'jose/errors'
 
-import { prisma } from '../../db/model/prisma'
+import { prisma } from '@/app/(cms)/_shared/lib'
+
 import {
   ACCESS_TOKEN_EXPIRY,
   REFRESH_TOKEN_EXPIRY,

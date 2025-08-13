@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 
-import { prisma } from '../../db/model/prisma'
+import { prisma } from '@/app/(cms)/_shared/lib'
 
 const getUserByUserID = async (userId: string) => {
   return prisma.user.findUnique({

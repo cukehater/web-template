@@ -5,8 +5,8 @@ import {
   SidebarRail,
 } from '@//app/(cms)/_shared/shadcn'
 
-import SiderHeader from './SiderHeader'
-import SiderMenu from './SiderMenu'
+import SiderHeader from './sider-header'
+import SiderMenu from './sider-menu'
 
 export default function Sider() {
   return (

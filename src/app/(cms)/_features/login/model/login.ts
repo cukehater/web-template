@@ -1,4 +1,4 @@
-export const login = async (userId: string, password: string) => {
+export default async function login(userId: string, password: string) {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     // eslint-disable-next-line @typescript-eslint/naming-convention
