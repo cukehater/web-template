@@ -301,6 +301,7 @@ function SidebarRail({ className, ...props }: React.ComponentProps<'button'>) {
       data-slot='sidebar-rail'
       tabIndex={-1}
       title='Toggle Sidebar'
+      type='button'
       onClick={toggleSidebar}
       {...props}
     />

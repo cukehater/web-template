@@ -33,6 +33,23 @@ model RefreshToken {
   @@index([userId])
 }
 
+model Popup {
+  id        String   @id @default(cuid())
+  title     String
+  width     Int
+  height    Int
+  x         Int
+  y         Int
+  zIndex    Int
+  isActive  Boolean  @default(true)
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([updatedAt])
+}
+
 model Post {
   id          String   @id @default(cuid())
   title       String
