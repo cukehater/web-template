@@ -144,7 +144,6 @@ async function issueNewTokens(
     const response = await fetch(`${request.nextUrl.origin}/api/auth/refresh`, {
       method: 'POST',
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ refreshToken }),

@@ -12,6 +12,18 @@ export {
   CollapsibleTrigger,
 } from './collapsible'
 export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from './dialog'
+export {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -33,6 +45,16 @@ export { Input } from './input'
 export { Label } from './label'
 export { Separator } from './separator'
 export {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from './sheet'
+export {
   Sidebar,
   SidebarContent,
   SidebarGroup,
@@ -48,6 +70,7 @@ export {
   SidebarRail,
   SidebarTrigger,
 } from './sidebar'
+export { Toaster } from './sonner'
 export {
   Table,
   TableBody,

@@ -1,3 +1,5 @@
+export { default as DialogEditableTable } from './dialog-editable-table'
+export { default as EditableTable } from './editable-table'
 export { default as FormContainer } from './form-container'
 export { default as InputWithLabel } from './input-with-label'
 export { default as PageTopButton } from './page-top-button'

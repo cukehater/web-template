@@ -8,7 +8,7 @@ export default function PageTopTitle({
   children?: React.ReactNode
 }) {
   return (
-    <div className='flex justify-between items-center mb-8'>
+    <div className='flex justify-between items-center'>
       <div>
         <h2 className='text-2xl font-semibold'>{title}</h2>
         {description && (

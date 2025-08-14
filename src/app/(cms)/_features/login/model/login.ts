@@ -1,7 +1,6 @@
 export default async function login(userId: string, password: string) {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
     body: JSON.stringify({ userId, password }),

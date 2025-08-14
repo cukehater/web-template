@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 
-import { EditableTable } from '@//app/(cms)/_features/editable-table'
-import { EditableTableColumn } from '@//app/(cms)/_features/editable-table'
+import { EditableTable } from '@/app/(cms)/_shared/ui'
 
 interface Board {
   id: string

@@ -9,21 +9,30 @@ async function main() {
   await prisma.user.deleteMany()
 
   // 사용자 생성
-  const admin = await prisma.user.create({
-    data: {
-      userId: 'admin',
-      name: '관리자',
-      password: await bcrypt.hash('admin', 10), // 'password'
-    },
-  })
+  const admins = await Promise.all([
+    prisma.user.create({
+      data: {
+        userId: 'master',
+        name: '마스터',
+        password: await bcrypt.hash('master', 10), // 'password'
+      },
+    }),
+    prisma.user.create({
+      data: {
+        userId: 'admin',
+        name: '관리자',
+        password: await bcrypt.hash('admin', 10), // 'password'
+      },
+    }),
+  ])
 
   // 게시물 생성
   const posts = await Promise.all([
     prisma.post.create({
       data: {
         title: '첫 번째 게시물',
-        content: '안녕하세요! 이것은 첫 번째 게시물입니다.',
-        author: admin.id,
+        content: '안녕하세요! 첫 번째 게시물입니다.',
+        author: admins[0].id,
         isPublished: true,
       },
     }),
@@ -31,7 +40,7 @@ async function main() {
       data: {
         title: '두 번째 게시물',
         content: '두 번째 게시물의 내용입니다.',
-        author: admin.id,
+        author: admins[1].id,
         isPublished: false,
       },
     }),
@@ -39,15 +48,18 @@ async function main() {
       data: {
         title: '공지사항',
         content: '중요한 공지사항입니다.',
-        author: admin.id,
+        author: admins[0].id,
         isPublished: true,
       },
     }),
   ])
 
   console.log('Seed 완료!')
-  console.log('생성된 사용자:', { admin: admin.userId })
-  console.log('생성된 게시물:', posts.length, '개')
+  console.log('생성된 사용자:', {
+    master: admins[0].userId,
+    admin: admins[1].userId,
+  })
+  console.log(`생성된 게시물: ${posts.length}개`)
 }
 
 main()

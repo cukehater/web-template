@@ -2,6 +2,8 @@ import './globals.css'
 
 import { FONT_NOTO_SANS_KR } from '@/../public/fonts'
 
+import { Toaster } from './_shared/shadcn'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -9,7 +11,10 @@ export default function RootLayout({
 }>) {
   return (
     <html className={FONT_NOTO_SANS_KR.variable} lang='ko'>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }

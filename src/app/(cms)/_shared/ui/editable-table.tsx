@@ -1,6 +1,15 @@
 'use client'
 
-import { MoreHorizontal, Pencil, Plus, Save, Trash2, X } from 'lucide-react'
+import {
+  Frown,
+  Loader2,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Save,
+  Trash2,
+  X,
+} from 'lucide-react'
 import { useState } from 'react'
 
 import { Button } from '@//app/(cms)/_shared/shadcn'
@@ -20,7 +29,8 @@ import {
   DropdownMenuTrigger,
 } from '@//app/(cms)/_shared/shadcn'
 
-import { EditableTableColumn, EditableTableProps } from '../model/types'
+import { EditableTableColumn, EditableTableProps } from '../model'
+import PageTopTitle from './page-top-title'
 
 export default function EditableTable<T extends Record<string, any>>({
   data,
@@ -166,20 +176,19 @@ export default function EditableTable<T extends Record<string, any>>({
   }
 
   return (
-    <div className='space-y-4 text-center'>
+    <>
       {(title || showAddButton) && (
-        <div className='flex justify-between items-center'>
-          {title && <h2 className='text-xl font-semibold'>{title}</h2>}
+        <PageTopTitle title={title ?? ''}>
           {showAddButton && onAdd && (
             <Button onClick={() => onAdd({} as Omit<T, 'id'>)}>
               <Plus className='mr-2 h-4 w-4' />
               {addButtonText}
             </Button>
           )}
-        </div>
+        </PageTopTitle>
       )}
 
-      <div className='rounded-md border'>
+      <div className='rounded-md border text-center'>
         <Table>
           <TableHeader className='bg-neutral-100'>
             <TableRow>
@@ -203,7 +212,10 @@ export default function EditableTable<T extends Record<string, any>>({
                   className='text-center py-8'
                   colSpan={columns.length + 1}
                 >
-                  로딩 중...
+                  <div className='flex items-center justify-center gap-2'>
+                    <Loader2 className='h-4 w-4 animate-spin' />
+                    Loading...
+                  </div>
                 </TableCell>
               </TableRow>
             ) : data.length === 0 ? (
@@ -212,7 +224,10 @@ export default function EditableTable<T extends Record<string, any>>({
                   className='text-center py-8'
                   colSpan={columns.length + 1}
                 >
-                  데이터가 없습니다
+                  <div className='flex items-center justify-center gap-2'>
+                    <Frown className='h-4 w-4' />
+                    데이터가 없습니다
+                  </div>
                 </TableCell>
               </TableRow>
             ) : (
@@ -284,6 +299,6 @@ export default function EditableTable<T extends Record<string, any>>({
           </TableBody>
         </Table>
       </div>
-    </div>
+    </>
   )
 }
