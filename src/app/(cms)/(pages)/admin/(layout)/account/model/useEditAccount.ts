@@ -4,19 +4,19 @@ import { User } from '@prisma/client'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-import { DialogEditableTable } from '@/app/(cms)/_shared/ui'
-
-import { columns, dialogColumns } from '../model/columns'
-
-export default function UserList({ initialUsers }: { initialUsers: User[] }) {
-  const [users, setUsers] = useState<User[]>(initialUsers)
-  const [loading, setLoading] = useState(false)
+export const useEditAccount = (initialUsers: User[]) => {
+  const [users, setUsers] = useState(() =>
+    initialUsers.map(user => ({
+      ...user,
+      createdAt: user.createdAt.toLocaleDateString('ko-KR'),
+    })),
+  )
 
   const handleSave = async (id: string, updatedData: Partial<User>) => {
-    setLoading(true)
     const res = await fetch('/api/account', {
       method: 'PATCH',
       headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(updatedData),
@@ -28,7 +28,6 @@ export default function UserList({ initialUsers }: { initialUsers: User[] }) {
         richColors: true,
       })
 
-      setLoading(false)
       return
     }
 
@@ -42,21 +41,10 @@ export default function UserList({ initialUsers }: { initialUsers: User[] }) {
       position: 'top-right',
       richColors: true,
     })
-
-    setLoading(false)
   }
 
-  return (
-    <DialogEditableTable
-      showAddButton
-      addButtonText='새 계정 추가'
-      columns={columns}
-      data={users}
-      dialogColumns={dialogColumns}
-      dialogTitle='계정 정보 수정'
-      loading={loading}
-      title='관리자 계정 관리'
-      onSave={handleSave}
-    />
-  )
+  return {
+    users,
+    handleSave,
+  }
 }

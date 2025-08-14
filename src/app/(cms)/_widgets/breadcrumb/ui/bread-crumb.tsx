@@ -26,7 +26,7 @@ export default function Breadcrumb() {
       />
 
       <BreadcrumbList>
-        {breadcrumbPath?.parent.map((item, index) => (
+        {breadcrumbPath?.parent.map(item => (
           <React.Fragment key={uuid()}>
             <BreadcrumbItem>
               <BreadcrumbPage>{item}</BreadcrumbPage>

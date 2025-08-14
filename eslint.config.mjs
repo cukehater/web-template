@@ -89,12 +89,7 @@ export default tseslint.config(
         // 프로퍼티: camelCase, PascalCase (React props 등), UPPER_CASE (상수)
         {
           selector: ['property', 'parameterProperty'],
-          format: ['camelCase', 'PascalCase', 'UPPER_CASE', 'Upper-Kebab-Case'],
-          // 객체 키에서 kebab-case나 snake_case도 허용 (외부 API 등)
-          filter: {
-            regex: '^(aria-|data-|[a-z]+_[a-z]+).*$',
-            match: false,
-          },
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
         },
         // Import 변수: camelCase 또는 PascalCase, UPPER_CASE(상수) 허용
         {

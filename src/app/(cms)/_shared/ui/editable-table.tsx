@@ -60,7 +60,7 @@ export default function EditableTable<T extends Record<string, any>>({
     columns.forEach(column => {
       if (column.validation && column.editable) {
         const value = editData[column.key]
-        const error = column.validation(value)
+        const error = column.validation(value, editData)
         if (error) {
           newErrors[String(column.key)] = error
         }
@@ -201,7 +201,7 @@ export default function EditableTable<T extends Record<string, any>>({
                   {column.title}
                 </TableHead>
               ))}
-              <TableHead className='w-[100px] text-center'>작업</TableHead>
+              <TableHead className='w-[100px] text-center'></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

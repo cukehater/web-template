@@ -26,6 +26,21 @@ export default function SiderMenu() {
       {ADMIN_MENU_ITEMS.map(item => {
         const isActive = isMenuActive(item)
 
+        // 1depth 메뉴
+        if (!item.items) {
+          return (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton asChild isActive={isActive}>
+                <Link href={item.url!}>
+                  {item.icon && <item.icon />}
+                  {item.title}
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )
+        }
+
+        // 2depth 메뉴
         return (
           <Collapsible
             key={item.title}

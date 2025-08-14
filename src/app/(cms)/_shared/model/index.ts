@@ -1,4 +1,4 @@
-export { ADMIN_MENU_ITEMS } from './constants'
+export { ADMIN_MENU_ITEMS } from './admin-menu-items'
 export type {
   DialogEditableTableProps,
   EditableTableColumn,

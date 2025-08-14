@@ -10,7 +10,11 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 
-import { Button, DialogDescription } from '@//app/(cms)/_shared/shadcn'
+import {
+  Button,
+  DialogDescription,
+  DropdownMenuLabel,
+} from '@//app/(cms)/_shared/shadcn'
 import { Input } from '@//app/(cms)/_shared/shadcn'
 import {
   Table,
@@ -241,7 +245,7 @@ export default function DialogEditableTable<T extends Record<string, any>>({
                   {column.title}
                 </TableHead>
               ))}
-              <TableHead className='w-[100px] text-center'>작업</TableHead>
+              <TableHead className='w-[100px] text-center'> </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -286,8 +290,9 @@ export default function DialogEditableTable<T extends Record<string, any>>({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align='end'>
+                        <DropdownMenuLabel>작업</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => handleEdit(record)}>
-                          <Pencil className='mr-2 h-4 w-4' />
+                          <Pencil />
                           편집
                         </DropdownMenuItem>
                         {onDelete && (
@@ -297,7 +302,7 @@ export default function DialogEditableTable<T extends Record<string, any>>({
                               handleDelete(String(record[idField]))
                             }
                           >
-                            <Trash2 className='mr-2 h-4 w-4' />
+                            <Trash2 />
                             삭제
                           </DropdownMenuItem>
                         )}
