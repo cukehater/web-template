@@ -1,17 +1,18 @@
 import { User } from '@prisma/client'
 
-import { EditableTableColumn } from '@/app/(cms)/_shared/model'
+import {
+  EditableTableColumn,
+  EditableTableDialogColumn,
+} from '@/app/(cms)/_shared/model'
 
 export const columns: EditableTableColumn<User>[] = [
   {
     key: 'userId',
     title: '아이디',
-    type: 'text',
   },
   {
     key: 'name',
     title: '이름',
-    type: 'text',
   },
   {
     key: 'createdAt',
@@ -20,13 +21,12 @@ export const columns: EditableTableColumn<User>[] = [
   },
 ]
 
-export const dialogColumns: EditableTableColumn<
+export const dialogColumns: EditableTableDialogColumn<
   User & { newPassword?: string; newPasswordConfirm?: string }
 >[] = [
   {
     key: 'name',
     title: '이름',
-    editable: true,
     type: 'text',
     validation: value => {
       if (!value || String(value).trim().length === 0) {
@@ -38,7 +38,6 @@ export const dialogColumns: EditableTableColumn<
   {
     key: 'newPassword',
     title: '새 비밀번호',
-    editable: true,
     type: 'password',
     validation: value => {
       if (!value || String(value).trim().length === 0) {
@@ -53,7 +52,6 @@ export const dialogColumns: EditableTableColumn<
   {
     key: 'newPasswordConfirm',
     title: '새 비밀번호 확인',
-    editable: true,
     type: 'password',
     validation: (value, record) => {
       if (value !== record.newPassword) {

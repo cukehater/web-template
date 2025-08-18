@@ -1,7 +1,7 @@
 export { ADMIN_MENU_ITEMS } from './admin-menu-items'
 export type {
-  DialogEditableTableProps,
   EditableTableColumn,
+  EditableTableDialogColumn,
   EditableTableProps,
   MenuItemType,
   User,

@@ -21,7 +21,7 @@ export default function CardSEO({
   form: UseFormReturn<SettingForm>
 }) {
   return (
-    <FormCard icon={<Search className='' />} title='SEO 관리'>
+    <FormCard icon={<Search className='size-5' />} title='SEO 관리'>
       <div className='space-y-6'>
         <FormField
           control={form.control}

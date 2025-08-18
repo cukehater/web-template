@@ -1,96 +1,50 @@
-'use client'
+import { PictureInPicture2, Plus } from 'lucide-react'
 
-import { ColumnDef } from '@tanstack/react-table'
+import { prisma } from '@/app/(cms)/_shared/lib'
+import {
+  Button,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/app/(cms)/_shared/shadcn'
+import { PageTopTitle } from '@/app/(cms)/_shared/ui'
 
-import { BasicTable } from '@/app/(cms)/_shared/ui'
+import AddPopupForm from './ui/add-popup-form'
+import PopupTable from './ui/popup-table'
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+export default async function Page() {
+  const initialData = await prisma.popup.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
 
-export const columns: ColumnDef<{
-  id: string
-  title: string
-  startDate: string
-  endDate: string
-  isActive: boolean
-}>[] = [
-  {
-    accessorKey: 'isActive',
-    header: '노출 상태',
-  },
-  {
-    accessorKey: 'title',
-    header: '제목',
-  },
-  {
-    accessorKey: 'startDate',
-    header: '시작일',
-  },
-  {
-    accessorKey: 'endDate',
-    header: '종료일',
-  },
-]
+  return (
+    <Sheet>
+      <PageTopTitle
+        description='사이트 메인 화면에 노출되는 팝업을 관리합니다.'
+        icon={<PictureInPicture2 />}
+        title='팝업 관리'
+      >
+        <SheetTrigger asChild>
+          <Button>
+            <Plus />
+            추가하기
+          </Button>
+        </SheetTrigger>
+      </PageTopTitle>
+      <PopupTable initialData={initialData} />
 
-const data: {
-  id: string
-  title: string
-  startDate: string
-  endDate: string
-  isActive: boolean
-}[] = [
-  {
-    id: '1',
-    title: 'Popup 1',
-    startDate: new Date().toLocaleDateString('ko-KR'),
-    endDate: new Date().toLocaleDateString('ko-KR'),
-    isActive: true,
-  },
-  {
-    id: '1',
-    title: 'Popup 1',
-    startDate: new Date().toLocaleDateString('ko-KR'),
-    endDate: new Date().toLocaleDateString('ko-KR'),
-    isActive: true,
-  },
-  {
-    id: '1',
-    title: 'Popup 1',
-    startDate: new Date().toLocaleDateString('ko-KR'),
-    endDate: new Date().toLocaleDateString('ko-KR'),
-    isActive: true,
-  },
-  {
-    id: '1',
-    title: 'Popup 1',
-    startDate: new Date().toLocaleDateString('ko-KR'),
-    endDate: new Date().toLocaleDateString('ko-KR'),
-    isActive: true,
-  },
-  {
-    id: '1',
-    title: 'Popup 1',
-    startDate: new Date().toLocaleDateString('ko-KR'),
-    endDate: new Date().toLocaleDateString('ko-KR'),
-    isActive: true,
-  },
-  {
-    id: '1',
-    title: 'Popup 1',
-    startDate: new Date().toLocaleDateString('ko-KR'),
-    endDate: new Date().toLocaleDateString('ko-KR'),
-    isActive: true,
-  },
-  {
-    id: '1',
-    title: 'Popup 1',
-    startDate: new Date().toLocaleDateString('ko-KR'),
-    endDate: new Date().toLocaleDateString('ko-KR'),
-    isActive: true,
-  },
-]
-
-export default function Page() {
-  // const popupList = await prisma.popup.findMany()
-  return <BasicTable columns={columns} data={data} />
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>팝업 추가</SheetTitle>
+          <SheetDescription>새로운 팝업을 추가합니다.</SheetDescription>
+        </SheetHeader>
+        <AddPopupForm />
+      </SheetContent>
+    </Sheet>
+  )
 }

@@ -36,6 +36,7 @@ model RefreshToken {
 model Popup {
   id        String   @id @default(cuid())
   title     String
+  imageUrl  String
   width     Int
   height    Int
   x         Int

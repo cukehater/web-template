@@ -6,6 +6,25 @@ export {
   BreadcrumbSeparator,
 } from './breadcrumb'
 export { Button } from './button'
+export { Calendar } from './calendar'
+export {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from './card'
+export type { ChartConfig } from './chart'
+export {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartStyle,
+  ChartTooltip,
+  ChartTooltipContent,
+} from './chart'
 export {
   Collapsible,
   CollapsibleContent,
@@ -43,6 +62,24 @@ export {
 } from './form'
 export { Input } from './input'
 export { Label } from './label'
+export {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from './popover'
+export {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from './select'
 export { Separator } from './separator'
 export {
   Sheet,
@@ -71,6 +108,7 @@ export {
   SidebarTrigger,
 } from './sidebar'
 export { Toaster } from './sonner'
+export { Switch } from './switch'
 export {
   Table,
   TableBody,
@@ -81,34 +119,4 @@ export {
   TableHeader,
   TableRow,
 } from './table'
-export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
-} from './card'
-export {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
-  ChartStyle,
-} from './chart'
-export type { ChartConfig } from './chart'
-export {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-} from './select'
 export { Textarea } from './textarea'

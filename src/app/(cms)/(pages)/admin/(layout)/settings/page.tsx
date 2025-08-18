@@ -17,9 +17,12 @@ export default function BasicSettingsPage() {
 
   return (
     <>
-      <PageTopTitle icon={<Cog />} title='사이트 설정'>
+      <PageTopTitle
+        description='사이트 기본 설정을 관리합니다.'
+        icon={<Cog />}
+        title='사이트 설정'
+      >
         <Button
-          className='px-6 py-2 text-white'
           disabled={form.formState.isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >

@@ -1,5 +1,4 @@
 import { LucideIcon } from 'lucide-react'
-import { ReactNode } from 'react'
 
 export interface MenuItemType {
   title: string
@@ -17,11 +16,24 @@ export interface EditableTableColumn<T> {
   key: keyof T
   title: string
   width?: string
-  render?: (value: T[keyof T], record: T, index: number) => ReactNode
-  editable?: boolean
-  type?: 'text' | 'select' | 'date' | 'number' | 'password'
+  render?: (value: T[keyof T], record: T, index: number) => React.ReactElement
+}
+
+export interface EditableTableDialogColumn<T> {
+  key: keyof T
+  title: string
+  type:
+    | 'text'
+    | 'select'
+    | 'date'
+    | 'number'
+    | 'password'
+    | 'checkbox'
+    | 'switch'
+    | 'image'
   options?: { label: string; value: string | number }[]
-  validation?: (value: any, record: Partial<T>) => string | null
+  validation?: (value: T[keyof T], record: Partial<T>) => string | null
+  isHalf?: boolean
 }
 
 export interface EditableTableProps<T> {
@@ -29,15 +41,9 @@ export interface EditableTableProps<T> {
   columns: EditableTableColumn<T>[]
   onSave?: (id: string, updatedData: Partial<T>) => void
   onDelete?: (id: string) => void
-  onAdd?: (newData: Omit<T, 'id'>) => void
   idField?: keyof T
   loading?: boolean
-  title?: string
-  showAddButton?: boolean
-  addButtonText?: string
-}
-
-export interface DialogEditableTableProps<T> extends EditableTableProps<T> {
-  dialogTitle?: string
-  dialogColumns: EditableTableColumn<T>[]
+  dialogTitle: string
+  dialogColumns: EditableTableDialogColumn<T>[]
+  dialogDescription: string
 }
