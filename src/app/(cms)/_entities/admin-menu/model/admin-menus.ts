@@ -1,19 +1,16 @@
 import {
-  BarChart3,
   ChartNoAxesCombined,
   Cog,
   FileText,
+  Image,
   LayoutPanelTop,
   PictureInPicture2,
-  Settings,
-  Share2,
-  User,
   UserCog,
 } from 'lucide-react'
 
-import { MenuItemType } from './type'
+import { MenuItemType } from './types'
 
-export const ADMIN_MENU_ITEMS: MenuItemType[] = [
+export const ADMIN_MENUS: MenuItemType[] = [
   {
     title: '사이트 설정',
     url: '/admin/settings',
@@ -23,6 +20,11 @@ export const ADMIN_MENU_ITEMS: MenuItemType[] = [
     title: '관리자 계정 관리',
     url: '/admin/account',
     icon: UserCog,
+  },
+  {
+    title: '메인 배너 관리',
+    url: '/admin/banner',
+    icon: Image,
   },
   {
     title: '팝업 관리',
@@ -68,10 +70,6 @@ export const ADMIN_MENU_ITEMS: MenuItemType[] = [
     title: '템플릿',
     icon: LayoutPanelTop,
     items: [
-      {
-        title: '메인 배너 관리',
-        url: '/admin/templates/main-banner',
-      },
       {
         title: '연혁 관리',
         url: '/admin/templates/history',

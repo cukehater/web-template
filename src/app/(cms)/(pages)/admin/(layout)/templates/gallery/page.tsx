@@ -109,18 +109,18 @@ export default function GalleryPage() {
     const newErrors: Record<string, string> = {}
 
     if (!editData.title || String(editData.title).trim().length === 0) {
-      newErrors.title = '제목을 입력해주세요'
+      newErrors.title = '제목을 입력해 주세요'
     }
 
     if (
       !editData.description ||
       String(editData.description).trim().length === 0
     ) {
-      newErrors.description = '설명을 입력해주세요'
+      newErrors.description = '설명을 입력해 주세요'
     }
 
     if (!editData.imageUrl || String(editData.imageUrl).trim().length === 0) {
-      newErrors.imageUrl = '이미지 URL을 입력해주세요'
+      newErrors.imageUrl = '이미지 URL을 입력해 주세요'
     }
 
     if (Object.keys(newErrors).length > 0) {

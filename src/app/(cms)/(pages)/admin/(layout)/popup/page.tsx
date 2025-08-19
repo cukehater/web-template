@@ -26,7 +26,7 @@ export default async function Page() {
     <Sheet>
       <PageTopTitle
         description='사이트 메인 화면에 노출되는 팝업을 관리합니다.'
-        icon={<PictureInPicture2 />}
+        icon={PictureInPicture2}
         title='팝업 관리'
       >
         <SheetTrigger asChild>
@@ -38,7 +38,7 @@ export default async function Page() {
       </PageTopTitle>
       <PopupTable initialData={initialData} />
 
-      <SheetContent>
+      <SheetContent className='w-full max-h-full overflow-y-auto'>
         <SheetHeader>
           <SheetTitle>팝업 추가</SheetTitle>
           <SheetDescription>새로운 팝업을 추가합니다.</SheetDescription>

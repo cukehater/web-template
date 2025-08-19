@@ -18,7 +18,7 @@ export default async function AccountPage() {
     <>
       <PageTopTitle
         description='사이트 관리자 계정을 관리합니다.'
-        icon={<UserCog2 />}
+        icon={UserCog2}
         title='관리자 계정 관리'
       />
       <AccountTable initialUsers={initialUsers} />

@@ -1,4 +1,5 @@
 import { User } from '@prisma/client'
+import { formatDate } from 'date-fns'
 
 import {
   EditableTableColumn,
@@ -17,7 +18,7 @@ export const columns: EditableTableColumn<User>[] = [
   {
     key: 'createdAt',
     title: '생성일',
-    render: value => value.toLocaleString('ko-KR'),
+    render: value => formatDate(value, 'yyyy.MM.dd'),
   },
 ]
 
@@ -30,7 +31,7 @@ export const dialogColumns: EditableTableDialogColumn<
     type: 'text',
     validation: value => {
       if (!value || String(value).trim().length === 0) {
-        return '이름을 입력해주세요'
+        return '이름을 입력해 주세요'
       }
       return null
     },
@@ -41,7 +42,7 @@ export const dialogColumns: EditableTableDialogColumn<
     type: 'password',
     validation: value => {
       if (!value || String(value).trim().length === 0) {
-        return '비밀번호를 입력해주세요'
+        return '비밀번호를 입력해 주세요'
       }
       if (String(value).length < 8) {
         return '비밀번호는 8자 이상이어야 합니다'

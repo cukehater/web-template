@@ -14,7 +14,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@//app/(cms)/_shared/shadcn'
-import { ADMIN_MENU_ITEMS } from '@/app/(cms)/_shared/model'
+import { ADMIN_MENUS } from '@/app/(cms)/_entities/admin-menu'
 
 import useActiveMenu from '../model/useActiveMenu'
 
@@ -23,7 +23,7 @@ export default function SiderMenu() {
 
   return (
     <SidebarMenu>
-      {ADMIN_MENU_ITEMS.map(item => {
+      {ADMIN_MENUS.map(item => {
         const isActive = isMenuActive(item)
 
         // 1depth 메뉴

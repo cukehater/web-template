@@ -61,7 +61,7 @@ const columns: EditableTableColumn<Board>[] = [
     type: 'text',
     validation: value => {
       if (!value || String(value).trim().length === 0) {
-        return '게시판명을 입력해주세요'
+        return '게시판명을 입력해 주세요'
       }
       if (String(value).length < 2) {
         return '게시판명은 2자 이상이어야 합니다'
@@ -76,7 +76,7 @@ const columns: EditableTableColumn<Board>[] = [
     type: 'text',
     validation: value => {
       if (!value || String(value).trim().length === 0) {
-        return '설명을 입력해주세요'
+        return '설명을 입력해 주세요'
       }
       return null
     },

@@ -1,3 +1,6 @@
+import { LucideIcon } from 'lucide-react'
+import React from 'react'
+
 export default function PageTopTitle({
   title,
   icon,
@@ -5,15 +8,16 @@ export default function PageTopTitle({
   children,
 }: {
   title: string
-  icon: React.ReactNode
+  icon: LucideIcon
   description: string
   children?: React.ReactNode
 }) {
+  const Icon = icon
   return (
     <div className='flex justify-between md:items-center mb-2 flex-col md:flex-row'>
       <div className='mb-2 md:mb-0'>
         <h2 className='text-2xl font-semibold flex items-center gap-2'>
-          <span>{icon}</span>
+          <Icon className='size-6' />
           <span>{title}</span>
         </h2>
         {description && (

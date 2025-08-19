@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: 'Invalid credentials' },
+        { error: '아이디 또는 비밀번호가 올바르지 않습니다.' },
         { status: 401 },
       )
     }
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     return response
   } catch {
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: '로그인 중 오류가 발생했습니다.' },
       { status: 500 },
     )
   }

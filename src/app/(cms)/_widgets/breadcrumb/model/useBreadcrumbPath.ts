@@ -1,7 +1,7 @@
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
-import { ADMIN_MENU_ITEMS, MenuItemType } from '@/app/(cms)/_shared/model'
+import { ADMIN_MENUS, MenuItemType } from '@/app/(cms)/_entities/admin-menu'
 
 import { BreadcrumbPathType } from './types'
 
@@ -23,7 +23,7 @@ export function useBreadcrumbPath() {
       }
     }
 
-    recursion(ADMIN_MENU_ITEMS, [])
+    recursion(ADMIN_MENUS, [])
 
     const result = Array.from(set.keys()).filter(
       item => item.url === pathname,

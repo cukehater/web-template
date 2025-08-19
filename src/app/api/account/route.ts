@@ -17,6 +17,6 @@ export const PATCH = async (req: NextRequest) => {
 
     return NextResponse.json({ success: true })
   } catch {
-    return NextResponse.json({ error: '유저 정보 수정 실패' }, { status: 500 })
+    return NextResponse.json({ success: false }, { status: 500 })
   }
 }

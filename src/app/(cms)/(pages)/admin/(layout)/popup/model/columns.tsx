@@ -1,6 +1,6 @@
 import { Popup } from '@prisma/client'
+import { formatDate } from 'date-fns'
 import { Eye, EyeOff } from 'lucide-react'
-import Image from 'next/image'
 
 import {
   EditableTableColumn,
@@ -24,22 +24,29 @@ export const columns: EditableTableColumn<Popup>[] = [
     title: '이미지',
     width: '100px',
     render: value => (
-      <Image alt='popup' height={100} src={value as string} width={100} />
+      <img
+        alt='popup'
+        className='rounded-md w-[100px] h-[100px] object-cover aspect-1/1'
+        src={value as string}
+      />
     ),
   },
   {
     key: 'title',
     title: '제목',
+    width: 'auto',
   },
   {
     key: 'startDate',
     width: '100px',
     title: '시작 시간',
+    render: value => formatDate(value as Date, 'yyyy.MM.dd'),
   },
   {
     key: 'endDate',
     width: '100px',
     title: '종료 시간',
+    render: value => (value ? formatDate(value as Date, 'yyyy.MM.dd') : '-'),
   },
 ]
 

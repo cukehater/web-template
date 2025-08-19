@@ -1,4 +1,5 @@
 export { Alert, AlertDescription, AlertTitle } from './alert'
+export { Badge, badgeVariants } from './badge'
 export {
   BreadcrumbItem,
   BreadcrumbList,
@@ -16,6 +17,13 @@ export {
   CardHeader,
   CardTitle,
 } from './card'
+export {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from './carousel'
 export type { ChartConfig } from './chart'
 export {
   ChartContainer,
@@ -25,6 +33,7 @@ export {
   ChartTooltip,
   ChartTooltipContent,
 } from './chart'
+export { Checkbox } from './checkbox'
 export {
   Collapsible,
   CollapsibleContent,

@@ -19,7 +19,7 @@ export default function BasicSettingsPage() {
     <>
       <PageTopTitle
         description='사이트 기본 설정을 관리합니다.'
-        icon={<Cog />}
+        icon={Cog}
         title='사이트 설정'
       >
         <Button

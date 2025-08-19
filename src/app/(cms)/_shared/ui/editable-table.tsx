@@ -1,7 +1,6 @@
 'use client'
 
 import { Frown, Loader2, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
-import Image from 'next/image'
 import { useState } from 'react'
 
 import {
@@ -146,12 +145,10 @@ export default function EditableTable<T extends Record<string, unknown>>({
               }}
             />
             {value && (
-              <Image
+              <img
                 alt='popup'
-                className='rounded-md'
-                height={100}
+                className='rounded-md w-[100px]'
                 src={value as string}
-                width={100}
               />
             )}
             {error && <p className='text-xs text-red-500'>{error}</p>}
@@ -164,7 +161,7 @@ export default function EditableTable<T extends Record<string, unknown>>({
             <label className='text-sm font-medium'>{column.title}</label>
             <Select>
               <SelectTrigger className='w-full'>
-                <SelectValue placeholder={`${column.title} 선택해주세요.`} />
+                <SelectValue placeholder={`${column.title} 선택해 주세요.`} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>

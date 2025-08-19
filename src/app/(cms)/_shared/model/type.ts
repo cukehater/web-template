@@ -1,12 +1,3 @@
-import { LucideIcon } from 'lucide-react'
-
-export interface MenuItemType {
-  title: string
-  icon?: LucideIcon
-  url?: string
-  items?: MenuItemType[]
-}
-
 export interface User {
   userId: string
   name: string
@@ -16,7 +7,7 @@ export interface EditableTableColumn<T> {
   key: keyof T
   title: string
   width?: string
-  render?: (value: T[keyof T], record: T, index: number) => React.ReactElement
+  render?: (value: T[keyof T], record: T, index: number) => React.ReactNode
 }
 
 export interface EditableTableDialogColumn<T> {

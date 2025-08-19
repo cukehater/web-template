@@ -2,11 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import z from 'zod'
 
 import { login } from '@/app/(cms)/_features/login'
 
-import { formSchema } from './schema'
+import { loginFormSchema, LoginFormSchemaType } from './schema'
 
 export function useLogin() {
   const router = useRouter()
@@ -14,15 +13,15 @@ export function useLogin() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<LoginFormSchemaType>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       userId: '',
       password: '',
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: LoginFormSchemaType) {
     if (isLoading) return
 
     setIsLoading(true)
@@ -33,7 +32,7 @@ export function useLogin() {
       const result = await login(userId, password)
 
       if (result?.error) {
-        setError('아이디 또는 비밀번호가 올바르지 않습니다.')
+        setError(result.error)
         return
       }
 

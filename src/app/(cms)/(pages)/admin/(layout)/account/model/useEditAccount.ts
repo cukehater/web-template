@@ -5,12 +5,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 export const useEditAccount = (initialUsers: User[]) => {
-  const [users, setUsers] = useState(() =>
-    initialUsers.map(user => ({
-      ...user,
-      createdAt: user.createdAt.toLocaleDateString('ko-KR'),
-    })),
-  )
+  const [users, setUsers] = useState(initialUsers)
 
   const handleSave = async (id: string, updatedData: Partial<User>) => {
     const res = await fetch('/api/account', {
@@ -23,7 +18,7 @@ export const useEditAccount = (initialUsers: User[]) => {
     })
 
     if (!res.ok) {
-      toast.error('관리자 계정 정보 수정을 실패했습니다.', {
+      toast.error('관리자 계정 정보 수정에 실패했습니다.', {
         position: 'top-right',
         richColors: true,
       })
@@ -37,7 +32,7 @@ export const useEditAccount = (initialUsers: User[]) => {
       ),
     )
 
-    toast.success('관리자 계정 정보 수정이 완료되었습니다.', {
+    toast.success('관리자 계정 정보가 수정되었습니다.', {
       position: 'top-right',
       richColors: true,
     })
