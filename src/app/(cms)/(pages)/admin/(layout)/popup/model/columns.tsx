@@ -11,7 +11,7 @@ export const columns: EditableTableColumn<Popup>[] = [
   {
     key: 'isActive',
     title: '노출 여부',
-    width: '70px',
+    width: '100px',
     render: value =>
       value ? (
         <Eye className='size-4 inline-block' />

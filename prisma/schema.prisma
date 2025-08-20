@@ -33,6 +33,29 @@ model RefreshToken {
   @@index([userId])
 }
 
+model Settings {
+  id String @id @default("settings")
+  companyName String
+  representative String
+  tel String
+  fax String
+  email String
+  address String
+  businessNumber String
+  industry String
+  favicon String?
+  title String
+  description String
+  keywords String
+  ogTitle String
+  ogDescription String
+  ogImage String?
+  googleAnalyticsId String
+  naverWebmasterId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Popup {
   id        String   @id @default(cuid())
   title     String

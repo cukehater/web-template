@@ -1,12 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
-import { settingsSchema } from './schema'
-import { SettingForm } from './type'
+import { settingFormSchema, SettingsFormSchemaType } from './schema'
 
 export function useSettingForm() {
-  const form = useForm<SettingForm>({
-    resolver: zodResolver(settingsSchema),
+  const form = useForm<SettingsFormSchemaType>({
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       companyName: '',
       representative: '',
@@ -16,18 +16,41 @@ export function useSettingForm() {
       address: '',
       businessNumber: '',
       industry: '',
+      favicon: null,
       title: '',
       description: '',
       keywords: '',
       ogTitle: '',
       ogDescription: '',
+      ogImage: null,
       googleAnalyticsId: '',
       naverWebmasterId: '',
     },
   })
 
-  function onSubmit(values: SettingForm) {
-    // TODO: API 호출 로직 추가
+  async function onSubmit(values: SettingsFormSchemaType) {
+    const res = await fetch('/api/settings', {
+      method: 'POST',
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+
+    if (!res.ok) {
+      toast.error('설정 저장에 실패했습니다.', {
+        position: 'top-right',
+        richColors: true,
+      })
+
+      return
+    }
+
+    toast.success('설정을 성공적으로 저장했습니다.', {
+      position: 'top-right',
+      richColors: true,
+    })
   }
 
   return { form, onSubmit }
