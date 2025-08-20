@@ -5,5 +5,7 @@ export const ALLOWED_TYPES = {
     'image/gif',
     'image/webp',
     'image/svg+xml',
+    'image/avif',
+    'image/vnd.microsoft.icon',
   ],
 }

@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -11,6 +12,7 @@ import {
 import { basicFormSchema, BasicFormSchemaType } from './schema'
 
 export function useBasicForm() {
+  const router = useRouter()
   const form = useForm<BasicFormSchemaType>({
     resolver: zodResolver(basicFormSchema),
     defaultValues: {
@@ -65,8 +67,8 @@ export function useBasicForm() {
         }
 
         // 파비콘 파일 크기 제한
-        if (key === 'favicon' && value.size > 1024 * 16) {
-          errorToast(`파비콘 ${ALERT_MESSAGE.FILE_SIZE} (16KB)`)
+        if (key === 'favicon' && value.size > 1024 * 32) {
+          errorToast(`파비콘 ${ALERT_MESSAGE.FILE_SIZE} (32KB)`)
           return
         }
 
@@ -108,6 +110,7 @@ export function useBasicForm() {
       }
 
       successToast(ALERT_MESSAGE.SAVE_SUCCESS)
+      router.refresh()
     } catch {
       errorToast(ALERT_MESSAGE.SERVER_ERROR)
       return

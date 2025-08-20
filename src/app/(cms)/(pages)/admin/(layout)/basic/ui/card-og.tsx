@@ -73,6 +73,7 @@ export default function CardOpenGraph({
               <FormControl>
                 <Input
                   accept='image/*'
+                  name={field.name}
                   type='file'
                   onChange={e => field.onChange(e.target.files?.[0])}
                 />
@@ -82,7 +83,7 @@ export default function CardOpenGraph({
                 1200x630px
               </FormDescription>
               <FormMessage />
-              {field.value && <ImagePreview alt='ogImage' src={field.value} />}
+              {field.value && <ImagePreview alt='logo' field={field} />}
             </FormItem>
           )}
         />
