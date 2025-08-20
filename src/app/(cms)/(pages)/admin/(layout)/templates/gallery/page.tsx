@@ -190,7 +190,7 @@ export default function GalleryPage() {
           </p>
         </div>
         <Button>
-          <Plus className='mr-2 h-4 w-4' />새 게시물 추가
+          <Plus className='mr-2 size-4' />새 게시물 추가
         </Button>
       </div>
 
@@ -378,7 +378,7 @@ export default function GalleryPage() {
                           variant='outline'
                           onClick={() => handleSave(post.id)}
                         >
-                          <Save className='h-4 w-4' />
+                          <Save className='size-4' />
                         </Button>
                         <Button
                           className='h-8 w-8 p-0'
@@ -386,30 +386,30 @@ export default function GalleryPage() {
                           variant='outline'
                           onClick={handleCancel}
                         >
-                          <X className='h-4 w-4' />
+                          <X className='size-4' />
                         </Button>
                       </div>
                     ) : (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button className='h-8 w-8 p-0' variant='ghost'>
-                            <MoreHorizontal className='h-4 w-4' />
+                            <MoreHorizontal className='size-4' />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align='end'>
                           <DropdownMenuItem onClick={() => handleEdit(post)}>
-                            <Pencil className='mr-2 h-4 w-4' />
+                            <Pencil className='mr-2 size-4' />
                             편집
                           </DropdownMenuItem>
                           <DropdownMenuItem>
-                            <Eye className='mr-2 h-4 w-4' />
+                            <Eye className='mr-2 size-4' />
                             미리보기
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             className='text-red-600'
                             onClick={() => handleDelete(post.id)}
                           >
-                            <Trash2 className='mr-2 h-4 w-4' />
+                            <Trash2 className='mr-2 size-4' />
                             삭제
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -426,7 +426,7 @@ export default function GalleryPage() {
       {/* 갤러리 뷰 토글 버튼 */}
       <div className='flex justify-center'>
         <Button className='w-full max-w-xs' variant='outline'>
-          <Image className='mr-2 h-4 w-4' />
+          <Image className='mr-2 size-4' />
           갤러리 뷰로 보기
         </Button>
       </div>

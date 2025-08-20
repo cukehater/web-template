@@ -11,13 +11,14 @@ import {
   Input,
 } from '@/app/(cms)/_shared/shadcn'
 import { FormCard } from '@/app/(cms)/_shared/ui'
+import ImagePreview from '@/app/(cms)/_shared/ui/image-preview'
 
-import { SettingForm } from '../model/type'
+import { BasicFormSchemaType } from '../model/schema'
 
 export default function CardCompany({
   form,
 }: {
-  form: UseFormReturn<SettingForm>
+  form: UseFormReturn<BasicFormSchemaType>
 }) {
   return (
     <FormCard icon={<Building2 className='size-5' />} title='회사 정보 관리'>
@@ -163,6 +164,26 @@ export default function CardCompany({
 
         <FormField
           control={form.control}
+          name='logo'
+          render={({ field }) => (
+            <FormItem className='md:col-span-2'>
+              <FormLabel className='text-sm font-medium'>로고</FormLabel>
+              <FormControl>
+                <Input
+                  accept='image/*'
+                  type='file'
+                  onChange={e => field.onChange(e.target.files?.[0])}
+                />
+              </FormControl>
+              <FormMessage />
+              <FormDescription>파일 크기: 1MB 이하</FormDescription>
+              {field.value && <ImagePreview alt='logo' src={field.value} />}
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name='favicon'
           render={({ field }) => (
             <FormItem className='md:col-span-2'>
@@ -175,9 +196,10 @@ export default function CardCompany({
                 />
               </FormControl>
               <FormDescription>
-                브라우저 탭에 표시될 아이콘입니다. 권장 크기: 32x32px
+                권장 사이즈: 32x32px / 파일 크기: 16KB 이하
               </FormDescription>
               <FormMessage />
+              {field.value && <ImagePreview alt='favicon' src={field.value} />}
             </FormItem>
           )}
         />

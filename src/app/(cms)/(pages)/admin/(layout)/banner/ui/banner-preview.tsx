@@ -113,9 +113,9 @@ export default function BannerPreview({ banners }: BannerPreviewProps) {
               onClick={handlePlayPause}
             >
               {isPlaying ? (
-                <Pause className='h-4 w-4' />
+                <Pause className='size-4' />
               ) : (
-                <Play className='h-4 w-4' />
+                <Play className='size-4' />
               )}
             </Button>
 

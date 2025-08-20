@@ -245,7 +245,7 @@ export default function BannerTable({
                     />
                     {!banner.isActive && (
                       <div className='absolute inset-0 bg-black/50 rounded flex items-center justify-center'>
-                        <EyeOff className='h-4 w-4 text-white' />
+                        <EyeOff className='size-4 text-white' />
                       </div>
                     )}
                   </div>
@@ -313,9 +313,9 @@ export default function BannerTable({
                       }
                     >
                       {banner.isActive ? (
-                        <EyeOff className='h-4 w-4' />
+                        <EyeOff className='size-4' />
                       ) : (
-                        <Eye className='h-4 w-4' />
+                        <Eye className='size-4' />
                       )}
                     </Button>
 
@@ -325,7 +325,7 @@ export default function BannerTable({
                       variant='ghost'
                       onClick={() => handleEdit(banner)}
                     >
-                      <Edit className='h-4 w-4' />
+                      <Edit className='size-4' />
                     </Button>
 
                     <Button
@@ -334,7 +334,7 @@ export default function BannerTable({
                       variant='ghost'
                       onClick={() => handleDelete(banner.id)}
                     >
-                      <Trash2 className='h-4 w-4' />
+                      <Trash2 className='size-4' />
                     </Button>
                   </div>
                 </TableCell>

@@ -277,7 +277,7 @@ export default function EditableTable<T extends Record<string, unknown>>({
                   colSpan={columns.length + 1}
                 >
                   <div className='flex items-center justify-center gap-2'>
-                    <Loader2 className='h-4 w-4 animate-spin' />
+                    <Loader2 className='size-4 animate-spin' />
                     데이터를 불러오는 중입니다.
                   </div>
                 </TableCell>
@@ -289,7 +289,7 @@ export default function EditableTable<T extends Record<string, unknown>>({
                   colSpan={columns.length + 1}
                 >
                   <div className='flex items-center justify-center gap-2'>
-                    <Frown className='h-4 w-4' />
+                    <Frown className='size-4' />
                     데이터가 없습니다.
                   </div>
                 </TableCell>
@@ -309,7 +309,7 @@ export default function EditableTable<T extends Record<string, unknown>>({
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button className='h-8 w-8 p-0' variant='ghost'>
-                          <MoreHorizontal className='h-4 w-4' />
+                          <MoreHorizontal className='size-4' />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align='end'>

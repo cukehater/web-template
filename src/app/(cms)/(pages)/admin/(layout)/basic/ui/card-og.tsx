@@ -12,13 +12,14 @@ import {
   Textarea,
 } from '@/app/(cms)/_shared/shadcn'
 import { FormCard } from '@/app/(cms)/_shared/ui'
+import ImagePreview from '@/app/(cms)/_shared/ui/image-preview'
 
-import { SettingForm } from '../model/type'
+import { BasicFormSchemaType } from '../model/schema'
 
 export default function CardOpenGraph({
   form,
 }: {
-  form: UseFormReturn<SettingForm>
+  form: UseFormReturn<BasicFormSchemaType>
 }) {
   return (
     <FormCard icon={<Share2 className='size-5' />} title='Open Graph 관리'>
@@ -81,6 +82,7 @@ export default function CardOpenGraph({
                 1200x630px
               </FormDescription>
               <FormMessage />
+              {field.value && <ImagePreview alt='ogImage' src={field.value} />}
             </FormItem>
           )}
         />

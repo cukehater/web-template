@@ -7,8 +7,9 @@ import {
   MoreVerticalIcon,
 } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { logout } from '@/app/(cms)/_features/logout'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,12 +20,24 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@//app/(cms)/_shared/shadcn'
-import { useSidebar } from '@//app/(cms)/_shared/shadcn/sidebar'
-import { logout } from '@/app/(cms)/_features/logout'
+} from '@/app/(cms)/_shared/shadcn'
+import { useSidebar } from '@/app/(cms)/_shared/shadcn/sidebar'
 
 export default function SiderHeader() {
+  const [data, setData] = useState(null)
   const { isMobile } = useSidebar()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/basic`,
+      ).then(res => res.json())
+
+      setData(res)
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <SidebarHeader>
@@ -40,7 +53,11 @@ export default function SiderHeader() {
                   <GalleryVerticalEnd className='size-4' />
                 </div>
                 <div className='grid flex-1 text-left text-sm leading-tight'>
-                  <span className='truncate font-semibold'>Acme Inc.</span>
+                  {data && (
+                    <span className='truncate font-semibold'>
+                      {data.companyName}
+                    </span>
+                  )}
                   <span className='truncate text-xs'>Administrator</span>
                 </div>
                 <MoreVerticalIcon className='ml-auto' />
@@ -52,9 +69,11 @@ export default function SiderHeader() {
               side={isMobile ? 'bottom' : 'right'}
               sideOffset={4}
             >
-              <DropdownMenuLabel className='text-xs text-muted-foreground'>
-                Acme Inc.
-              </DropdownMenuLabel>
+              {data && (
+                <DropdownMenuLabel className='text-xs text-muted-foreground'>
+                  {data.companyName}
+                </DropdownMenuLabel>
+              )}
               <DropdownMenuItem className='cursor-pointer p-2'>
                 <Link
                   className='flex items-center gap-2'

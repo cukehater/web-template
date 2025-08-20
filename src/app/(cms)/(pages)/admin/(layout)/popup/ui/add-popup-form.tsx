@@ -4,9 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import z from 'zod'
 
+import { errorToast, successToast } from '@/app/(cms)/_shared/lib'
 import {
   Button,
   Checkbox,
@@ -79,21 +79,12 @@ export default function AddPopupForm() {
       body: JSON.stringify(formData),
     })
 
-    console.log('res', res)
-
     if (!res.ok) {
-      toast.error('팝업 추가를 실패했습니다.', {
-        position: 'top-right',
-        richColors: true,
-      })
-
+      errorToast('팝업 추가를 실패했습니다.')
       return
     }
 
-    toast.success('팝업 추가가 완료되었습니다.', {
-      position: 'top-right',
-      richColors: true,
-    })
+    successToast('팝업 추가가 완료되었습니다.')
 
     form.reset()
     sheetCloseBtnRef.current?.click()

@@ -13,7 +13,7 @@ import { MenuItemType } from './types'
 export const ADMIN_MENUS: MenuItemType[] = [
   {
     title: '사이트 기본 설정',
-    url: '/admin/settings',
+    url: '/admin/basic',
     icon: Cog,
   },
   {

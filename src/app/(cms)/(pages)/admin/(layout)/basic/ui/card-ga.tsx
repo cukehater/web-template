@@ -12,12 +12,12 @@ import {
 } from '@/app/(cms)/_shared/shadcn'
 import { FormCard } from '@/app/(cms)/_shared/ui'
 
-import { SettingForm } from '../model/type'
+import { BasicFormSchemaType } from '../model/schema'
 
 export default function CardGoogleAnalytics({
   form,
 }: {
-  form: UseFormReturn<SettingForm>
+  form: UseFormReturn<BasicFormSchemaType>
 }) {
   return (
     <FormCard

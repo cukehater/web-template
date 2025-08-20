@@ -150,9 +150,9 @@ export default function BannerForm({
                     onClick={() => setShowImagePreview(!showImagePreview)}
                   >
                     {showImagePreview ? (
-                      <EyeOff className='h-4 w-4' />
+                      <EyeOff className='size-4' />
                     ) : (
-                      <Eye className='h-4 w-4' />
+                      <Eye className='size-4' />
                     )}
                   </Button>
                 </div>
@@ -218,7 +218,7 @@ export default function BannerForm({
                       variant='outline'
                       onClick={() => setShowImagePreview(!showImagePreview)}
                     >
-                      <Upload className='h-4 w-4' />
+                      <Upload className='size-4' />
                     </Button>
                   </div>
                 </FormControl>
@@ -291,7 +291,7 @@ export default function BannerForm({
                           ) : (
                             <span>날짜를 선택하세요</span>
                           )}
-                          <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+                          <CalendarIcon className='ml-auto size-4 opacity-50' />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -330,7 +330,7 @@ export default function BannerForm({
                           ) : (
                             <span>날짜를 선택하세요</span>
                           )}
-                          <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+                          <CalendarIcon className='ml-auto size-4 opacity-50' />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>

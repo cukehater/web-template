@@ -6,20 +6,20 @@ import { useEffect } from 'react'
 import { Button, Form } from '@/app/(cms)/_shared/shadcn'
 import { PageTopTitle } from '@/app/(cms)/_shared/ui'
 
-import { SettingsFormSchemaType } from '../model/schema'
-import { useSettingForm } from '../model/useSettingForm'
+import { BasicFormSchemaType } from '../model/schema'
+import { useBasicForm } from '../model/useBasicForm'
 import CardCompany from './card-company'
 import CardGoogleAnalytics from './card-ga'
 import CardNaver from './card-naver'
 import CardOpenGraph from './card-og'
 import CardSEO from './card-seo'
 
-export default function SettingsCards({
+export default function Container({
   initialData,
 }: {
-  initialData: SettingsFormSchemaType | null
+  initialData: BasicFormSchemaType | null
 }) {
-  const { form, onSubmit } = useSettingForm()
+  const { form, onSubmit } = useBasicForm()
 
   useEffect(() => {
     if (initialData) {

@@ -18,7 +18,7 @@ export default function Breadcrumb() {
   const { breadcrumbPath } = useBreadcrumbPath()
 
   return (
-    <header className='flex h-16 shrink-0 items-center gap-2 border-b px-4'>
+    <header className='flex h-16 shrink-0 items-center gap-2 border-b px-8'>
       <SidebarTrigger className='-ml-1' />
       <Separator
         className='mr-2 data-[orientation=vertical]:h-4'

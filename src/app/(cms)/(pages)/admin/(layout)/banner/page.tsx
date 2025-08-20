@@ -39,7 +39,7 @@ export default async function Page() {
           <Sheet>
             <SheetTrigger asChild>
               <Button size='sm' variant='outline'>
-                <Settings className='h-4 w-4 mr-2' />
+                <Settings className='size-4 mr-2' />
                 설정
               </Button>
             </SheetTrigger>
@@ -77,7 +77,7 @@ export default async function Page() {
           <Sheet>
             <SheetTrigger asChild>
               <Button>
-                <Plus className='h-4 w-4 mr-2' />
+                <Plus className='size-4 mr-2' />
                 배너 추가
               </Button>
             </SheetTrigger>
@@ -115,7 +115,7 @@ export default async function Page() {
               <Sheet>
                 <SheetTrigger asChild>
                   <Button size='sm'>
-                    <Plus className='h-4 w-4 mr-2' />
+                    <Plus className='size-4 mr-2' />
                     배너 추가
                   </Button>
                 </SheetTrigger>

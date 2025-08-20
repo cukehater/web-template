@@ -2,7 +2,8 @@
 
 import { User } from '@prisma/client'
 import { useState } from 'react'
-import { toast } from 'sonner'
+
+import { errorToast, successToast } from '@/app/(cms)/_shared/lib'
 
 export const useEditAccount = (initialUsers: User[]) => {
   const [users, setUsers] = useState(initialUsers)
@@ -18,11 +19,7 @@ export const useEditAccount = (initialUsers: User[]) => {
     })
 
     if (!res.ok) {
-      toast.error('관리자 계정 정보 수정에 실패했습니다.', {
-        position: 'top-right',
-        richColors: true,
-      })
-
+      errorToast('관리자 계정 정보 수정에 실패했습니다.')
       return
     }
 
@@ -32,10 +29,7 @@ export const useEditAccount = (initialUsers: User[]) => {
       ),
     )
 
-    toast.success('관리자 계정 정보가 수정되었습니다.', {
-      position: 'top-right',
-      richColors: true,
-    })
+    successToast('관리자 계정 정보가 수정되었습니다.')
   }
 
   return {

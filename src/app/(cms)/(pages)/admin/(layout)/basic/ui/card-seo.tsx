@@ -13,12 +13,12 @@ import {
 } from '@/app/(cms)/_shared/shadcn'
 import { FormCard } from '@/app/(cms)/_shared/ui'
 
-import { SettingForm } from '../model/type'
+import { BasicFormSchemaType } from '../model/schema'
 
 export default function CardSEO({
   form,
 }: {
-  form: UseFormReturn<SettingForm>
+  form: UseFormReturn<BasicFormSchemaType>
 }) {
   return (
     <FormCard icon={<Search className='size-5' />} title='SEO 관리'>
