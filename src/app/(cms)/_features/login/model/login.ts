@@ -1,7 +1,7 @@
 export default async function login(userId: string, password: string) {
+  // TODO: POST 요청 공통 처리 필요
   const res = await fetch('/api/auth/login', {
     method: 'POST',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
     body: JSON.stringify({ userId, password }),
@@ -12,6 +12,6 @@ export default async function login(userId: string, password: string) {
     return { user }
   } else {
     const error = await res.json()
-    return error
+    return { error }
   }
 }

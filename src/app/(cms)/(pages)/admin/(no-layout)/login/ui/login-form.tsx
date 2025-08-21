@@ -15,9 +15,9 @@ import {
   Input,
 } from '@/app/(cms)/_shared/shadcn'
 
-import { useLogin } from '../model/useLogin'
+import { useLogin } from '../model/use-login'
 
-export default function LoginForm() {
+export default function LoginForm({ logo = '' }: { logo?: string }) {
   const { onSubmit, form, isLoading, error } = useLogin()
 
   return (
@@ -29,9 +29,13 @@ export default function LoginForm() {
         >
           <div className='flex flex-col gap-6'>
             <div className='flex flex-col items-center gap-2'>
-              <div className='flex size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground'>
-                <GalleryVerticalEnd className='size-6' />
-              </div>
+              {logo ? (
+                <img alt='logo' className='max-w-40' src={logo} />
+              ) : (
+                <div className='flex size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground'>
+                  <GalleryVerticalEnd className='size-6' />
+                </div>
+              )}
               <h3 className='text-xl font-bold'>Administrator</h3>
             </div>
             <FormField

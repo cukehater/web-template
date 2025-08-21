@@ -1,5 +1,4 @@
 import { X } from 'lucide-react'
-import Image from 'next/image'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
 
 import { Button } from '../shadcn'
@@ -30,7 +29,7 @@ export default function ImagePreview<T extends FieldValues>({
 
   return (
     <div className='relative p-1 border border-gray-200 rounded-md inline-block self-start mt-2 bg-white'>
-      <Image
+      <img
         alt={alt}
         className='rounded-md'
         height={height}

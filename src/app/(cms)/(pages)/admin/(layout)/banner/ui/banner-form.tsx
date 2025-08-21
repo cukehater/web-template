@@ -297,13 +297,12 @@ export default function BannerForm({
                     </PopoverTrigger>
                     <PopoverContent align='start' className='w-auto p-0'>
                       <Calendar
-                        initialFocus
                         disabled={date =>
                           date < new Date(new Date().setHours(0, 0, 0, 0))
                         }
                         mode='single'
                         selected={field.value}
-                        onSelect={field.onChange}
+                        onSelect={() => field.onChange()}
                       />
                     </PopoverContent>
                   </Popover>
@@ -336,13 +335,12 @@ export default function BannerForm({
                     </PopoverTrigger>
                     <PopoverContent align='start' className='w-auto p-0'>
                       <Calendar
-                        initialFocus
                         disabled={date =>
                           date < new Date(new Date().setHours(0, 0, 0, 0))
                         }
                         mode='single'
                         selected={field.value}
-                        onSelect={field.onChange}
+                        onSelect={() => field.onChange()}
                       />
                     </PopoverContent>
                   </Popover>
@@ -366,7 +364,7 @@ export default function BannerForm({
                 <FormControl>
                   <Switch
                     checked={field.value}
-                    onCheckedChange={field.onChange}
+                    onCheckedChange={() => field.onChange()}
                   />
                 </FormControl>
               </FormItem>
@@ -378,7 +376,7 @@ export default function BannerForm({
               취소
             </Button>
             <Button disabled={isSubmitting} type='submit'>
-              {isSubmitting ? '저장 중...' : banner ? '수정' : '추가'}
+              {banner ? '수정' : '추가'}
             </Button>
           </div>
         </form>

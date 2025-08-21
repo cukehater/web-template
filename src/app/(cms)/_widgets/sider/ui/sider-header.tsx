@@ -2,19 +2,20 @@
 
 import {
   GalleryVerticalEnd,
-  GlobeIcon,
+  Link2Icon,
   LogOutIcon,
   MoreVerticalIcon,
 } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { logout } from '@/app/(cms)/_features/logout'
+import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
   SidebarHeader,
   SidebarMenu,
@@ -23,21 +24,12 @@ import {
 } from '@/app/(cms)/_shared/shadcn'
 import { useSidebar } from '@/app/(cms)/_shared/shadcn/sidebar'
 
-export default function SiderHeader() {
-  const [data, setData] = useState(null)
+export default function SiderHeader({
+  basicData,
+}: {
+  basicData: BasicFormSchemaType
+}) {
   const { isMobile } = useSidebar()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/basic`,
-      ).then(res => res.json())
-
-      setData(res)
-    }
-
-    fetchData()
-  }, [])
 
   return (
     <SidebarHeader>
@@ -49,15 +41,23 @@ export default function SiderHeader() {
                 className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                 size='lg'
               >
-                <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
-                  <GalleryVerticalEnd className='size-4' />
-                </div>
+                {basicData?.favicon ? (
+                  <Image
+                    alt={basicData?.companyName}
+                    height={24}
+                    src={basicData?.favicon as string}
+                    width={24}
+                  />
+                ) : (
+                  <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
+                    <GalleryVerticalEnd className='size-4' />
+                  </div>
+                )}
+
                 <div className='grid flex-1 text-left text-sm leading-tight'>
-                  {data && (
-                    <span className='truncate font-semibold'>
-                      {data.companyName}
-                    </span>
-                  )}
+                  <span className='truncate font-semibold'>
+                    {basicData?.companyName || ''}
+                  </span>
                   <span className='truncate text-xs'>Administrator</span>
                 </div>
                 <MoreVerticalIcon className='ml-auto' />
@@ -69,18 +69,13 @@ export default function SiderHeader() {
               side={isMobile ? 'bottom' : 'right'}
               sideOffset={4}
             >
-              {data && (
-                <DropdownMenuLabel className='text-xs text-muted-foreground'>
-                  {data.companyName}
-                </DropdownMenuLabel>
-              )}
               <DropdownMenuItem className='cursor-pointer p-2'>
                 <Link
                   className='flex items-center gap-2'
                   href='/'
                   target='_blank'
                 >
-                  <GlobeIcon className='size-4' />
+                  <Link2Icon className='size-4' />
                   <div className='font-medium text-muted-foreground'>
                     사이트로 이동
                   </div>

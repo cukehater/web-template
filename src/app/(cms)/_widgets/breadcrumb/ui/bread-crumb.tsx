@@ -12,7 +12,7 @@ import {
   SidebarTrigger,
 } from '@//app/(cms)/_shared/shadcn'
 
-import { useBreadcrumbPath } from '../model/useBreadcrumbPath'
+import { useBreadcrumbPath } from '../model/use-breadcrumb-path'
 
 export default function Breadcrumb() {
   const { breadcrumbPath } = useBreadcrumbPath()

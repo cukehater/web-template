@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { login } from '@/app/(cms)/_features/login'
+import { ALERT_MESSAGE } from '@/app/(cms)/_shared/lib'
 
 import { loginFormSchema, LoginFormSchemaType } from './schema'
 
@@ -38,7 +39,7 @@ export function useLogin() {
 
       router.push('/admin')
     } catch {
-      setError('로그인 중 오류가 발생했습니다.')
+      setError(ALERT_MESSAGE.REQUEST_ERROR)
     } finally {
       setIsLoading(false)
     }

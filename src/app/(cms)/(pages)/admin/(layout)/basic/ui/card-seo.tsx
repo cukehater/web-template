@@ -1,6 +1,7 @@
 import { Search } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
 
+import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import {
   FormControl,
   FormDescription,
@@ -12,8 +13,6 @@ import {
   Textarea,
 } from '@/app/(cms)/_shared/shadcn'
 import { FormCard } from '@/app/(cms)/_shared/ui'
-
-import { BasicFormSchemaType } from '../model/schema'
 
 export default function CardSEO({
   form,

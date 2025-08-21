@@ -154,8 +154,9 @@ export function ChartBarInteractive() {
             return (
               <button
                 key={chart}
-                data-active={activeChart === chart}
                 className='data-[active=true]:bg-muted/50 relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l sm:border-t-0 sm:border-l sm:px-8 sm:py-6'
+                data-active={activeChart === chart}
+                type='button'
                 onClick={() => setActiveChart(chart)}
               >
                 <span className='text-muted-foreground text-xs'>
@@ -171,8 +172,8 @@ export function ChartBarInteractive() {
       </CardHeader>
       <CardContent className='px-2 sm:p-6'>
         <ChartContainer
-          config={chartConfig}
           className='aspect-auto h-[250px] w-full'
+          config={chartConfig}
         >
           <BarChart
             accessibilityLayer
@@ -184,10 +185,8 @@ export function ChartBarInteractive() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey='date'
-              tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              dataKey='date'
               minTickGap={32}
               tickFormatter={value => {
                 const date = new Date(value)
@@ -196,12 +195,13 @@ export function ChartBarInteractive() {
                   day: 'numeric',
                 })
               }}
+              tickLine={false}
+              tickMargin={8}
             />
             <ChartTooltip
               content={
                 <ChartTooltipContent
                   className='w-[150px]'
-                  nameKey='views'
                   labelFormatter={value => {
                     return new Date(value).toLocaleDateString('ko-KR', {
                       month: 'short',
@@ -209,6 +209,7 @@ export function ChartBarInteractive() {
                       year: 'numeric',
                     })
                   }}
+                  nameKey='views'
                 />
               }
             />

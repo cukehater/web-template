@@ -138,9 +138,8 @@ function SidebarProvider({
           data-slot='sidebar-wrapper'
           style={
             {
-              // eslint-disable-next-line @typescript-eslint/naming-convention
               '--sidebar-width': SIDEBAR_WIDTH,
-              // eslint-disable-next-line @typescript-eslint/naming-convention
+
               '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
               ...style,
             } as React.CSSProperties
@@ -726,5 +725,6 @@ export {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
+  // eslint-disable-next-line react-refresh/only-export-components
   useSidebar,
 }

@@ -12,7 +12,7 @@ export async function GET() {
 
     return NextResponse.json(basicData)
   } catch {
-    return NextResponse.json(ALERT_MESSAGE.SERVER_ERROR, { status: 500 })
+    return NextResponse.json(ALERT_MESSAGE.REQUEST_ERROR, { status: 500 })
   }
 }
 
@@ -31,8 +31,8 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json(ALERT_MESSAGE.REQUEST_SUCCESS)
   } catch {
-    return NextResponse.json(ALERT_MESSAGE.SERVER_ERROR, { status: 500 })
+    return NextResponse.json(ALERT_MESSAGE.REQUEST_ERROR, { status: 500 })
   }
 }

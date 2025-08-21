@@ -50,7 +50,7 @@ async function handleAdminPageAccess(
 ): Promise<NextResponse> {
   // 액세스 토큰이 없는 경우
   if (!accessToken) {
-    console.log('❌ 액세스 토큰 없음')
+    console.warn('❌ 액세스 토큰 없음')
     return await handleMissingAccessToken(request, refreshToken)
   }
 
@@ -65,7 +65,7 @@ async function handleAdminPageAccess(
     }
 
     // 토큰이 유효한 경우 정상 처리
-    console.log('✅ 액세스 토큰 유효성 검증 성공')
+    console.warn('✅ 액세스 토큰 유효성 검증 성공')
     return NextResponse.next()
   } catch (error) {
     if (error instanceof TokenVerificationError) {
@@ -138,7 +138,7 @@ async function issueNewTokens(
   refreshToken: string,
 ): Promise<NextResponse> {
   try {
-    console.log('🔁 리프레시 토큰 로테이션')
+    console.warn('🔁 리프레시 토큰 로테이션')
 
     // 토큰 로테이션을 위한 API 호출
     const response = await fetch(`${request.nextUrl.origin}/api/auth/refresh`, {

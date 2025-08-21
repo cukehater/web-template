@@ -57,7 +57,6 @@ interface BannerTableProps {
 
 export default function BannerTable({
   initialData,
-  onEdit,
   onDelete,
   onToggleActive,
 }: BannerTableProps) {

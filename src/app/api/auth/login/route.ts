@@ -10,6 +10,7 @@ import {
   setHttpOnlyCookie,
   validateUser,
 } from '@/app/(cms)/_entities/auth'
+import { ALERT_MESSAGE } from '@/app/(cms)/_shared/lib'
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,10 +19,7 @@ export async function POST(request: NextRequest) {
     const user = await validateUser(userId, password)
 
     if (!user) {
-      return NextResponse.json(
-        { error: '아이디 또는 비밀번호가 올바르지 않습니다.' },
-        { status: 401 },
-      )
+      return NextResponse.json(ALERT_MESSAGE.LOGIN_ERROR, { status: 401 })
     }
 
     const accessToken = await generateAccessToken({
@@ -39,7 +37,7 @@ export async function POST(request: NextRequest) {
     await deleteUserRefreshToken(user.userId)
     await saveRefreshToken(refreshToken, user.userId)
 
-    const response = NextResponse.json({ success: true })
+    const response = NextResponse.json(ALERT_MESSAGE.REQUEST_SUCCESS)
 
     setHttpOnlyCookie(
       response,
@@ -56,9 +54,6 @@ export async function POST(request: NextRequest) {
 
     return response
   } catch {
-    return NextResponse.json(
-      { error: '로그인 중 오류가 발생했습니다.' },
-      { status: 500 },
-    )
+    return NextResponse.json(ALERT_MESSAGE.REQUEST_ERROR, { status: 500 })
   }
 }

@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import z from 'zod'
 
@@ -50,7 +50,6 @@ type FormSchemaType = z.infer<typeof formSchema>
 export default function AddPopupForm() {
   const sheetCloseBtnRef = useRef<HTMLButtonElement>(null)
   const router = useRouter()
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
@@ -73,7 +72,6 @@ export default function AddPopupForm() {
     const res = await fetch('/api/popup/create', {
       method: 'POST',
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),

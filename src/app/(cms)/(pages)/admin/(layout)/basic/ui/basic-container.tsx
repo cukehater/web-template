@@ -1,31 +1,24 @@
 'use client'
 
 import { Cog, Loader2, Save } from 'lucide-react'
-import { useEffect } from 'react'
 
+import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import { Button, Form } from '@/app/(cms)/_shared/shadcn'
 import { PageTopTitle } from '@/app/(cms)/_shared/ui'
 
-import { BasicFormSchemaType } from '../model/schema'
-import { useBasicForm } from '../model/useBasicForm'
+import { useBasicForm } from '../model/use-basic-form'
 import CardCompany from './card-company'
 import CardGoogleAnalytics from './card-ga'
 import CardNaver from './card-naver'
 import CardOpenGraph from './card-og'
 import CardSEO from './card-seo'
 
-export default function Container({
+export default function BasicContainer({
   initialData,
 }: {
-  initialData: BasicFormSchemaType | null
+  initialData: BasicFormSchemaType
 }) {
-  const { form, onSubmit } = useBasicForm()
-
-  useEffect(() => {
-    if (initialData) {
-      form.reset(initialData)
-    }
-  }, [initialData, form])
+  const { form, onSubmit } = useBasicForm(initialData)
 
   return (
     <>

@@ -1,7 +1,8 @@
 'use client'
 
 import { ExternalLink, Pause, Play } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { uuidv4 } from 'zod'
 
 import {
   Badge,
@@ -36,6 +37,15 @@ interface BannerPreviewProps {
 export default function BannerPreview({ banners }: BannerPreviewProps) {
   const [isPlaying, setIsPlaying] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    if (isPlaying) {
+      const interval = setInterval(() => {
+        setCurrentIndex(prev => (prev + 1) % banners.length)
+      }, 5000)
+      return () => clearInterval(interval)
+    }
+  }, [isPlaying, banners.length])
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying)
@@ -122,7 +132,7 @@ export default function BannerPreview({ banners }: BannerPreviewProps) {
             <div className='flex gap-1'>
               {banners.map((_, index) => (
                 <div
-                  key={index}
+                  key={uuidv4().toString()}
                   className={`w-2 h-2 rounded-full transition-colors ${
                     index === currentIndex ? 'bg-white' : 'bg-white/40'
                   }`}

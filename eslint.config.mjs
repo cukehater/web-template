@@ -101,6 +101,11 @@ export default tseslint.config(
           selector: 'method',
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
         },
+        // objectLiteralProperty 변수: camelCase, PascalCase, UPPER_CASE(상수) 허용
+        {
+          selector: 'objectLiteralProperty',
+          format: [],
+        },
       ],
 
       // ✅ React JSX 규칙

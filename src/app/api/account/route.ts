@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { prisma } from '@/app/(cms)/_shared/lib'
+import { ALERT_MESSAGE, prisma } from '@/app/(cms)/_shared/lib'
 
 export const PATCH = async (req: NextRequest) => {
   const payload = await req.json()
@@ -15,8 +15,8 @@ export const PATCH = async (req: NextRequest) => {
       },
     })
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json(ALERT_MESSAGE.REQUEST_SUCCESS)
   } catch {
-    return NextResponse.json({ success: false }, { status: 500 })
+    return NextResponse.json(ALERT_MESSAGE.REQUEST_ERROR, { status: 500 })
   }
 }

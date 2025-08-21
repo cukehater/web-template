@@ -5,7 +5,7 @@ import { User } from '@prisma/client'
 import { EditableTable } from '@/app/(cms)/_shared/ui'
 
 import { columns, dialogColumns } from '../model/columns'
-import { useEditAccount } from '../model/useEditAccount'
+import { useEditAccount } from '../model/use-edit-account'
 
 export default function AccountTable({
   initialUsers,

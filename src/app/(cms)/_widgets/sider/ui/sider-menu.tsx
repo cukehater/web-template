@@ -16,7 +16,7 @@ import {
 } from '@//app/(cms)/_shared/shadcn'
 import { ADMIN_MENUS } from '@/app/(cms)/_entities/admin-menu'
 
-import useActiveMenu from '../model/useActiveMenu'
+import useActiveMenu from '../model/use-active-menu'
 
 export default function SiderMenu() {
   const { pathname, isMenuActive } = useActiveMenu()

@@ -12,7 +12,6 @@ export const useEditAccount = (initialUsers: User[]) => {
     const res = await fetch('/api/account', {
       method: 'PATCH',
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(updatedData),

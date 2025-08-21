@@ -1,22 +1,15 @@
-import { ALERT_MESSAGE, errorToast } from '@/app/(cms)/_shared/lib'
+import { apiGet } from '@/app/(cms)/_shared/api'
+import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 
-import Container from './ui/container'
+import BasicContainer from './ui/basic-container'
 
 export default async function Page() {
-  let initialData
+  const { data: initialData, error } = await apiGet<BasicFormSchemaType>(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/basic`,
+  )
 
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/basic`)
+  // TODO: 에러 페이지 추가
+  if (error) return <div>{error}</div>
 
-    if (!res.ok) {
-      throw Error('')
-    }
-
-    initialData = await res.json()
-  } catch {
-    errorToast(ALERT_MESSAGE.SERVER_ERROR)
-    initialData = null
-  }
-
-  return <Container initialData={initialData} />
+  return <BasicContainer initialData={initialData} />
 }

@@ -6,39 +6,33 @@ import {
   ALERT_MESSAGE,
   ALLOWED_TYPES,
   errorToast,
+  infoToast,
   successToast,
 } from '@/app/(cms)/_shared/lib'
+import {
+  basicFormSchema,
+  BasicFormSchemaType,
+} from '@/app/(cms)/_shared/schema'
 
-import { basicFormSchema, BasicFormSchemaType } from './schema'
-
-export function useBasicForm() {
+export function useBasicForm(initialData: BasicFormSchemaType) {
   const router = useRouter()
   const form = useForm<BasicFormSchemaType>({
     resolver: zodResolver(basicFormSchema),
-    defaultValues: {
-      companyName: '',
-      representative: '',
-      tel: '',
-      fax: '',
-      email: '',
-      address: '',
-      businessNumber: '',
-      industry: '',
-      logo: '',
-      favicon: '',
-      title: '',
-      description: '',
-      keywords: '',
-      ogTitle: '',
-      ogDescription: '',
-      ogImage: '',
-      googleAnalyticsId: '',
-      naverWebmasterId: '',
-    },
+    defaultValues: initialData,
   })
 
   async function onSubmit(values: BasicFormSchemaType) {
     try {
+      // 변경사항 없으면 저장 실패
+      const watchedValues = form.watch()
+      const hasChanges =
+        JSON.stringify(watchedValues) !== JSON.stringify(initialData)
+
+      if (!hasChanges) {
+        infoToast(ALERT_MESSAGE.NO_CHANGES)
+        return
+      }
+
       const fileKeys = ['logo', 'favicon', 'ogImage']
       const fileFormData = new FormData()
 
@@ -86,7 +80,7 @@ export function useBasicForm() {
 
       if (!uploadRes.ok) {
         const errorMessage = await uploadRes.json()
-        errorToast(errorMessage || ALERT_MESSAGE.SERVER_ERROR)
+        errorToast(errorMessage || ALERT_MESSAGE.REQUEST_ERROR)
         return
       }
 
@@ -95,7 +89,6 @@ export function useBasicForm() {
       const res = await fetch('/api/basic', {
         method: 'POST',
         headers: {
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -112,7 +105,7 @@ export function useBasicForm() {
       successToast(ALERT_MESSAGE.SAVE_SUCCESS)
       router.refresh()
     } catch {
-      errorToast(ALERT_MESSAGE.SERVER_ERROR)
+      errorToast(ALERT_MESSAGE.REQUEST_ERROR)
       return
     }
   }

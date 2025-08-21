@@ -32,10 +32,10 @@ export async function POST(request: NextRequest) {
     }
 
     if (refreshToken !== currentRefreshToken) {
-      console.log('currentRefreshToken', currentRefreshToken)
-      console.log('refreshToken', refreshToken)
+      console.warn('currentRefreshToken', currentRefreshToken)
+      console.warn('refreshToken', refreshToken)
 
-      console.log('❌ 리프레시 토큰 불일치')
+      console.warn('❌ 리프레시 토큰 불일치')
       const response = NextResponse.json({
         error: 'Invalid refresh token',
       })
