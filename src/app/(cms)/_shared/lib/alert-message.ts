@@ -13,4 +13,6 @@ export const ALERT_MESSAGE = {
   FILE: '파일을 선택해 주세요',
   FILE_FORMAT: '지원하지 않는 파일 형식입니다',
   FILE_SIZE: '파일 크기가 제한을 초과했습니다',
+  ORDER_CHANGE_FIRST: '더 이상 위로 이동할 수 없습니다.',
+  ORDER_CHANGE_LAST: '더 이상 아래로 이동할 수 없습니다.',
 }

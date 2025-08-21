@@ -8,7 +8,7 @@ export default function PageTopTitle({
   children,
 }: {
   title: string
-  icon: LucideIcon
+  icon?: LucideIcon
   description: string
   children?: React.ReactNode
 }) {
@@ -17,7 +17,7 @@ export default function PageTopTitle({
     <div className='flex justify-between md:items-center mb-2 flex-col md:flex-row'>
       <div className='mb-2 md:mb-0'>
         <h2 className='text-2xl font-semibold flex items-center gap-2'>
-          <Icon className='size-6' />
+          {Icon && <Icon className='size-6' />}
           <span>{title}</span>
         </h2>
         {description && (

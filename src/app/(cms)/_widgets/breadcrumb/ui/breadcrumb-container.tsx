@@ -14,7 +14,7 @@ import {
 
 import { useBreadcrumbPath } from '../model/use-breadcrumb-path'
 
-export default function Breadcrumb() {
+export default function BreadcrumbContainer() {
   const { breadcrumbPath } = useBreadcrumbPath()
 
   return (
@@ -24,7 +24,6 @@ export default function Breadcrumb() {
         className='mr-2 data-[orientation=vertical]:h-4'
         orientation='vertical'
       />
-
       <BreadcrumbList>
         {breadcrumbPath?.parent.map(item => (
           <React.Fragment key={uuid()}>

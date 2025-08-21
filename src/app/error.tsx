@@ -1,8 +1,5 @@
 'use client'
 
-import '@/app/styles/reset.css'
-import '@/app/styles/tailwind.css'
-
 import { OctagonX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'

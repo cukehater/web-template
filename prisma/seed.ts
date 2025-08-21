@@ -5,11 +5,9 @@ const prisma = new PrismaClient()
 
 async function main() {
   // 기존 데이터 삭제 (선택사항)
-  await prisma.post.deleteMany()
   await prisma.user.deleteMany()
 
-  // 사용자 생성
-  const admins = await Promise.all([
+  await Promise.all([
     prisma.user.create({
       data: {
         userId: 'master',
@@ -26,40 +24,112 @@ async function main() {
     }),
   ])
 
-  // 게시물 생성
-  const posts = await Promise.all([
-    prisma.post.create({
+  await Promise.all([
+    prisma.banner.create({
       data: {
-        title: '첫 번째 게시물',
-        content: '안녕하세요! 첫 번째 게시물입니다.',
-        author: admins[0].id,
-        isPublished: true,
+        title: '메인 배너 - 신제품 출시',
+        description: '새로운 제품이 출시되었습니다. 지금 확인해보세요!',
+        imageUrl:
+          'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=400&fit=crop',
+        linkUrl: 'https://example.com/new-product',
+        order: 1,
+        isActive: true,
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
       },
     }),
-    prisma.post.create({
+    prisma.banner.create({
       data: {
-        title: '두 번째 게시물',
-        content: '두 번째 게시물의 내용입니다.',
-        author: admins[1].id,
-        isPublished: false,
+        title: '특가 할인 이벤트',
+        description: '한정 시간 특가 할인! 놓치지 마세요.',
+        imageUrl:
+          'https://images.unsplash.com/photo-1607082349566-187342175e2f?w=1200&h=400&fit=crop',
+        linkUrl: 'https://example.com/sale',
+        order: 2,
+        isActive: true,
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-06-30'),
       },
     }),
-    prisma.post.create({
+    prisma.banner.create({
       data: {
-        title: '공지사항',
-        content: '중요한 공지사항입니다.',
-        author: admins[0].id,
-        isPublished: true,
+        title: '고객 서비스 안내',
+        description: '24시간 고객 서비스를 이용하실 수 있습니다.',
+        imageUrl:
+          'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=1200&h=400&fit=crop',
+        linkUrl: 'https://example.com/customer-service',
+        order: 3,
+        isActive: true,
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
+      },
+    }),
+    prisma.banner.create({
+      data: {
+        title: '시즌 한정 컬렉션',
+        description: '봄 시즌 한정 컬렉션을 만나보세요.',
+        imageUrl:
+          'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1200&h=400&fit=crop',
+        linkUrl: 'https://example.com/spring-collection',
+        order: 4,
+        isActive: false, // 비활성화된 배너
+        startDate: new Date('2024-03-01'),
+        endDate: new Date('2024-05-31'),
+      },
+    }),
+    prisma.banner.create({
+      data: {
+        title: '회원가입 혜택',
+        description: '신규 회원가입 시 10% 할인 쿠폰을 드립니다.',
+        imageUrl:
+          'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=400&fit=crop',
+        linkUrl: 'https://example.com/register',
+        order: 5,
+        isActive: true,
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
+      },
+    }),
+    prisma.banner.create({
+      data: {
+        title: '무료 배송 이벤트',
+        description: '5만원 이상 구매 시 무료 배송!',
+        imageUrl:
+          'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1200&h=400&fit=crop',
+        linkUrl: 'https://example.com/free-shipping',
+        order: 6,
+        isActive: true,
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
+      },
+    }),
+    prisma.banner.create({
+      data: {
+        title: '브랜드 스토리',
+        description: '우리 브랜드의 이야기를 들어보세요.',
+        imageUrl:
+          'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=400&fit=crop',
+        linkUrl: 'https://example.com/brand-story',
+        order: 7,
+        isActive: true,
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-12-31'),
+      },
+    }),
+    prisma.banner.create({
+      data: {
+        title: '이벤트 종료 예정',
+        description: '곧 종료되는 이벤트입니다. 서둘러 참여하세요!',
+        imageUrl:
+          'https://images.unsplash.com/photo-1607082349566-187342175e2f?w=1200&h=400&fit=crop',
+        linkUrl: 'https://example.com/ending-soon',
+        order: 8,
+        isActive: true,
+        startDate: new Date('2024-01-01'),
+        endDate: new Date('2024-02-29'), // 곧 종료되는 배너
       },
     }),
   ])
-
-  console.log('Seed 완료!')
-  console.log('생성된 사용자:', {
-    master: admins[0].userId,
-    admin: admins[1].userId,
-  })
-  console.log(`생성된 게시물: ${posts.length}개`)
 }
 
 main()

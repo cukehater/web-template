@@ -37,13 +37,13 @@ export default function ImagePreview<T extends FieldValues>({
         width={width}
       />
       <Button
-        className='absolute top-[-8px] right-[-8px] z-10 p-0 size-5 rounded-full'
-        size='icon'
+        className='absolute top-[-6px] right-[-6px] z-10 p-0.5 rounded-full'
+        size={null}
         type='button'
         variant='outline'
         onClick={handleDelete}
       >
-        <X className='size-3' />
+        <X className='size-2.5' />
       </Button>
     </div>
   )

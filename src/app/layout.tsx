@@ -1,3 +1,5 @@
+import '@/app/styles/styles.css'
+
 import { FONT_NOTO_SANS_KR } from '@/../public/fonts'
 
 export default function Layout({

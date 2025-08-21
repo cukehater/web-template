@@ -22,7 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@//app/(cms)/_shared/shadcn/tooltip'
-import { useIsMobile } from '@//app/(cms)/_shared/shadcn/use-mobile'
+import { useIsMobile } from '@/app/(cms)/_shared/model/use-mobile'
 
 import { cn } from '../lib'
 

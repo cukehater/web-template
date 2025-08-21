@@ -3,10 +3,16 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { ADMIN_MENUS, MenuItemType } from '@/app/(cms)/_entities/admin-menu'
 
-import { BreadcrumbPathType } from './types'
+type BreadcrumbPathType = {
+  title: string
+  url: string
+  parent: string[]
+}
 
 export function useBreadcrumbPath() {
-  const pathname = usePathname()
+  const pathname = usePathname().split('/').slice(0, 4).join('/')
+  console.log('pathname', pathname)
+
   const [breadcrumbPath, setBreadcrumbPath] = useState<BreadcrumbPathType>()
 
   const getBreadcrumbPath = useCallback(() => {

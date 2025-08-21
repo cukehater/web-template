@@ -1,5 +1,3 @@
-import '@/app/styles/web.css'
-
 export default function Layout({
   children,
 }: Readonly<{

@@ -1,3 +1,3 @@
 export default function Page() {
-  return <>Main Banner</>
+  return <>Contact</>
 }

@@ -21,7 +21,7 @@ export default function SiderContainer({
   children: React.ReactNode
 }) {
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <Sidebar className='group/sider' collapsible='icon'>
         <SiderHeader basicData={basicData} />
         <SidebarContent>

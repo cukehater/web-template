@@ -39,52 +39,32 @@ export const ADMIN_MENUS: MenuItemType[] = [
   {
     title: '콘텐츠 관리',
     icon: FileText,
-    items: [
-      {
-        title: '회사 소개',
-        url: '/',
-      },
-      {
-        title: '제품 소개',
-        url: '/',
-      },
-      {
-        title: '연혁',
-        url: '/',
-      },
-      {
-        title: 'News',
-        url: '/',
-      },
-      {
-        title: 'Gallery',
-        url: '/',
-      },
-      {
-        title: 'Contact',
-        url: '/',
-      },
-    ],
+    url: '#',
   },
   {
     title: '템플릿',
     icon: LayoutPanelTop,
+    url: '/admin/templates',
     items: [
       {
-        title: '연혁 관리',
-        url: '/admin/templates/history',
-      },
-      {
-        title: '일반 게시판 관리',
+        title: '일반 게시판',
         url: '/admin/templates/board',
       },
       {
-        title: '갤러리 게시판 관리',
+        title: '갤러리 게시판',
         url: '/admin/templates/gallery',
       },
       {
-        title: '캘린더 관리',
+        title: '연혁',
+        url: '/admin/templates/history',
+      },
+      {
+        title: '캘린더',
         url: '/admin/templates/calendar',
+      },
+      {
+        title: '문의',
+        url: '/admin/templates/contact',
       },
     ],
   },
