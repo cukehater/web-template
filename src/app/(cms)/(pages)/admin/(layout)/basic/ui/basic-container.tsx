@@ -29,6 +29,7 @@ export default function BasicContainer({
       >
         <Button
           disabled={form.formState.isSubmitting}
+          type='submit'
           onClick={form.handleSubmit(onSubmit)}
         >
           {form.formState.isSubmitting ? (

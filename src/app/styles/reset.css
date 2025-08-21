@@ -1,0 +1,146 @@
+@layer reset {
+  /* 기본 리셋 */
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* HTML과 Body 기본 설정 */
+  html {
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+  }
+
+  /* 리스트 스타일 제거 */
+  ol,
+  ul {
+    list-style: none;
+  }
+
+  /* 링크 스타일 리셋 */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* 버튼 스타일 리셋 */
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  /* 입력 요소 스타일 리셋 */
+  input,
+  textarea,
+  select {
+    font: inherit;
+    border: none;
+    outline: none;
+  }
+
+  /* 이미지 최적화 */
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* 테이블 스타일 리셋 */
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  /* 폼 요소 스타일 리셋 */
+  fieldset {
+    border: none;
+  }
+
+  /* 인용문 스타일 리셋 */
+  blockquote,
+  q {
+    quotes: none;
+  }
+
+  blockquote:before,
+  blockquote:after,
+  q:before,
+  q:after {
+    content: '';
+    content: none;
+  }
+
+  /* 제목 요소 마진 리셋 */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  /* 단락 마진 리셋 */
+  p {
+    margin: 0;
+  }
+
+  /* 미디어 요소 스타일 리셋 */
+  audio,
+  video {
+    display: block;
+  }
+
+  /* 코드 요소 스타일 리셋 */
+  code,
+  pre {
+    font-family: inherit;
+  }
+
+  /* 선택 텍스트 스타일 */
+  ::selection {
+    background-color: #b3d4fc;
+    color: #000;
+  }
+
+  /* 포커스 스타일 (접근성) */
+  :focus-visible {
+    outline: 2px solid #007acc;
+    outline-offset: 2px;
+  }
+
+  /* 스크롤바 스타일링 (웹킷 브라우저) */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+}

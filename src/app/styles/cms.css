@@ -1,0 +1,6 @@
+@layer reset, base, components, utilities;
+
+@import './reset.css';
+@import './globals.css';
+@import './tailwind.css';
+@import './shadcn.css';

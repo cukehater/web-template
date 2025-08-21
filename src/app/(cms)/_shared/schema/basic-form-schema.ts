@@ -17,7 +17,10 @@ export const basicFormSchema = z.object({
     .nonempty(ALERT_MESSAGE.NONE_EMPTY)
     .email(ALERT_MESSAGE.EMAIL),
   address: z.string().nonempty(ALERT_MESSAGE.NONE_EMPTY),
-  businessNumber: z.string().optional(),
+  businessNumber: z
+    .string()
+    .regex(REGEX.ONLY_NUMBER_AND_DASH, ALERT_MESSAGE.ONLY_NUMBER_AND_DASH)
+    .optional(),
   industry: z.string().optional(),
   logo: z
     .union([z.instanceof(File, { message: ALERT_MESSAGE.FILE }), z.string()])

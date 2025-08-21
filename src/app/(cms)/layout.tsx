@@ -1,6 +1,4 @@
-import './globals.css'
-
-import { FONT_NOTO_SANS_KR } from '@/../public/fonts'
+import '@/app/styles/cms.css'
 
 import { Toaster } from './_shared/shadcn'
 
@@ -10,11 +8,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html className={FONT_NOTO_SANS_KR.variable} lang='ko'>
-      <body>
-        {children}
-        <Toaster />
-      </body>
-    </html>
+    <>
+      {children}
+      <Toaster />
+    </>
   )
 }
