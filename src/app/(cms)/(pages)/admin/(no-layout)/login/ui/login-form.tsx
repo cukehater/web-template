@@ -39,8 +39,7 @@ export default function LoginForm({ logo = '' }: { logo?: string }) {
               <h3 className='text-xl font-bold'>Administrator</h3>
             </div>
             <FormField
-              control={form.control}
-              name='userId'
+              {...form.register('userId')}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>아이디</FormLabel>
@@ -52,8 +51,7 @@ export default function LoginForm({ logo = '' }: { logo?: string }) {
               )}
             />
             <FormField
-              control={form.control}
-              name='password'
+              {...form.register('password')}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>비밀번호</FormLabel>

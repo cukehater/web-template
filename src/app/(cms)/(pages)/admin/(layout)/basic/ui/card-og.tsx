@@ -90,7 +90,7 @@ export default function CardOpenGraph({
                 1200x630px
               </FormDescription>
               <FormMessage />
-              {field.value && <ImagePreview alt='logo' field={field} />}
+              <ImagePreview alt='logo' field={field} />
             </FormItem>
           )}
         />

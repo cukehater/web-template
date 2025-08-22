@@ -1,6 +1,9 @@
+'use client'
+
 import { X } from 'lucide-react'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
 
+import { ALLOWED_TYPES, errorToast } from '../lib'
 import { Button } from '../shadcn'
 
 export default function ImagePreview<T extends FieldValues>({
@@ -14,14 +17,30 @@ export default function ImagePreview<T extends FieldValues>({
   width?: number
   height?: number
 }) {
+  if (typeof window === 'undefined') return null
+
+  const input = document.querySelector(
+    `input[name="${field.name}"]`,
+  ) as HTMLInputElement
   const src = field.value
+
   if (!src) return null
+
+  let isImage
+  if (typeof src !== 'string') {
+    isImage = ALLOWED_TYPES.IMAGE.includes(field.value.type)
+  }
+
+  if (!isImage) {
+    input.value = ''
+    console.log('asdasd')
+    errorToast('이미지 파일만 업로드할 수 있습니다.')
+    return
+  }
 
   const handleDelete = () => {
     field.onChange('')
-    const input = document.querySelector(
-      `input[name="${field.name}"]`,
-    ) as HTMLInputElement
+
     if (input) {
       input.value = ''
     }

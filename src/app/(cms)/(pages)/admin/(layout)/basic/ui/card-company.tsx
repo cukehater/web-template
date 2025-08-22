@@ -185,7 +185,7 @@ export default function CardCompany({
               </FormControl>
               <FormMessage />
               <FormDescription>파일 크기: 1MB 이하</FormDescription>
-              {field.value && <ImagePreview alt='logo' field={field} />}
+              <ImagePreview alt='logo' field={field} />
             </FormItem>
           )}
         />
@@ -208,9 +208,7 @@ export default function CardCompany({
                 권장 사이즈: 32x32px / 파일 크기: 32KB 이하
               </FormDescription>
               <FormMessage />
-              {field.value && (
-                <ImagePreview alt='logo' field={field} height={32} width={32} />
-              )}
+              <ImagePreview alt='logo' field={field} height={32} width={32} />
             </FormItem>
           )}
         />

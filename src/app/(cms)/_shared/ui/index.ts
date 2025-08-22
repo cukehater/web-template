@@ -1,3 +1,5 @@
 export { default as ConfirmDialog } from './confirm-dialog'
 export { default as EditableTable } from './editable-table'
 export { default as PageTopTitle } from './page-top-title'
+export { default as RichEditor } from './rich-editor/rich-editor'
+export { default as SwitchField } from './switch-field'
