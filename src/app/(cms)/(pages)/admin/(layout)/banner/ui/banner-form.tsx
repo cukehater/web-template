@@ -33,15 +33,15 @@ import { Card, CardContent } from '@/app/(cms)/_shared/shadcn'
 interface Banner {
   id: string
   title: string
-  description?: string
+  description?: string | null
   imageUrl: string
-  linkUrl?: string
+  linkUrl?: string | null
   order: number
   isActive: boolean
-  startDate: string
-  endDate: string
-  createdAt: string
-  updatedAt: string
+  startDate: Date
+  endDate: Date
+  createdAt: Date
+  updatedAt: Date
 }
 
 interface BannerFormProps {
@@ -94,8 +94,8 @@ export default function BannerForm({
       linkUrl: banner?.linkUrl || '',
       order: banner?.order || 0,
       isActive: banner?.isActive ?? true,
-      startDate: banner?.startDate ? new Date(banner.startDate) : new Date(),
-      endDate: banner?.endDate ? new Date(banner.endDate) : new Date(),
+      startDate: banner?.startDate || new Date(),
+      endDate: banner?.endDate || new Date(),
     },
   })
 

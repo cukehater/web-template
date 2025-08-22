@@ -19,15 +19,15 @@ import {
 interface Banner {
   id: string
   title: string
-  description?: string
+  description?: string | null
   imageUrl: string
-  linkUrl?: string
+  linkUrl?: string | null
   order: number
   isActive: boolean
-  startDate: string
-  endDate: string
-  createdAt: string
-  updatedAt: string
+  startDate: Date
+  endDate: Date
+  createdAt: Date
+  updatedAt: Date
 }
 
 interface BannerPreviewProps {

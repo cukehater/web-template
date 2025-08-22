@@ -3,6 +3,10 @@ import { UseFormReturn } from 'react-hook-form'
 
 import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
   FormControl,
   FormDescription,
   FormField,
@@ -12,7 +16,6 @@ import {
   Input,
   Textarea,
 } from '@/app/(cms)/_shared/shadcn'
-import { FormCard } from '@/app/(cms)/_shared/ui'
 import ImagePreview from '@/app/(cms)/_shared/ui/image-preview'
 
 export default function CardOpenGraph({
@@ -21,8 +24,13 @@ export default function CardOpenGraph({
   form: UseFormReturn<BasicFormSchemaType>
 }) {
   return (
-    <FormCard icon={<Share2 className='size-5' />} title='Open Graph 관리'>
-      <div className='space-y-6'>
+    <Card>
+      <CardHeader>
+        <CardTitle className='flex items-center gap-2'>
+          <Share2 className='size-5' /> Open Graph 관리
+        </CardTitle>
+      </CardHeader>
+      <CardContent className='space-y-6'>
         <FormField
           control={form.control}
           name='ogTitle'
@@ -86,7 +94,7 @@ export default function CardOpenGraph({
             </FormItem>
           )}
         />
-      </div>
-    </FormCard>
+      </CardContent>
+    </Card>
   )
 }

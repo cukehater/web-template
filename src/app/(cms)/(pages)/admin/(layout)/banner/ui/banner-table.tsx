@@ -37,15 +37,15 @@ import BannerForm from './banner-form'
 interface Banner {
   id: string
   title: string
-  description?: string
+  description?: string | null
   imageUrl: string
-  linkUrl?: string
+  linkUrl?: string | null
   order: number
   isActive: boolean
-  startDate: string
-  endDate: string
-  createdAt: string
-  updatedAt: string
+  startDate: Date
+  endDate: Date
+  createdAt: Date
+  updatedAt: Date
 }
 
 interface BannerTableProps {
@@ -164,12 +164,12 @@ export default function BannerTable({
     }
   }
 
-  const isBannerExpired = (endDate: string) => {
-    return new Date(endDate) < new Date()
+  const isBannerExpired = (endDate: Date) => {
+    return endDate < new Date()
   }
 
-  const isBannerNotStarted = (startDate: string) => {
-    return new Date(startDate) > new Date()
+  const isBannerNotStarted = (startDate: Date) => {
+    return startDate > new Date()
   }
 
   const getBannerStatus = (banner: Banner) => {
@@ -281,7 +281,7 @@ export default function BannerTable({
                     <div className='flex items-center gap-1'>
                       <Calendar className='h-3 w-3 text-muted-foreground' />
                       <span className='text-xs'>
-                        {format(new Date(banner.startDate), 'MM/dd', {
+                        {format(banner.startDate, 'MM/dd', {
                           locale: ko,
                         })}
                       </span>
@@ -289,7 +289,7 @@ export default function BannerTable({
                     <div className='flex items-center gap-1'>
                       <Calendar className='h-3 w-3 text-muted-foreground' />
                       <span className='text-xs'>
-                        {format(new Date(banner.endDate), 'MM/dd', {
+                        {format(banner.endDate, 'MM/dd', {
                           locale: ko,
                         })}
                       </span>

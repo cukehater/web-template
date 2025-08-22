@@ -15,7 +15,7 @@ export async function apiGet<T>(
         'Content-Type': 'application/json',
         ...options?.headers,
       },
-      cache: options?.cache || 'default',
+      cache: options?.cache || 'no-store',
       next: options?.revalidate
         ? { revalidate: options.revalidate }
         : undefined,

@@ -3,6 +3,10 @@ import { UseFormReturn } from 'react-hook-form'
 
 import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
   FormControl,
   FormDescription,
   FormField,
@@ -12,7 +16,6 @@ import {
   Input,
   Textarea,
 } from '@/app/(cms)/_shared/shadcn'
-import { FormCard } from '@/app/(cms)/_shared/ui'
 
 export default function CardSEO({
   form,
@@ -20,8 +23,13 @@ export default function CardSEO({
   form: UseFormReturn<BasicFormSchemaType>
 }) {
   return (
-    <FormCard icon={<Search className='size-5' />} title='SEO 관리'>
-      <div className='space-y-6'>
+    <Card>
+      <CardHeader>
+        <CardTitle className='flex items-center gap-2'>
+          <Search className='size-5' /> SEO 관리
+        </CardTitle>
+      </CardHeader>
+      <CardContent className='space-y-6'>
         <FormField
           control={form.control}
           name='title'
@@ -85,7 +93,7 @@ export default function CardSEO({
             </FormItem>
           )}
         />
-      </div>
-    </FormCard>
+      </CardContent>
+    </Card>
   )
 }

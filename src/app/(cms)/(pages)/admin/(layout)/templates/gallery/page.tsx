@@ -12,10 +12,10 @@ export default function Page() {
         description='갤러리 게시판을 관리합니다.'
         title='갤러리 게시판'
       >
-        <Button type='button'>
+        <Button asChild>
           <Link
             className='inline-flex items-center justify-center gap-2'
-            href='./create'
+            href='./gallery/create'
           >
             <Plus className='size-4' />
             추가하기

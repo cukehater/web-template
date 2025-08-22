@@ -1,4 +1,17 @@
 export { Alert, AlertDescription, AlertTitle } from './alert'
+export {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './alert-dialog'
 export { Badge, badgeVariants } from './badge'
 export {
   BreadcrumbItem,

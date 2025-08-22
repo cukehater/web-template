@@ -3,6 +3,10 @@ import { UseFormReturn } from 'react-hook-form'
 
 import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
   FormControl,
   FormDescription,
   FormField,
@@ -11,7 +15,6 @@ import {
   FormMessage,
   Input,
 } from '@/app/(cms)/_shared/shadcn'
-import { FormCard } from '@/app/(cms)/_shared/ui'
 
 export default function CardGoogleAnalytics({
   form,
@@ -19,11 +22,13 @@ export default function CardGoogleAnalytics({
   form: UseFormReturn<BasicFormSchemaType>
 }) {
   return (
-    <FormCard
-      icon={<BarChart3 className='size-5' />}
-      title='Google Analytics 관리'
-    >
-      <div className='space-y-6'>
+    <Card>
+      <CardHeader>
+        <CardTitle className='flex items-center gap-2'>
+          <BarChart3 className='size-5' /> Google Analytics 관리
+        </CardTitle>
+      </CardHeader>
+      <CardContent className='space-y-6'>
         <FormField
           control={form.control}
           name='googleAnalyticsId'
@@ -45,7 +50,7 @@ export default function CardGoogleAnalytics({
             </FormItem>
           )}
         />
-      </div>
-    </FormCard>
+      </CardContent>
+    </Card>
   )
 }

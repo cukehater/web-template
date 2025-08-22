@@ -4,7 +4,7 @@ export const ALERT_MESSAGE = {
   LOGIN_ERROR: '로그인 정보가 일치하지 않습니다.',
   SAVE_SUCCESS: '데이터가 성공적으로 저장되었습니다.',
   SAVE_ERROR: '데이터 저장에 실패했습니다.',
-  NO_CHANGES: '변경된 내용이 없습니다.',
+  NO_CHANGES: '변경사항이 없습니다.',
   NONE_EMPTY: '필수 입력 항목입니다.',
   ONLY_NUMBER: '숫자만 입력 가능합니다.',
   ONLY_NUMBER_AND_DASH: '숫자와 하이픈(-)만 입력 가능합니다.',
@@ -15,4 +15,6 @@ export const ALERT_MESSAGE = {
   FILE_SIZE: '파일 크기가 제한을 초과했습니다',
   ORDER_CHANGE_FIRST: '더 이상 위로 이동할 수 없습니다.',
   ORDER_CHANGE_LAST: '더 이상 아래로 이동할 수 없습니다.',
+  CANCEL: '작업을 취소하시겠습니까?',
+  CANCEL_DESCRIPTION: '작업을 취소하면 작성된 내용이 사라집니다.',
 }

@@ -11,6 +11,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import { logout } from '@/app/(cms)/_features/logout'
+import { cn } from '@/app/(cms)/_shared/lib'
 import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import {
   DropdownMenu,
@@ -29,7 +30,7 @@ export default function SiderHeader({
 }: {
   basicData: BasicFormSchemaType
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile, state } = useSidebar()
 
   return (
     <SidebarHeader>
@@ -44,6 +45,10 @@ export default function SiderHeader({
                 {basicData?.favicon ? (
                   <Image
                     alt={basicData?.companyName}
+                    className={cn(
+                      'rounded-md',
+                      state === 'collapsed' && 'h-8 w-8 p-0.75',
+                    )}
                     height={24}
                     src={basicData?.favicon as string}
                     width={24}

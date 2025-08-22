@@ -11,7 +11,6 @@ type BreadcrumbPathType = {
 
 export function useBreadcrumbPath() {
   const pathname = usePathname().split('/').slice(0, 4).join('/')
-  console.log('pathname', pathname)
 
   const [breadcrumbPath, setBreadcrumbPath] = useState<BreadcrumbPathType>()
 

@@ -3,6 +3,10 @@ import { UseFormReturn } from 'react-hook-form'
 
 import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
   FormControl,
   FormDescription,
   FormField,
@@ -11,7 +15,6 @@ import {
   FormMessage,
   Input,
 } from '@/app/(cms)/_shared/shadcn'
-import { FormCard } from '@/app/(cms)/_shared/ui'
 import ImagePreview from '@/app/(cms)/_shared/ui/image-preview'
 
 export default function CardCompany({
@@ -20,8 +23,13 @@ export default function CardCompany({
   form: UseFormReturn<BasicFormSchemaType>
 }) {
   return (
-    <FormCard icon={<Building2 className='size-5' />} title='회사 정보 관리'>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+    <Card>
+      <CardHeader>
+        <CardTitle className='flex items-center gap-2'>
+          <Building2 className='size-5' /> 회사 정보 관리
+        </CardTitle>
+      </CardHeader>
+      <CardContent className='grid grid-cols-1 md:grid-cols-2 gap-6'>
         <FormField
           control={form.control}
           name='companyName'
@@ -206,7 +214,7 @@ export default function CardCompany({
             </FormItem>
           )}
         />
-      </div>
-    </FormCard>
+      </CardContent>
+    </Card>
   )
 }
