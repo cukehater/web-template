@@ -8,12 +8,13 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
-import { ALERT_MESSAGE } from '@/app/(cms)/_shared/lib'
+import { ALERT_MESSAGE, fileChangeHandler } from '@/app/(cms)/_shared/lib'
 import {
   AlertDialog,
   Button,
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -68,7 +69,8 @@ export default function GalleryCreatePage() {
 
       <Form {...form}>
         <FormField
-          {...form.register('title')}
+          control={form.control}
+          name='title'
           render={({ field }) => (
             <FormItem>
               <FormLabel>제목</FormLabel>
@@ -81,7 +83,8 @@ export default function GalleryCreatePage() {
         />
 
         <FormField
-          {...form.register('thumbnail')}
+          control={form.control}
+          name='thumbnail'
           render={({ field }) => (
             <FormItem>
               <FormLabel>썸네일 이미지</FormLabel>
@@ -90,23 +93,31 @@ export default function GalleryCreatePage() {
                   name={field.name}
                   placeholder='썸네일 이미지를 입력하세요.'
                   type='file'
-                  onChange={e => field.onChange(e.target.files?.[0])}
+                  onChange={e =>
+                    fileChangeHandler(e, {
+                      allowedFormat: 'IMAGE',
+                      maxSize: 1024 * 1024,
+                      field,
+                    })
+                  }
                 />
               </FormControl>
+              <FormDescription>권장 파일 크기: 1MB 이하</FormDescription>
               <FormMessage />
-              <ImagePreview alt='썸네일 이미지' field={field} />
+              <ImagePreview alt='썸네일 이미지' field={field} width={300} />
             </FormItem>
           )}
         />
 
         <FormField
-          {...form.register('createdAt')}
+          control={form.control}
+          name='createdAt'
           render={({ field }) => (
             <FormItem>
               <FormLabel>작성일</FormLabel>
               <FormControl>
                 <Input
-                  {...field}
+                  name={field.name}
                   placeholder='작성일을 입력하세요.'
                   type='date'
                 />
@@ -117,7 +128,8 @@ export default function GalleryCreatePage() {
         />
 
         <FormField
-          {...form.register('content')}
+          control={form.control}
+          name='content'
           render={({ field }) => (
             <FormItem>
               <FormLabel>내용</FormLabel>
@@ -132,7 +144,8 @@ export default function GalleryCreatePage() {
         />
 
         <FormField
-          {...form.register('isVisible')}
+          control={form.control}
+          name='isVisible'
           render={({ field }) => (
             <FormItem>
               <SwitchField

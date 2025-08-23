@@ -1,6 +1,7 @@
 import { Building2 } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
 
+import { fileChangeHandler } from '@/app/(cms)/_shared/lib'
 import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import {
   Card,
@@ -177,14 +178,19 @@ export default function CardCompany({
               <FormLabel className='text-sm font-medium'>로고</FormLabel>
               <FormControl>
                 <Input
-                  accept='image/*'
                   name={field.name}
                   type='file'
-                  onChange={e => field.onChange(e.target.files?.[0])}
+                  onChange={e =>
+                    fileChangeHandler(e, {
+                      allowedFormat: 'IMAGE',
+                      maxSize: 1024 * 1024,
+                      field,
+                    })
+                  }
                 />
               </FormControl>
               <FormMessage />
-              <FormDescription>파일 크기: 1MB 이하</FormDescription>
+              <FormDescription>권장 파일 크기: 1MB 이하</FormDescription>
               <ImagePreview alt='logo' field={field} />
             </FormItem>
           )}
@@ -198,17 +204,28 @@ export default function CardCompany({
               <FormLabel className='text-sm font-medium'>파비콘</FormLabel>
               <FormControl>
                 <Input
-                  accept='image/*'
                   name={field.name}
                   type='file'
-                  onChange={e => field.onChange(e.target.files?.[0])}
+                  onChange={e =>
+                    fileChangeHandler(e, {
+                      allowedFormat: 'IMAGE',
+                      maxSize: 1024 * 32,
+                      field,
+                    })
+                  }
                 />
               </FormControl>
               <FormDescription>
-                권장 사이즈: 32x32px / 파일 크기: 32KB 이하
+                권장 파일 크기: 32KB 이하 / 권장 사이즈: 32x32px
               </FormDescription>
               <FormMessage />
-              <ImagePreview alt='logo' field={field} height={32} width={32} />
+              <ImagePreview
+                alt='logo'
+                className='rounded-sm'
+                field={field}
+                height={32}
+                width={32}
+              />
             </FormItem>
           )}
         />

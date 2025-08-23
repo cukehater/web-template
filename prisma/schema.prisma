@@ -75,16 +75,6 @@ model Popup {
   @@index([updatedAt])
 }
 
-model Post {
-  id          String   @id @default(cuid())
-  title       String
-  content     String
-  author      String
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
 model Banner {
   id          String   @id @default(cuid())
   title       String

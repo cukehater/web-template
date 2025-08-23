@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 
 import {
   ALERT_MESSAGE,
-  ALLOWED_TYPES,
   errorToast,
   infoToast,
   successToast,
@@ -14,64 +13,39 @@ import {
   BasicFormSchemaType,
 } from '@/app/(cms)/_shared/schema'
 
+const EXCLUDED_FIELDS = ['updatedAt', 'createdAt', 'id'] as const
+const FILE_FIELDS = ['logo', 'favicon', 'ogImage'] as const
+
 export function useBasicForm(initialData: BasicFormSchemaType) {
   const router = useRouter()
+
+  const defaultValues = Object.fromEntries(
+    Object.entries(initialData).filter(
+      ([key]) =>
+        !EXCLUDED_FIELDS.includes(key as (typeof EXCLUDED_FIELDS)[number]),
+    ),
+  )
+
   const form = useForm<BasicFormSchemaType>({
     resolver: zodResolver(basicFormSchema),
-    defaultValues: initialData,
+    defaultValues,
   })
 
   async function onSubmit(values: BasicFormSchemaType) {
     try {
-      // 변경사항 없으면 저장 실패
       const watchedValues = form.watch()
       const hasChanges =
-        JSON.stringify(watchedValues) !== JSON.stringify(initialData)
+        JSON.stringify(watchedValues) !== JSON.stringify(defaultValues)
 
       if (!hasChanges) {
         infoToast(ALERT_MESSAGE.NO_CHANGES)
         return
       }
 
-      const fileKeys = ['logo', 'favicon', 'ogImage']
       const fileFormData = new FormData()
-
-      for (const [key, value] of Object.entries(values)) {
-        if (fileKeys.includes(key)) {
-          fileFormData.append(key, value || '')
-        }
-      }
-
-      for (const [key, value] of Array.from(fileFormData)) {
-        if (!value || typeof value === 'string') continue
-
-        // 파일 형식 제한
-        if (
-          !(value instanceof File) ||
-          !ALLOWED_TYPES.IMAGE.includes(value.type)
-        ) {
-          errorToast(ALERT_MESSAGE.FILE_FORMAT)
-          return
-        }
-
-        // 로고 파일 크기 제한
-        if (key === 'logo' && value.size > 1024 * 1024) {
-          errorToast(`로고 ${ALERT_MESSAGE.FILE_SIZE} (1MB)`)
-          return
-        }
-
-        // 파비콘 파일 크기 제한
-        if (key === 'favicon' && value.size > 1024 * 32) {
-          errorToast(`파비콘 ${ALERT_MESSAGE.FILE_SIZE} (32KB)`)
-          return
-        }
-
-        // 오픈그래프 이미지 파일 크기 제한
-        if (key === 'ogImage' && value.size > 1024 * 1024) {
-          errorToast(`오픈그래프 이미지 ${ALERT_MESSAGE.FILE_SIZE} (1MB)`)
-          return
-        }
-      }
+      FILE_FIELDS.forEach(key => {
+        fileFormData.append(key, values[key] || '')
+      })
 
       const uploadRes = await fetch('/api/upload', {
         method: 'POST',
@@ -103,10 +77,11 @@ export function useBasicForm(initialData: BasicFormSchemaType) {
       }
 
       successToast(ALERT_MESSAGE.SAVE_SUCCESS)
+      form.reset({ ...values, ...uploadImageValues })
+
       router.refresh()
     } catch {
       errorToast(ALERT_MESSAGE.REQUEST_ERROR)
-      return
     }
   }
 

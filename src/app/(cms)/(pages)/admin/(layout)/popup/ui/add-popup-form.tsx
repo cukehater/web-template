@@ -166,7 +166,6 @@ export default function AddPopupForm() {
                 <FormLabel>이미지</FormLabel>
                 <FormControl>
                   <Input
-                    accept='image/*'
                     type='file'
                     onChange={handleFileChange}
                   />

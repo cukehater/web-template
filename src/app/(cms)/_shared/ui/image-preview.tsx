@@ -1,9 +1,10 @@
 'use client'
 
 import { X } from 'lucide-react'
+import { useRef } from 'react'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
 
-import { ALLOWED_TYPES, errorToast } from '../lib'
+import { cn } from '../lib'
 import { Button } from '../shadcn'
 
 export default function ImagePreview<T extends FieldValues>({
@@ -11,46 +12,43 @@ export default function ImagePreview<T extends FieldValues>({
   field,
   width = 100,
   height = 100,
+  className,
 }: {
   alt: string
   field: ControllerRenderProps<T, Path<T>>
   width?: number
   height?: number
+  className?: string
 }) {
-  if (typeof window === 'undefined') return null
+  const ref = useRef<HTMLDivElement>(null)
 
-  const input = document.querySelector(
-    `input[name="${field.name}"]`,
-  ) as HTMLInputElement
-  const src = field.value
+  if (!field.value) return null
 
-  if (!src) return null
-
-  let isImage
-  if (typeof src !== 'string') {
-    isImage = ALLOWED_TYPES.IMAGE.includes(field.value.type)
-  }
-
-  if (!isImage) {
-    input.value = ''
-    console.log('asdasd')
-    errorToast('이미지 파일만 업로드할 수 있습니다.')
-    return
-  }
+  const src =
+    typeof field.value === 'string'
+      ? field.value
+      : URL.createObjectURL(field.value)
 
   const handleDelete = () => {
-    field.onChange('')
+    const inputNode = ref.current?.parentNode?.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement
 
-    if (input) {
-      input.value = ''
-    }
+    field.onChange('')
+    inputNode.value = ''
   }
 
   return (
-    <div className='relative p-1 border border-gray-200 rounded-md inline-block self-start mt-2 bg-white'>
+    <div
+      ref={ref}
+      className={cn(
+        'relative p-1 border border-gray-200 rounded-md inline-block self-start mt-2 bg-white',
+        className,
+      )}
+    >
       <img
         alt={alt}
-        className='rounded-md'
+        className={cn('rounded-md', className)}
         height={height}
         src={typeof src === 'string' ? src : URL.createObjectURL(src)}
         width={width}

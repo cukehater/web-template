@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       const timestamp = Date.now()
       const originalName = value.name
       const extension = originalName.split('.').pop()
-      const fileName = `${originalName}_${timestamp}.${extension}`
+      const fileName = `${originalName.split('.')[0]}_${timestamp}.${extension}`
       const filePath = join(uploadDir, fileName)
 
       // 파일 저장

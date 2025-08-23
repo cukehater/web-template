@@ -1,6 +1,7 @@
 import { Share2 } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
 
+import { fileChangeHandler } from '@/app/(cms)/_shared/lib'
 import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
 import {
   Card,
@@ -79,15 +80,20 @@ export default function CardOpenGraph({
               <FormLabel className='text-sm font-medium'>이미지</FormLabel>
               <FormControl>
                 <Input
-                  accept='image/*'
                   name={field.name}
                   type='file'
-                  onChange={e => field.onChange(e.target.files?.[0])}
+                  onChange={e =>
+                    fileChangeHandler(e, {
+                      allowedFormat: 'IMAGE',
+                      maxSize: 1024 * 1024,
+                      field,
+                    })
+                  }
                 />
               </FormControl>
               <FormDescription>
-                소셜 미디어에서 공유될 때 표시될 이미지입니다. 권장 크기:
-                1200x630px
+                소셜 미디어에서 공유될 때 표시될 이미지입니다. <br />
+                권장 파일 크기: 1MB 이하 / 권장 사이즈: 1200x630px
               </FormDescription>
               <FormMessage />
               <ImagePreview alt='logo' field={field} />
