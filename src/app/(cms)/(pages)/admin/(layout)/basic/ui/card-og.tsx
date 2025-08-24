@@ -37,7 +37,7 @@ export default function CardOpenGraph({
           name='ogTitle'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>제목</FormLabel>
+              <FormLabel>제목</FormLabel>
               <FormControl>
                 <Input placeholder='제목을 입력해 주세요.' {...field} />
               </FormControl>
@@ -55,7 +55,7 @@ export default function CardOpenGraph({
           name='ogDescription'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>설명</FormLabel>
+              <FormLabel>설명</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder='설명을 입력해 주세요.'
@@ -77,7 +77,7 @@ export default function CardOpenGraph({
           name='ogImage'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>이미지</FormLabel>
+              <FormLabel>이미지</FormLabel>
               <FormControl>
                 <Input
                   name={field.name}

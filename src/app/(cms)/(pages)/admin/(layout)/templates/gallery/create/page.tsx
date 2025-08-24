@@ -12,6 +12,8 @@ import { ALERT_MESSAGE, fileChangeHandler } from '@/app/(cms)/_shared/lib'
 import {
   AlertDialog,
   Button,
+  Card,
+  CardContent,
   Form,
   FormControl,
   FormDescription,
@@ -23,6 +25,7 @@ import {
 } from '@/app/(cms)/_shared/shadcn'
 import {
   ConfirmDialog,
+  DateTimePicker,
   PageTopTitle,
   RichEditor,
   SwitchField,
@@ -33,8 +36,15 @@ export default function GalleryCreatePage() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = async () => {
-    // TODO: API 호출 로직 구현
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true)
+
+    await fetch('/api/gallery', {
+      method: 'POST',
+      body: JSON.stringify(values),
+    })
+
+    // router.push('../gallery')
   }
 
   const handleCancel = () => {
@@ -42,21 +52,21 @@ export default function GalleryCreatePage() {
   }
 
   const formSchema = z.object({
-    isVisible: z.boolean(),
-    title: z.string().min(1),
+    title: z.string().nonempty(ALERT_MESSAGE.NONE_EMPTY),
     thumbnail: z.union([z.string(), z.instanceof(File)]),
-    createdAt: z.date(),
-    content: z.string().min(1),
+    createdAt: z.union([z.date(), z.string()]),
+    content: z.string().nonempty(ALERT_MESSAGE.NONE_EMPTY),
+    isVisible: z.boolean(),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      isVisible: true,
       title: '',
       thumbnail: '',
-      createdAt: new Date(),
-      content: 'asddasdasdad',
+      createdAt: '',
+      content: '',
+      isVisible: true,
     },
   })
 
@@ -67,98 +77,98 @@ export default function GalleryCreatePage() {
         title='갤러리 게시글 작성'
       />
 
-      <Form {...form}>
-        <FormField
-          control={form.control}
-          name='title'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>제목</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder='제목을 입력하세요.' />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <Card>
+        <CardContent className='space-y-4'>
+          <Form {...form}>
+            <FormField
+              control={form.control}
+              name='title'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel required>제목</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder='제목을 입력하세요.' />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name='thumbnail'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>썸네일 이미지</FormLabel>
-              <FormControl>
-                <Input
-                  name={field.name}
-                  placeholder='썸네일 이미지를 입력하세요.'
-                  type='file'
-                  onChange={e =>
-                    fileChangeHandler(e, {
-                      allowedFormat: 'IMAGE',
-                      maxSize: 1024 * 1024,
-                      field,
-                    })
-                  }
-                />
-              </FormControl>
-              <FormDescription>권장 파일 크기: 1MB 이하</FormDescription>
-              <FormMessage />
-              <ImagePreview alt='썸네일 이미지' field={field} width={300} />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name='thumbnail'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>썸네일 이미지</FormLabel>
+                  <FormControl>
+                    <Input
+                      name={field.name}
+                      placeholder='썸네일 이미지를 입력하세요.'
+                      type='file'
+                      onChange={e =>
+                        fileChangeHandler(e, {
+                          allowedFormat: 'IMAGE',
+                          maxSize: 1024 * 1024,
+                          field,
+                        })
+                      }
+                    />
+                  </FormControl>
+                  <FormDescription>권장 파일 크기: 1MB 이하</FormDescription>
+                  <FormMessage />
+                  <ImagePreview alt='썸네일 이미지' field={field} width={300} />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name='createdAt'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>작성일</FormLabel>
-              <FormControl>
-                <Input
-                  name={field.name}
-                  placeholder='작성일을 입력하세요.'
-                  type='date'
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name='createdAt'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>작성일</FormLabel>
+                  <FormControl>
+                    <DateTimePicker field={field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name='content'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>내용</FormLabel>
-              <RichEditor
-                content={field.value}
-                placeholder='내용을 입력하세요.'
-                onChange={value => field.onChange(value)}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name='content'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel required>내용</FormLabel>
+                  <RichEditor
+                    content={field.value}
+                    placeholder='내용을 입력하세요.'
+                    onChange={value => field.onChange(value)}
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name='isVisible'
-          render={({ field }) => (
-            <FormItem>
-              <SwitchField
-                activeDescription='게시글을 노출 상태로 설정합니다.'
-                field={field}
-                inactiveDescription='게시글을 비노출 상태로 설정합니다.'
-                label='노출 상태'
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </Form>
+            <FormField
+              control={form.control}
+              name='isVisible'
+              render={({ field }) => (
+                <FormItem>
+                  <SwitchField
+                    activeDescription='현재 게시글을 게시 상태로 설정합니다.'
+                    field={field}
+                    inactiveDescription='현재 게시글을 비게시 상태로 설정합니다.'
+                    label='게시글 상태'
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </Form>
+        </CardContent>
+      </Card>
 
       <div className='flex gap-2 justify-end mt-2'>
         <Button

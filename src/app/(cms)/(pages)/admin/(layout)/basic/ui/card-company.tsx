@@ -36,9 +36,7 @@ export default function CardCompany({
           name='companyName'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>
-                기업명 <span className='text-red-500'>*</span>
-              </FormLabel>
+              <FormLabel required>기업명</FormLabel>
               <FormControl>
                 <Input placeholder='기업명을 입력해 주세요.' {...field} />
               </FormControl>
@@ -52,9 +50,7 @@ export default function CardCompany({
           name='representative'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>
-                대표자명 <span className='text-red-500'>*</span>
-              </FormLabel>
+              <FormLabel required>대표자명</FormLabel>
               <FormControl>
                 <Input placeholder='대표자명을 입력해 주세요.' {...field} />
               </FormControl>
@@ -68,9 +64,7 @@ export default function CardCompany({
           name='tel'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>
-                대표 전화번호 <span className='text-red-500'>*</span>
-              </FormLabel>
+              <FormLabel required>대표 전화번호</FormLabel>
               <FormControl>
                 <Input
                   placeholder='대표 전화번호를 입력해 주세요.'
@@ -106,9 +100,7 @@ export default function CardCompany({
           name='email'
           render={({ field }) => (
             <FormItem className='md:col-span-2'>
-              <FormLabel className='text-sm font-medium'>
-                대표 이메일 <span className='text-red-500'>*</span>
-              </FormLabel>
+              <FormLabel required>대표 이메일</FormLabel>
               <FormControl>
                 <Input
                   placeholder='대표 이메일을 입력해 주세요.'
@@ -126,9 +118,7 @@ export default function CardCompany({
           name='address'
           render={({ field }) => (
             <FormItem className='md:col-span-2'>
-              <FormLabel className='text-sm font-medium'>
-                주소 <span className='text-red-500'>*</span>
-              </FormLabel>
+              <FormLabel required>주소</FormLabel>
               <FormControl>
                 <Input placeholder='대표 주소를 입력해 주세요.' {...field} />
               </FormControl>

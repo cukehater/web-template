@@ -34,9 +34,7 @@ export default function CardGoogleAnalytics({
           name='googleAnalyticsId'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>
-                Google Analytics ID
-              </FormLabel>
+              <FormLabel>Google Analytics ID</FormLabel>
               <FormControl>
                 <Input
                   placeholder='G-XXXXXXXXXX 또는 UA-XXXXXXXXX-X'

@@ -35,9 +35,7 @@ export default function CardSEO({
           name='title'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>
-                사이트 제목 <span className='text-red-500'>*</span>
-              </FormLabel>
+              <FormLabel required>사이트 제목</FormLabel>
               <FormControl>
                 <Input placeholder='사이트 제목을 입력해 주세요.' {...field} />
               </FormControl>
@@ -54,9 +52,7 @@ export default function CardSEO({
           name='description'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>
-                사이트 설명 <span className='text-red-500'>*</span>
-              </FormLabel>
+              <FormLabel required>사이트 설명</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder='사이트 설명을 입력해 주세요.'
@@ -77,9 +73,7 @@ export default function CardSEO({
           name='keywords'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>
-                키워드 <span className='text-red-500'>*</span>
-              </FormLabel>
+              <FormLabel required>키워드</FormLabel>
               <FormControl>
                 <Input
                   placeholder='키워드를 쉼표로 구분하여 입력해 주세요.'

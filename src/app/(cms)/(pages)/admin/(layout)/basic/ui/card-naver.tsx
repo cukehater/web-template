@@ -34,9 +34,7 @@ export default function CardNaver({
           name='naverWebmasterId'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-medium'>
-                네이버 웹마스터 ID
-              </FormLabel>
+              <FormLabel>네이버 웹마스터 ID</FormLabel>
               <FormControl>
                 <Input
                   placeholder='네이버 웹마스터 도구에서 발급받은 ID'
