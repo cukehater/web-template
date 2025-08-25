@@ -61,13 +61,11 @@ export default function GalleryTable({
   const searchParams = useSearchParams()
   const [data, setData] = useState(initialData)
   const [paginationInfo, setPaginationInfo] = useState(pagination)
-  const [isLoading, setIsLoading] = useState(false)
   const [isSorting, setIsSorting] = useState(false)
 
   // 페이지 변경 시 데이터 새로고침
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true)
       try {
         const response = await fetch(
           `/api/gallery?page=${currentPage}&limit=${currentLimit}`,
@@ -77,8 +75,6 @@ export default function GalleryTable({
         setPaginationInfo(result.pagination)
       } catch {
         errorToast(ALERT_MESSAGE.REQUEST_ERROR)
-      } finally {
-        setIsLoading(false)
       }
     }
 

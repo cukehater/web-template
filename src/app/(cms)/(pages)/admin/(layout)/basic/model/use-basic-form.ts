@@ -12,11 +12,16 @@ import {
   basicFormSchema,
   BasicFormSchemaType,
 } from '@/app/(cms)/_shared/schema'
+import { initialBasicFormData } from '@/app/(cms)/_shared/schema/basic-form-schema'
 
 const FILE_FIELDS = ['logo', 'favicon', 'ogImage'] as const
 
-export function useBasicForm(defaultValues: BasicFormSchemaType) {
+export function useBasicForm(initialValues: BasicFormSchemaType) {
   const router = useRouter()
+  const defaultValues =
+    Object.keys(initialValues).length === 0
+      ? initialBasicFormData
+      : initialValues
 
   const form = useForm<BasicFormSchemaType>({
     resolver: zodResolver(basicFormSchema),
@@ -52,15 +57,22 @@ export function useBasicForm(defaultValues: BasicFormSchemaType) {
 
       const uploadImageValues = await uploadRes.json()
 
+      const body = {
+        ...Object.fromEntries(
+          Object.entries(values).map(([key, value]) => {
+            if (value === undefined) return [key, '']
+            return [key, value]
+          }),
+        ),
+        ...uploadImageValues,
+      }
+
       const res = await fetch('/api/basic', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...values,
-          ...uploadImageValues,
-        }),
+        body: JSON.stringify(body),
       })
 
       if (!res.ok) {
