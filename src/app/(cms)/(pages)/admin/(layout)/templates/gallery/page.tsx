@@ -5,7 +5,18 @@ import { GalleryTable } from '@/app/(cms)/_entities/board'
 import { Button } from '@/app/(cms)/_shared/shadcn'
 import { PageTopTitle } from '@/app/(cms)/_shared/ui'
 
-export default function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { page?: string; limit?: string }
+}) {
+  const page = (await searchParams).page || '1'
+  const limit = (await searchParams).limit || '10'
+
+  const { data, pagination } = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/gallery?page=${page}&limit=${limit}`,
+  ).then(res => res.json())
+
   return (
     <>
       <PageTopTitle
@@ -23,7 +34,12 @@ export default function Page() {
         </Button>
       </PageTopTitle>
 
-      <GalleryTable />
+      <GalleryTable
+        currentLimit={parseInt(limit)}
+        currentPage={parseInt(page)}
+        initialData={data}
+        pagination={pagination}
+      />
     </>
   )
 }

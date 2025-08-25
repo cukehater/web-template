@@ -1,1 +1,1 @@
-export { default as GalleryTable } from './gallery/gallery-table'
+export { default as GalleryTable } from './gallery/ui/gallery-table'

@@ -49,3 +49,24 @@ export const basicFormSchema = z.object({
 })
 
 export type BasicFormSchemaType = z.infer<typeof basicFormSchema>
+
+export const initialBasicFormData: BasicFormSchemaType = {
+  companyName: '',
+  representative: '',
+  tel: '',
+  fax: '',
+  email: '',
+  address: '',
+  businessNumber: '',
+  industry: '',
+  logo: '',
+  favicon: '',
+  title: '',
+  description: '',
+  keywords: '',
+  ogTitle: '',
+  ogDescription: '',
+  ogImage: '',
+  googleAnalyticsId: '',
+  naverWebmasterId: '',
+}

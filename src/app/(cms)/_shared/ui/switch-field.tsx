@@ -1,32 +1,27 @@
-import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
+import { Label, Switch } from '../shadcn'
 
-import { FormControl, FormDescription, FormLabel, Switch } from '../shadcn'
-
-export default function SwitchField<T extends FieldValues>({
-  field,
+export default function SwitchField({
+  checked,
+  onCheckedChange,
   label,
   activeDescription,
   inactiveDescription,
 }: {
-  field: ControllerRenderProps<T, Path<T>>
+  checked: boolean
+  onCheckedChange: (checked: boolean) => void
   label: string
   activeDescription: string
   inactiveDescription: string
 }) {
   return (
-    <div className='flex flex-row items-center justify-between p-3 rounded-lg border border-gray-200'>
-      <div className='flex flex-col gap-2 flex-1'>
-        <FormLabel>{label}</FormLabel>
-        <FormDescription>
-          {field.value ? activeDescription : inactiveDescription}
-        </FormDescription>
+    <Label className='hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950 cursor-pointer'>
+      <div className='flex flex-col gap-1.5 flex-1'>
+        <p className='text-sm font-medium'>{label}</p>
+        <p className='text-xs text-muted-foreground'>
+          {checked ? activeDescription : inactiveDescription}
+        </p>
       </div>
-      <FormControl>
-        <Switch
-          checked={field.value}
-          onCheckedChange={value => field.onChange(value)}
-        />
-      </FormControl>
-    </div>
+      <Switch checked={checked} onCheckedChange={onCheckedChange} />
+    </Label>
   )
 }

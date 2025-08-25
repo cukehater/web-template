@@ -13,18 +13,10 @@ import {
   BasicFormSchemaType,
 } from '@/app/(cms)/_shared/schema'
 
-const EXCLUDED_FIELDS = ['updatedAt', 'createdAt', 'id'] as const
 const FILE_FIELDS = ['logo', 'favicon', 'ogImage'] as const
 
-export function useBasicForm(initialData: BasicFormSchemaType) {
+export function useBasicForm(defaultValues: BasicFormSchemaType) {
   const router = useRouter()
-
-  const defaultValues = Object.fromEntries(
-    Object.entries(initialData).filter(
-      ([key]) =>
-        !EXCLUDED_FIELDS.includes(key as (typeof EXCLUDED_FIELDS)[number]),
-    ),
-  )
 
   const form = useForm<BasicFormSchemaType>({
     resolver: zodResolver(basicFormSchema),

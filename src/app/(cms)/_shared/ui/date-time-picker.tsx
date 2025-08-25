@@ -1,26 +1,25 @@
 'use client'
 
 import { ChevronDownIcon } from 'lucide-react'
-import { useCallback, useId, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
 
 import {
   Button,
   Calendar,
-  Checkbox,
   Input,
-  Label,
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/app/(cms)/_shared/shadcn'
+
+import SwitchField from './switch-field'
 
 export default function DateTimePicker<T extends FieldValues>({
   field,
 }: {
   field: ControllerRenderProps<T, Path<T>>
 }) {
-  const id = useId()
   const [isCustom, setIsCustom] = useState(false)
   const [date, setDate] = useState<Date | string>('')
   const [open, setOpen] = useState(false)
@@ -111,16 +110,13 @@ export default function DateTimePicker<T extends FieldValues>({
         </div>
       </div>
 
-      <div className='flex items-center gap-2'>
-        <Checkbox
-          checked={isCustom}
-          id={id}
-          onCheckedChange={handleCheckboxChange}
-        />
-        <Label className='cursor-pointer text-muted-foreground' htmlFor={id}>
-          날짜 직접 입력하기
-        </Label>
-      </div>
+      <SwitchField
+        activeDescription='작성일을 직접 입력합니다.'
+        checked={isCustom}
+        inactiveDescription='작성일을 현재 시간으로 설정합니다.'
+        label='작성일 설정'
+        onCheckedChange={handleCheckboxChange}
+      />
     </div>
   )
 }

@@ -29,14 +29,14 @@ CREATE TABLE "Basic" (
     "address" TEXT NOT NULL,
     "businessNumber" TEXT NOT NULL,
     "industry" TEXT NOT NULL,
-    "logo" TEXT,
-    "favicon" TEXT,
+    "logo" TEXT NOT NULL,
+    "favicon" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "keywords" TEXT NOT NULL,
     "ogTitle" TEXT NOT NULL,
     "ogDescription" TEXT NOT NULL,
-    "ogImage" TEXT,
+    "ogImage" TEXT NOT NULL,
     "googleAnalyticsId" TEXT NOT NULL,
     "naverWebmasterId" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -61,17 +61,6 @@ CREATE TABLE "Popup" (
 );
 
 -- CreateTable
-CREATE TABLE "Post" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "title" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
-    "author" TEXT NOT NULL,
-    "isPublished" BOOLEAN NOT NULL DEFAULT false,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
-);
-
--- CreateTable
 CREATE TABLE "Banner" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
@@ -82,6 +71,18 @@ CREATE TABLE "Banner" (
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "startDate" DATETIME NOT NULL,
     "endDate" DATETIME NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Gallery" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "thumbnail" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "isVisible" BOOLEAN NOT NULL DEFAULT true,
+    "order" INTEGER NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL
 );
@@ -106,3 +107,12 @@ CREATE INDEX "Banner_isActive_idx" ON "Banner"("isActive");
 
 -- CreateIndex
 CREATE INDEX "Banner_updatedAt_idx" ON "Banner"("updatedAt");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Gallery_order_key" ON "Gallery"("order");
+
+-- CreateIndex
+CREATE INDEX "Gallery_order_idx" ON "Gallery"("order");
+
+-- CreateIndex
+CREATE INDEX "Gallery_createdAt_idx" ON "Gallery"("createdAt");

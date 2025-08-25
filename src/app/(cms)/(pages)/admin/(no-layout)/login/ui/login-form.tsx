@@ -30,7 +30,7 @@ export default function LoginForm({ logo = '' }: { logo?: string }) {
           <div className='flex flex-col gap-6'>
             <div className='flex flex-col items-center gap-2'>
               {logo ? (
-                <img alt='logo' className='max-w-40' src={logo} />
+                <img alt='logo' className='max-w-32' src={logo} />
               ) : (
                 <div className='flex size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground'>
                   <GalleryVerticalEnd className='size-6' />

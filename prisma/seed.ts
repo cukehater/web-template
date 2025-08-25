@@ -32,7 +32,6 @@ async function main() {
         imageUrl:
           'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=400&fit=crop',
         linkUrl: 'https://example.com/new-product',
-        order: 1,
         isActive: true,
         startDate: new Date('2024-01-01'),
         endDate: new Date('2024-12-31'),
@@ -127,6 +126,127 @@ async function main() {
         isActive: true,
         startDate: new Date('2024-01-01'),
         endDate: new Date('2024-02-29'), // 곧 종료되는 배너
+      },
+    }),
+  ])
+
+  await Promise.all([
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 1,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 2,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 3,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 4,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 5,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 6,
+      },
+    }),
+
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 7,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 8,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 9,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 10,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 11,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 12,
+      },
+    }),
+    prisma.gallery.create({
+      data: {
+        title: 'test',
+        content: 'test',
+        thumbnail: '',
+        isVisible: true,
+        order: 13,
       },
     }),
   ])

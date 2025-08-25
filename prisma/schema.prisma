@@ -92,3 +92,17 @@ model Banner {
   @@index([isActive])
   @@index([updatedAt])
 }
+
+model Gallery {
+  id        String   @id @default(cuid())
+  title     String
+  thumbnail String
+  content   String
+  isVisible Boolean  @default(true)
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+  @@index([createdAt])
+}

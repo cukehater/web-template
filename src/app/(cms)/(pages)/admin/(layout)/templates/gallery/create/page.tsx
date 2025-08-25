@@ -2,13 +2,21 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog'
-import { Save, X } from 'lucide-react'
+import { Loader2, Save, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import z from 'zod'
 
-import { ALERT_MESSAGE, fileChangeHandler } from '@/app/(cms)/_shared/lib'
+import {
+  ALERT_MESSAGE,
+  errorToast,
+  fileChangeHandler,
+  successToast,
+} from '@/app/(cms)/_shared/lib'
+import {
+  galleryFormSchema,
+  GalleryFormSchemaType,
+} from '@/app/(cms)/_shared/schema'
 import {
   AlertDialog,
   Button,
@@ -36,31 +44,44 @@ export default function GalleryCreatePage() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: GalleryFormSchemaType) => {
     setIsSubmitting(true)
 
-    await fetch('/api/gallery', {
-      method: 'POST',
-      body: JSON.stringify(values),
-    })
+    const formData = new FormData()
+    formData.append('thumbnail', values.thumbnail)
 
-    // router.push('../gallery')
+    try {
+      const uploadResponse = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const urls = await uploadResponse.json()
+
+      await fetch('/api/gallery', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...values,
+          createdAt: values.createdAt || new Date().toISOString(),
+          thumbnail: urls.thumbnail,
+        }),
+      })
+
+      successToast(ALERT_MESSAGE.SAVE_SUCCESS)
+      handleBack()
+    } catch {
+      errorToast(ALERT_MESSAGE.SAVE_ERROR)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
-  const handleCancel = () => {
-    router.push('/admin/templates/gallery')
+  const handleBack = () => {
+    router.push('../gallery')
   }
 
-  const formSchema = z.object({
-    title: z.string().nonempty(ALERT_MESSAGE.NONE_EMPTY),
-    thumbnail: z.union([z.string(), z.instanceof(File)]),
-    createdAt: z.union([z.date(), z.string()]),
-    content: z.string().nonempty(ALERT_MESSAGE.NONE_EMPTY),
-    isVisible: z.boolean(),
-  })
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<GalleryFormSchemaType>({
+    resolver: zodResolver(galleryFormSchema),
     defaultValues: {
       title: '',
       thumbnail: '',
@@ -157,10 +178,11 @@ export default function GalleryCreatePage() {
               render={({ field }) => (
                 <FormItem>
                   <SwitchField
-                    activeDescription='현재 게시글을 게시 상태로 설정합니다.'
-                    field={field}
-                    inactiveDescription='현재 게시글을 비게시 상태로 설정합니다.'
+                    activeDescription='게시글을 게시 상태로 설정합니다.'
+                    checked={field.value}
+                    inactiveDescription='게시글을 비게시 상태로 설정합니다.'
                     label='게시글 상태'
+                    onCheckedChange={value => field.onChange(value)}
                   />
                   <FormMessage />
                 </FormItem>
@@ -175,8 +197,14 @@ export default function GalleryCreatePage() {
           disabled={isSubmitting}
           onClick={form.handleSubmit(handleSubmit)}
         >
-          <Save className='size-4' />
-          {isSubmitting ? '저장 중...' : '작성 완료'}
+          <>
+            {isSubmitting ? (
+              <Loader2 className='size-4 animate-spin' />
+            ) : (
+              <Save className='size-4' />
+            )}
+            작성 완료
+          </>
         </Button>
         <AlertDialogTrigger asChild>
           <Button variant='outline'>
@@ -188,7 +216,7 @@ export default function GalleryCreatePage() {
       <ConfirmDialog
         description={ALERT_MESSAGE.CANCEL_DESCRIPTION}
         title={ALERT_MESSAGE.CANCEL}
-        onConfirm={handleCancel}
+        onConfirm={handleBack}
       />
     </AlertDialog>
   )
