@@ -409,7 +409,7 @@ export default function GalleryTable({
                       handlePageChange(paginationInfo.totalPages)
                     }}
                   >
-                    k{paginationInfo.totalPages}
+                    {paginationInfo.totalPages}
                   </PaginationLink>
                 </PaginationItem>
               </>
