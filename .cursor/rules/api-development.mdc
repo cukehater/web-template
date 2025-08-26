@@ -1,0 +1,424 @@
+# 🔌 API 개발 가이드라인
+
+## 📋 **API 라우트 구조**
+
+### **기본 구조**
+
+```
+src/app/api/
+├── auth/
+│   ├── login/
+│   │   └── route.ts
+│   ├── logout/
+│   │   └── route.ts
+│   └── me/
+│       └── route.ts
+├── users/
+│   ├── route.ts          # GET, POST
+│   └── [id]/
+│       └── route.ts      # GET, PUT, DELETE
+└── upload/
+    └── route.ts
+```
+
+## 🔐 **인증 및 권한**
+
+### **JWT 토큰 검증**
+
+```typescript
+// app/api/protected/route.ts
+import { NextRequest, NextResponse } from 'next/server'
+import { verifyToken } from '@/app/(cms)/_shared/lib/jwt'
+
+export async function GET(request: NextRequest) {
+  try {
+    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+
+    if (!token) {
+      return NextResponse.json(
+        { error: '인증 토큰이 필요합니다' },
+        { status: 401 },
+      )
+    }
+
+    const payload = await verifyToken(token)
+
+    // 비즈니스 로직
+    return NextResponse.json({ data: '보호된 데이터' })
+  } catch (error) {
+    return NextResponse.json(
+      { error: '유효하지 않은 토큰입니다' },
+      { status: 401 },
+    )
+  }
+}
+```
+
+### **권한 검증 미들웨어**
+
+```typescript
+// lib/auth-middleware.ts
+import { NextRequest, NextResponse } from 'next/server'
+import { verifyToken } from './jwt'
+
+export async function withAuth(
+  request: NextRequest,
+  handler: (request: NextRequest, user: any) => Promise<NextResponse>,
+) {
+  try {
+    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+
+    if (!token) {
+      return NextResponse.json({ error: '인증이 필요합니다' }, { status: 401 })
+    }
+
+    const user = await verifyToken(token)
+    return await handler(request, user)
+  } catch (error) {
+    return NextResponse.json({ error: '인증에 실패했습니다' }, { status: 401 })
+  }
+}
+```
+
+## 📝 **요청/응답 패턴**
+
+### **표준 응답 형식**
+
+```typescript
+interface ApiResponse<T = any> {
+  success: boolean
+  data?: T
+  message?: string
+  error?: string
+}
+
+// 성공 응답
+export async function GET() {
+  try {
+    const data = await fetchData()
+    return NextResponse.json({
+      success: true,
+      data,
+      message: '데이터를 성공적으로 조회했습니다',
+    })
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: '데이터 조회에 실패했습니다',
+      },
+      { status: 500 },
+    )
+  }
+}
+```
+
+### **에러 처리**
+
+```typescript
+// lib/api-error.ts
+export class ApiError extends Error {
+  constructor(
+    public statusCode: number,
+    public message: string,
+    public code?: string,
+  ) {
+    super(message)
+    this.name = 'ApiError'
+  }
+}
+
+// 사용 예시
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+
+    if (!body.email) {
+      throw new ApiError(400, '이메일은 필수입니다', 'EMAIL_REQUIRED')
+    }
+
+    // 비즈니스 로직
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: error.message,
+          code: error.code,
+        },
+        { status: error.statusCode },
+      )
+    }
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: '서버 오류가 발생했습니다',
+      },
+      { status: 500 },
+    )
+  }
+}
+```
+
+## 🔍 **입력 검증**
+
+### **Zod 스키마 검증**
+
+```typescript
+import { z } from 'zod'
+
+const createUserSchema = z.object({
+  email: z.string().email('유효한 이메일을 입력하세요'),
+  name: z.string().min(1, '이름은 필수입니다'),
+  password: z.string().min(8, '비밀번호는 8자 이상이어야 합니다'),
+  role: z.enum(['user', 'admin']).default('user'),
+})
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const validatedData = createUserSchema.parse(body)
+
+    // 검증된 데이터로 비즈니스 로직 실행
+    const user = await createUser(validatedData)
+
+    return NextResponse.json({
+      success: true,
+      data: user,
+    })
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: '입력 데이터가 유효하지 않습니다',
+          details: error.errors,
+        },
+        { status: 400 },
+      )
+    }
+
+    throw error
+  }
+}
+```
+
+## 📊 **데이터베이스 작업**
+
+### **Prisma 트랜잭션**
+
+```typescript
+import { prisma } from '@/app/(cms)/_shared/lib/prisma'
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+
+    const result = await prisma.$transaction(async tx => {
+      // 사용자 생성
+      const user = await tx.user.create({
+        data: {
+          email: body.email,
+          name: body.name,
+        },
+      })
+
+      // 프로필 생성
+      const profile = await tx.profile.create({
+        data: {
+          userId: user.id,
+          bio: body.bio,
+        },
+      })
+
+      return { user, profile }
+    })
+
+    return NextResponse.json({
+      success: true,
+      data: result,
+    })
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: '사용자 생성에 실패했습니다',
+      },
+      { status: 500 },
+    )
+  }
+}
+```
+
+## 📁 **파일 업로드**
+
+### **파일 업로드 처리**
+
+```typescript
+import { NextRequest, NextResponse } from 'next/server'
+import { writeFile } from 'fs/promises'
+import { join } from 'path'
+
+export async function POST(request: NextRequest) {
+  try {
+    const formData = await request.formData()
+    const file = formData.get('file') as File
+
+    if (!file) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: '파일이 필요합니다',
+        },
+        { status: 400 },
+      )
+    }
+
+    // 파일 유효성 검사
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+    if (!allowedTypes.includes(file.type)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: '지원하지 않는 파일 형식입니다',
+        },
+        { status: 400 },
+      )
+    }
+
+    // 파일 저장
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+
+    const fileName = `${Date.now()}-${file.name}`
+    const filePath = join(process.cwd(), 'public', 'uploads', fileName)
+
+    await writeFile(filePath, buffer)
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        fileName,
+        url: `/uploads/${fileName}`,
+      },
+    })
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: '파일 업로드에 실패했습니다',
+      },
+      { status: 500 },
+    )
+  }
+}
+```
+
+## 🔄 **캐싱 및 성능**
+
+### **응답 캐싱**
+
+```typescript
+export async function GET(request: NextRequest) {
+  try {
+    const data = await fetchData()
+
+    const response = NextResponse.json({
+      success: true,
+      data,
+    })
+
+    // 캐시 헤더 설정
+    response.headers.set('Cache-Control', 'public, max-age=300') // 5분
+
+    return response
+  } catch (error) {
+    // 에러 응답은 캐시하지 않음
+    return NextResponse.json(
+      {
+        success: false,
+        error: '데이터 조회에 실패했습니다',
+      },
+      { status: 500 },
+    )
+  }
+}
+```
+
+## 🧪 **테스트 패턴**
+
+### **API 테스트 예시**
+
+```typescript
+// __tests__/api/users.test.ts
+import { describe, it, expect } from 'vitest'
+import { POST } from '@/app/api/users/route'
+
+describe('POST /api/users', () => {
+  it('should create a new user', async () => {
+    const request = new Request('http://localhost:3000/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'password123',
+      }),
+    })
+
+    const response = await POST(request)
+    const data = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(data.success).toBe(true)
+    expect(data.data.email).toBe('test@example.com')
+  })
+})
+```
+
+## 📋 **API 개발 체크리스트**
+
+### **기본 검증**
+
+- [ ] HTTP 메서드 적절히 사용 (GET, POST, PUT, DELETE)
+- [ ] 입력 데이터 Zod 스키마로 검증
+- [ ] 에러 처리 및 적절한 HTTP 상태 코드 반환
+- [ ] 응답 형식 일관성 유지
+
+### **보안 검증**
+
+- [ ] 인증 토큰 검증 (필요시)
+- [ ] 권한 검증 (필요시)
+- [ ] 입력 데이터 sanitization
+- [ ] CORS 설정 (필요시)
+
+### **성능 검증**
+
+- [ ] 데이터베이스 쿼리 최적화
+- [ ] 적절한 캐싱 전략
+- [ ] 응답 시간 최적화
+- [ ] 메모리 사용량 최적화
+
+## 🚫 **금지 사항**
+
+### **보안 관련**
+
+- ❌ 민감한 정보를 응답에 포함
+- ❌ SQL 인젝션 취약점
+- ❌ 적절한 검증 없이 사용자 입력 신뢰
+- ❌ 하드코딩된 비밀번호나 API 키
+
+### **성능 관련**
+
+- ❌ N+1 쿼리 문제
+- ❌ 불필요한 데이터베이스 연결
+- ❌ 대용량 데이터를 한 번에 처리
+- ❌ 적절한 인덱스 없이 쿼리 실행
+  description:
+  globs:
+  alwaysApply: false
+
+---

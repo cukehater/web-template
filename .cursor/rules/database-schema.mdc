@@ -1,0 +1,454 @@
+# 🗄️ 데이터베이스 스키마 가이드라인
+
+## 📋 **Prisma 스키마 구조**
+
+### **기본 모델 템플릿**
+
+```prisma
+// prisma/schema.prisma
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  role      UserRole @default(USER)
+  isActive  Boolean  @default(true)
+
+  // 관계
+  profile   Profile?
+  posts     Post[]
+
+  // 메타데이터
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 인덱스
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+```
+
+### **관계 정의**
+
+```prisma
+// 1:1 관계
+model Profile {
+  id     String @id @default(cuid())
+  bio    String?
+  avatar String?
+
+  // 1:1 관계
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 1:N 관계
+model Post {
+  id      String @id @default(cuid())
+  title   String
+  content String
+  status  PostStatus @default(DRAFT)
+
+  // 1:N 관계
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  // N:M 관계
+  categories Category[] @relation("PostCategory")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([authorId])
+  @@index([status])
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// N:M 관계
+model Category {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+
+  posts Post[] @relation("PostCategory")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+## 🔐 **보안 및 권한**
+
+### **사용자 인증 모델**
+
+```prisma
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(USER)
+  isActive     Boolean  @default(true)
+  isVerified   Boolean  @default(false)
+
+  // 보안 관련
+  lastLoginAt  DateTime?
+  loginAttempts Int     @default(0)
+  lockedUntil  DateTime?
+
+  // 세션 관리
+  sessions     Session[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email])
+  @@index([role])
+  @@index([isActive])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  expiresAt DateTime
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([expiresAt])
+}
+```
+
+## 📊 **데이터 무결성**
+
+### **제약 조건 및 검증**
+
+```prisma
+model Product {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(255)
+  description String?  @db.Text
+  price       Decimal  @db.Decimal(10, 2)
+  stock       Int      @default(0)
+  sku         String   @unique @db.VarChar(50)
+
+  // 제약 조건
+  @@check(price >= 0)
+  @@check(stock >= 0)
+  @@check(length(name) >= 1)
+
+  // 인덱스
+  @@index([sku])
+  @@index([price])
+  @@index([stock])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+### **소프트 삭제**
+
+```prisma
+model Article {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  published Boolean  @default(false)
+
+  // 소프트 삭제
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published])
+  @@index([deletedAt])
+}
+```
+
+## 🔄 **마이그레이션 관리**
+
+### **마이그레이션 파일 구조**
+
+```sql
+-- prisma/migrations/YYYYMMDDHHMMSS_add_user_model/migration.sql
+
+-- CreateEnum
+CREATE TYPE "UserRole" AS ENUM ('USER', 'ADMIN', 'MODERATOR');
+
+-- CreateTable
+CREATE TABLE "users" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "role" "UserRole" NOT NULL DEFAULT 'USER',
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE INDEX "users_email_idx" ON "users"("email");
+CREATE INDEX "users_role_idx" ON "users"("role");
+```
+
+### **마이그레이션 전략**
+
+```typescript
+// prisma/migrate.ts
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+async function migrate() {
+  try {
+    // 데이터 백업 (필요시)
+    await backupData()
+
+    // 마이그레이션 실행
+    await prisma.$executeRaw`SELECT 1`
+
+    console.log('마이그레이션이 성공적으로 완료되었습니다.')
+  } catch (error) {
+    console.error('마이그레이션 실패:', error)
+    throw error
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+migrate()
+```
+
+## 🚀 **성능 최적화**
+
+### **인덱스 전략**
+
+```prisma
+model Order {
+  id        String      @id @default(cuid())
+  userId    String
+  status    OrderStatus @default(PENDING)
+  total     Decimal     @db.Decimal(10, 2)
+
+  // 복합 인덱스
+  @@index([userId, status])
+  @@index([status, createdAt])
+
+  // 부분 인덱스 (PostgreSQL)
+  @@index([status], map: "idx_orders_active", where: "status = 'ACTIVE'")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+### **쿼리 최적화**
+
+```typescript
+// ✅ 권장: 필요한 필드만 선택
+const users = await prisma.user.findMany({
+  select: {
+    id: true,
+    name: true,
+    email: true,
+    _count: {
+      select: {
+        posts: true,
+      },
+    },
+  },
+  where: {
+    isActive: true,
+    role: 'USER',
+  },
+  orderBy: {
+    createdAt: 'desc',
+  },
+  take: 10,
+})
+
+// ✅ 권장: 관계 데이터 포함
+const postsWithAuthor = await prisma.post.findMany({
+  include: {
+    author: {
+      select: {
+        id: true,
+        name: true,
+      },
+    },
+    categories: {
+      select: {
+        id: true,
+        name: true,
+      },
+    },
+  },
+  where: {
+    status: 'PUBLISHED',
+  },
+})
+```
+
+## 🧪 **테스트 데이터**
+
+### **시드 데이터**
+
+```typescript
+// prisma/seed.ts
+import { PrismaClient } from '@prisma/client'
+import { hash } from 'bcryptjs'
+
+const prisma = new PrismaClient()
+
+async function main() {
+  // 관리자 사용자 생성
+  const adminPassword = await hash('admin123', 12)
+  const admin = await prisma.user.upsert({
+    where: { email: 'admin@example.com' },
+    update: {},
+    create: {
+      email: 'admin@example.com',
+      name: '관리자',
+      passwordHash: adminPassword,
+      role: 'ADMIN',
+      isActive: true,
+      isVerified: true,
+    },
+  })
+
+  // 카테고리 생성
+  const categories = await Promise.all([
+    prisma.category.upsert({
+      where: { slug: 'technology' },
+      update: {},
+      create: {
+        name: '기술',
+        slug: 'technology',
+      },
+    }),
+    prisma.category.upsert({
+      where: { slug: 'business' },
+      update: {},
+      create: {
+        name: '비즈니스',
+        slug: 'business',
+      },
+    }),
+  ])
+
+  console.log('시드 데이터가 성공적으로 생성되었습니다.')
+}
+
+main()
+  .catch(e => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })
+```
+
+## 🔍 **데이터 검증**
+
+### **스키마 검증**
+
+```typescript
+// lib/db-validation.ts
+import { z } from 'zod'
+
+// 사용자 생성 스키마
+export const createUserSchema = z.object({
+  email: z.string().email('유효한 이메일을 입력하세요'),
+  name: z
+    .string()
+    .min(1, '이름은 필수입니다')
+    .max(100, '이름은 100자 이하여야 합니다'),
+  role: z.enum(['USER', 'ADMIN', 'MODERATOR']).default('USER'),
+  password: z.string().min(8, '비밀번호는 8자 이상이어야 합니다'),
+})
+
+// 게시물 생성 스키마
+export const createPostSchema = z.object({
+  title: z
+    .string()
+    .min(1, '제목은 필수입니다')
+    .max(255, '제목은 255자 이하여야 합니다'),
+  content: z.string().min(1, '내용은 필수입니다'),
+  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).default('DRAFT'),
+  categoryIds: z.array(z.string()).optional(),
+})
+```
+
+## 📋 **데이터베이스 개발 체크리스트**
+
+### **스키마 설계**
+
+- [ ] 엔티티 관계 명확히 정의
+- [ ] 적절한 데이터 타입 선택
+- [ ] 제약 조건 및 검증 규칙 설정
+- [ ] 인덱스 전략 수립
+
+### **성능 최적화**
+
+- [ ] 복합 인덱스 적용
+- [ ] 쿼리 최적화
+- [ ] N+1 문제 방지
+- [ ] 데이터베이스 연결 풀 설정
+
+### **보안**
+
+- [ ] 민감한 데이터 암호화
+- [ ] 접근 권한 설정
+- [ ] SQL 인젝션 방지
+- [ ] 데이터 백업 전략
+
+## 🚫 **금지 사항**
+
+### **스키마 설계**
+
+- ❌ 불필요한 NULL 허용
+- ❌ 적절한 인덱스 없음
+- ❌ 외래 키 제약 조건 누락
+- ❌ 데이터 타입 불일치
+
+### **성능 관련**
+
+- ❌ N+1 쿼리 문제
+- ❌ 불필요한 JOIN
+- ❌ 대용량 데이터 한 번에 조회
+- ❌ 적절한 페이지네이션 없음
+
+### **보안 관련**
+
+- ❌ 평문 비밀번호 저장
+- ❌ 민감한 정보 로깅
+- ❌ 적절한 권한 검증 없음
+- ❌ 데이터 백업 부족
+  description:
+  globs:
+  alwaysApply: false
+
+---
