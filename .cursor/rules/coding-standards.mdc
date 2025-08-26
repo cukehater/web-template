@@ -1,0 +1,62 @@
+# Coding Standards & Naming Conventions
+
+## 🏷️ **CRITICAL: Naming Conventions**
+
+**MUST FOLLOW:**
+
+- Variables/Functions: `camelCase` (e.g., `userName`, `handleSubmit`)
+- Components: `PascalCase` (e.g., `UserProfile`)
+- Types/Interfaces: `PascalCase` (e.g., `UserData`, `ApiResponse`)
+- Constants: `UPPER_CASE` (e.g., `API_BASE_URL`)
+- Files: `kebab-case` (e.g., `user-profile.tsx`)
+
+## 🔧 **TypeScript Rules**
+
+**ALWAYS DO:**
+
+- Use explicit types instead of `any`
+- Define interfaces for complex objects
+- Use Zod schemas for runtime validation
+- Enable strict mode (`strict: true`)
+
+**NEVER DO:**
+
+- Use `any` type (ESLint will warn)
+- Use implicit `any` types
+- Ignore TypeScript errors
+- Use `// @ts-ignore` without proper justification
+
+## 📝 **Code Style**
+
+**MUST FOLLOW:**
+
+- Use semicolons at the end of statements
+- Use single quotes for strings
+- Use 2 spaces for indentation
+- Use trailing commas in objects and arrays
+- Use template literals instead of string concatenation
+
+**Example:**
+
+```typescript
+const user = {
+  name: 'John Doe',
+  email: 'john@example.com',
+  age: 30,
+}
+
+const message = `Hello, ${user.name}!`
+```
+
+## 🚫 **NEVER DO:**
+
+- Use `var` (always use `const` or `let`)
+- Use nested ternary operators
+- Use `console.log` in production code
+- Create functions without proper typing
+- Use magic numbers without constants
+  description:
+  globs:
+  alwaysApply: false
+
+---

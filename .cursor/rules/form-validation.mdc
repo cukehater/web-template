@@ -1,0 +1,115 @@
+# Form Validation & Data Handling Rules
+
+## ✅ **CRITICAL: Form Validation**
+
+**ALWAYS USE:**
+
+- Zod schemas for validation
+- react-hook-form for form state management
+- Proper error handling and user feedback
+- Type-safe form data
+
+**Example:**
+
+```typescript
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const userSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
+type UserFormData = z.infer<typeof userSchema>;
+
+export function UserForm() {
+  const form = useForm<UserFormData>({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const onSubmit = (data: UserFormData) => {
+    // Handle form submission
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        {/* Form fields */}
+      </form>
+    </Form>
+  );
+}
+```
+
+## 🔐 **Security Rules**
+
+**MUST DO:**
+
+- Validate all user inputs on both client and server
+- Sanitize data before database operations
+- Use HTTPS for all API calls
+- Implement proper authentication and authorization
+- Use environment variables for sensitive data
+
+**NEVER DO:**
+
+- Trust client-side validation alone
+- Store sensitive data in localStorage
+- Use plain text passwords
+- Expose API keys in client code
+- Use `eval()` or `innerHTML` with user input
+
+## 📊 **Data Fetching**
+
+**ALWAYS DO:**
+
+- Use proper error boundaries
+- Handle loading states
+- Implement retry logic for failed requests
+- Cache data appropriately
+- Use TypeScript for API responses
+
+**Example:**
+
+```typescript
+interface ApiResponse<T> {
+  data: T
+  success: boolean
+  message?: string
+}
+
+async function fetchUser(id: string): Promise<ApiResponse<User>> {
+  try {
+    const response = await fetch(`/api/users/${id}`)
+    if (!response.ok) {
+      throw new Error('Failed to fetch user')
+    }
+    return await response.json()
+  } catch (error) {
+    throw new Error('Network error')
+  }
+}
+```
+
+## 🚫 **NEVER DO:**
+
+- Skip input validation
+- Use `any` type for form data
+- Ignore error states
+- Make API calls without proper error handling
+- Store sensitive data in component state
+  description:
+  globs:
+  alwaysApply: false
+
+---

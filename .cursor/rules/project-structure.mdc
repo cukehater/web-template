@@ -1,0 +1,59 @@
+# Project Structure & Architecture Rules
+
+## 🏗️ **CRITICAL: Follow This Structure**
+
+This project uses a **Feature-based Architecture** with clear layer separation. ALWAYS follow this structure:
+
+```
+src/app/(cms)/
+├── _entities/     # Domain entities (admin-menu, auth, board)
+├── _features/     # Business features (login, logout)
+├── _shared/       # Common utilities (lib, schema, shadcn)
+└── _widgets/      # Reusable UI widgets
+```
+
+## 📁 **File Naming Conventions**
+
+**MUST FOLLOW:**
+
+- Components: `kebab-case` (e.g., `breadcrumb-container.tsx`)
+- Hooks: `camelCase` (e.g., `use-mobile.ts`)
+- Types: `kebab-case` (e.g., `types.ts`)
+- Pages: `page.tsx` (Next.js App Router convention)
+
+**NEVER DO:**
+
+- Use `PascalCase` for file names (except React components)
+- Mix naming conventions within the same directory
+- Use generic names like `utils.ts` or `helpers.ts`
+
+## 🔗 **Import Organization**
+
+**ALWAYS organize imports in this order:**
+
+1. React imports
+2. External libraries
+3. Internal modules (`@/` paths)
+4. Relative imports
+
+**Example:**
+
+```typescript
+import React from 'react'
+import { z } from 'zod'
+import { NextRequest } from 'next/server'
+import { cn } from '@/app/(cms)/_shared/lib'
+import { Button } from './button'
+```
+
+## 🚫 **NEVER DO:**
+
+- Create files outside the established structure
+- Use absolute paths for relative imports
+- Mix different architectural patterns
+- Create circular dependencies between layers
+  description:
+  globs:
+  alwaysApply: false
+
+---

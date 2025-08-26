@@ -1,0 +1,136 @@
+# Performance Optimization Rules
+
+## ⚡ **CRITICAL: Performance Best Practices**
+
+**ALWAYS DO:**
+
+- Use React.memo for expensive components
+- Implement proper code splitting
+- Optimize images with Next.js Image component
+- Use proper caching strategies
+- Minimize bundle size
+
+## 🎯 **React Optimization**
+
+**MUST IMPLEMENT:**
+
+- Memoization for expensive calculations
+- Proper dependency arrays in useEffect
+- Lazy loading for components
+- Virtual scrolling for large lists
+
+**Example:**
+
+```typescript
+import React, { useMemo, useCallback } from 'react';
+
+// Memoize expensive calculations
+const ExpensiveComponent = React.memo(({ data }: { data: number[] }) => {
+  const processedData = useMemo(() => {
+    return data.map(item => item * 2).filter(item => item > 10);
+  }, [data]);
+
+  const handleClick = useCallback((id: string) => {
+    // Handle click
+  }, []);
+
+  return (
+    <div>
+      {processedData.map(item => (
+        <div key={item} onClick={() => handleClick(item.toString())}>
+          {item}
+        </div>
+      ))}
+    </div>
+  );
+});
+```
+
+## 🖼️ **Image Optimization**
+
+**ALWAYS USE:**
+
+- Next.js Image component
+- Proper image formats (WebP, AVIF)
+- Responsive images with sizes prop
+- Lazy loading for images below the fold
+
+**Example:**
+
+```typescript
+import Image from 'next/image';
+
+export function OptimizedImage({ src, alt, width, height }: ImageProps) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      placeholder="blur"
+      blurDataURL="data:image/jpeg;base64,..."
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+    />
+  );
+}
+```
+
+## 📦 **Bundle Optimization**
+
+**MUST DO:**
+
+- Use dynamic imports for code splitting
+- Tree shake unused code
+- Minimize third-party dependencies
+- Use proper chunking strategies
+
+**Example:**
+
+```typescript
+// Dynamic import for code splitting
+const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
+  loading: () => <div>Loading...</div>,
+  ssr: false, // Disable SSR if not needed
+});
+
+// Lazy load routes
+const AdminPanel = lazy(() => import('./AdminPanel'));
+```
+
+## 🗄️ **Database Optimization**
+
+**ALWAYS DO:**
+
+- Use proper indexes
+- Implement connection pooling
+- Use pagination for large datasets
+- Cache frequently accessed data
+- Optimize queries
+
+**Example:**
+
+```typescript
+// Use pagination
+const getUsers = async (page: number, limit: number) => {
+  const offset = (page - 1) * limit
+  return await prisma.user.findMany({
+    take: limit,
+    skip: offset,
+    orderBy: { createdAt: 'desc' },
+  })
+}
+```
+
+## 🚫 **NEVER DO:**
+
+- Render large lists without virtualization
+- Load all data at once
+- Use unoptimized images
+- Forget to implement proper caching
+- Ignore bundle size
+- Use synchronous operations in render
+  description:
+  globs:
+  alwaysApply: false
+
+---
