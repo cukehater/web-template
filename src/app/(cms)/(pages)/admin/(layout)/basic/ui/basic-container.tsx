@@ -14,11 +14,11 @@ import CardOpenGraph from './card-og'
 import CardSEO from './card-seo'
 
 export default function BasicContainer({
-  initialValues,
+  defaultValues,
 }: {
-  initialValues: BasicFormSchemaType
+  defaultValues: BasicFormSchemaType
 }) {
-  const { form, onSubmit } = useBasicForm(initialValues)
+  const { form, onSubmit } = useBasicForm(defaultValues)
 
   return (
     <>

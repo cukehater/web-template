@@ -2,9 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
+import { uploadFilesFormFields } from '@/app/(cms)/_shared/api'
 import {
   ALERT_MESSAGE,
   errorToast,
+  hasFormChange,
   infoToast,
   successToast,
 } from '@/app/(cms)/_shared/lib'
@@ -12,17 +14,9 @@ import {
   basicFormSchema,
   BasicFormSchemaType,
 } from '@/app/(cms)/_shared/schema'
-import { initialBasicFormData } from '@/app/(cms)/_shared/schema/basic-form-schema'
 
-const FILE_FIELDS = ['logo', 'favicon', 'ogImage'] as const
-
-export function useBasicForm(initialValues: BasicFormSchemaType) {
+export function useBasicForm(defaultValues: BasicFormSchemaType) {
   const router = useRouter()
-  const defaultValues =
-    Object.keys(initialValues).length === 0
-      ? initialBasicFormData
-      : initialValues
-
   const form = useForm<BasicFormSchemaType>({
     resolver: zodResolver(basicFormSchema),
     defaultValues,
@@ -31,48 +25,28 @@ export function useBasicForm(initialValues: BasicFormSchemaType) {
   async function onSubmit(values: BasicFormSchemaType) {
     try {
       const watchedValues = form.watch()
-      const hasChanges =
-        JSON.stringify(watchedValues) !== JSON.stringify(defaultValues)
 
-      if (!hasChanges) {
+      if (!hasFormChange(watchedValues, defaultValues)) {
         infoToast(ALERT_MESSAGE.NO_CHANGES)
         return
       }
 
-      const fileFormData = new FormData()
-      FILE_FIELDS.forEach(key => {
-        fileFormData.append(key, values[key] || '')
-      })
-
-      const uploadRes = await fetch('/api/upload', {
-        method: 'POST',
-        body: fileFormData,
-      })
-
-      if (!uploadRes.ok) {
-        const errorMessage = await uploadRes.json()
-        errorToast(errorMessage || ALERT_MESSAGE.REQUEST_ERROR)
-        return
-      }
-
-      const uploadImageValues = await uploadRes.json()
-
-      const body = {
-        ...Object.fromEntries(
-          Object.entries(values).map(([key, value]) => {
-            if (value === undefined) return [key, '']
-            return [key, value]
-          }),
-        ),
-        ...uploadImageValues,
-      }
+      const uploadImageValues =
+        await uploadFilesFormFields<BasicFormSchemaType>(values, [
+          'logo',
+          'favicon',
+          'ogImage',
+        ])
 
       const res = await fetch('/api/basic', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          ...values,
+          ...uploadImageValues,
+        }),
       })
 
       if (!res.ok) {
@@ -82,7 +56,6 @@ export function useBasicForm(initialValues: BasicFormSchemaType) {
 
       successToast(ALERT_MESSAGE.SAVE_SUCCESS)
       form.reset({ ...values, ...uploadImageValues })
-
       router.refresh()
     } catch {
       errorToast(ALERT_MESSAGE.REQUEST_ERROR)

@@ -1,33 +1,16 @@
 'use client'
 
-import { formatDate } from 'date-fns'
-import {
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-  Eye,
-  EyeOff,
-  Image,
-  MoreHorizontal,
-  SquarePen,
-  Trash2,
-} from 'lucide-react'
+import { Eye } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import {
   ALERT_MESSAGE,
-  cn,
   errorToast,
   infoToast,
   successToast,
 } from '@/app/(cms)/_shared/lib'
 import {
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -43,11 +26,21 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/app/(cms)/_shared/shadcn'
-import { EmptyTableData } from '@/app/(cms)/_shared/ui'
+import {
+  TableActionDropdown,
+  TableCellTitle,
+  TableEmptyData,
+  TableNumberText,
+  TableOrderButtons,
+  TableStatusIndicator,
+  TableThumbnailImage,
+} from '@/app/(cms)/_shared/ui'
+import TableDate from '@/app/(cms)/_shared/ui/table/table-date'
 
 import { GalleryTableProps } from '../model/types'
 
@@ -151,7 +144,7 @@ export default function GalleryTable({
   }
 
   // 활성 상태 변경
-  const handleToggleActive = async (id: string, isVisible: boolean) => {
+  const handleToggleVisible = async (id: string, isVisible: boolean) => {
     try {
       await fetch(`/api/gallery?type=visible`, {
         method: 'PUT',
@@ -251,7 +244,7 @@ export default function GalleryTable({
         </Select>
       </div>
 
-      <div className='rounded-md border overflow-hidden'>
+      <TableContainer>
         <Table>
           <TableHeader>
             <TableRow>
@@ -271,144 +264,72 @@ export default function GalleryTable({
                 <TableRow key={column.id}>
                   {/* 인덱스 */}
                   <TableCell>
-                    <div className='text-sm text-center text-muted-foreground'>
-                      {paginationInfo.total + 1 - column.order}
-                    </div>
+                    <TableNumberText
+                      text={(
+                        paginationInfo.total +
+                        1 -
+                        column.order
+                      ).toString()}
+                    />
                   </TableCell>
 
                   {/* 순서 */}
                   <TableCell>
-                    <div className='flex flex-col items-center gap-2'>
-                      <Button
-                        className='p-1'
-                        size={null}
-                        variant='outline'
-                        onClick={() =>
-                          handleOrderChange(column.id, column.order, 'up')
-                        }
-                      >
-                        <ChevronUp className='size-3' />
-                      </Button>
-
-                      <Button
-                        className='p-1'
-                        size={null}
-                        variant='outline'
-                        onClick={() =>
-                          handleOrderChange(column.id, column.order, 'down')
-                        }
-                      >
-                        <ChevronDown className='size-3' />
-                      </Button>
-                    </div>
+                    <TableOrderButtons
+                      onOrderChangeDown={() =>
+                        handleOrderChange(column.id, column.order, 'down')
+                      }
+                      onOrderChangeUp={() =>
+                        handleOrderChange(column.id, column.order, 'up')
+                      }
+                    />
                   </TableCell>
 
                   {/* 상태 */}
-                  <TableCell className='text-center'>
-                    <div
-                      className={cn(
-                        'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium',
-                        column.isVisible
-                          ? 'bg-green-50 text-green-700 border border-green-200'
-                          : 'bg-red-50 text-red-700 border border-red-200',
-                      )}
-                    >
-                      <div
-                        className={cn(
-                          'w-2 h-2 rounded-full',
-                          column.isVisible ? 'bg-green-500' : 'bg-red-500',
-                        )}
-                      />
-                      {column.isVisible ? '활성' : '비활성'}
-                    </div>
+                  <TableCell>
+                    <TableStatusIndicator
+                      activeText='활성'
+                      currentStatus={column.isVisible}
+                      inactiveText='비활성'
+                    />
                   </TableCell>
 
                   {/* 이미지 */}
                   <TableCell>
-                    <div className='relative rounded-md overflow-hidden border border-gray-200'>
-                      {column.thumbnail ? (
-                        <img
-                          alt={column.title}
-                          className='w-full aspect-square object-cover'
-                          src={column.thumbnail}
-                        />
-                      ) : (
-                        <div className='w-full aspect-square bg-gray-100 rounded-md flex items-center justify-center'>
-                          <Image
-                            className='size-6 font-light text-gray-400'
-                            strokeWidth={1.5}
-                          />
-                        </div>
-                      )}
-                      {!column.isVisible && (
-                        <div className='absolute inset-0 bg-black/50 rounded flex items-center justify-center'>
-                          <EyeOff className='size-4 text-white' />
-                        </div>
-                      )}
-                    </div>
+                    <TableThumbnailImage
+                      alt={column.title}
+                      thumbnail={column.thumbnail}
+                      visibleStatus={column.isVisible}
+                    />
                   </TableCell>
 
                   {/* 제목 */}
                   <TableCell>
-                    <p className='font-medium'>{column.title}</p>
+                    <TableCellTitle title={column.title} />
                   </TableCell>
 
                   {/* 작성일 */}
                   <TableCell>
-                    <div className='flex gap-1 items-center justify-center'>
-                      <Calendar className='size-3 text-muted-foreground' />
-                      <span className='text-xs text-muted-foreground'>
-                        {formatDate(column.createdAt, 'yyyy.MM.dd')}
-                      </span>
-                    </div>
+                    <TableDate date={column.createdAt} />
                   </TableCell>
 
                   {/* 작업 */}
-                  <TableCell className='text-center'>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button className='h-8 w-8 p-0' variant='ghost'>
-                          <MoreHorizontal />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align='end'>
-                        <DropdownMenuItem
-                          onClick={() => {
-                            handleToggleActive(column.id, column.isVisible)
-                          }}
-                        >
-                          {column.isVisible ? (
-                            <>
-                              <EyeOff className='size-4' />
-                              비활성화
-                            </>
-                          ) : (
-                            <>
-                              <Eye className='size-4' />
-                              활성화
-                            </>
-                          )}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleEdit(column.id)}>
-                          <SquarePen />
-                          편집
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className='text-red-600'
-                          onClick={() => handleDelete(column.id)}
-                        >
-                          <Trash2 />
-                          삭제
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                  <TableCell>
+                    <TableActionDropdown
+                      visibleStatus={column.isVisible}
+                      onDelete={() => handleDelete(column.id)}
+                      onEdit={() => handleEdit(column.id)}
+                      onToggleVisible={() =>
+                        handleToggleVisible(column.id, column.isVisible)
+                      }
+                    />
                   </TableCell>
                 </TableRow>
               ))}
-            {data.length === 0 && <EmptyTableData colSpan={7} />}
+            {data.length === 0 && <TableEmptyData colSpan={7} />}
           </TableBody>
         </Table>
-      </div>
+      </TableContainer>
 
       {/* 페이지네이션 */}
       {paginationInfo.totalPages > 1 && (

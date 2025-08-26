@@ -32,8 +32,7 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json(ALERT_MESSAGE.REQUEST_SUCCESS)
-  } catch (err) {
-    console.log(err)
+  } catch {
     return NextResponse.json(ALERT_MESSAGE.REQUEST_ERROR, { status: 500 })
   }
 }

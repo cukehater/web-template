@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { uploadFilesFormFields } from '@/app/(cms)/_shared/api'
 import {
   ALERT_MESSAGE,
   errorToast,
@@ -16,6 +17,7 @@ import {
 import {
   galleryFormSchema,
   GalleryFormSchemaType,
+  initialGalleryFormData,
 } from '@/app/(cms)/_shared/schema'
 import {
   AlertDialog,
@@ -47,23 +49,18 @@ export default function GalleryCreatePage() {
   const handleSubmit = async (values: GalleryFormSchemaType) => {
     setIsSubmitting(true)
 
-    const formData = new FormData()
-    formData.append('thumbnail', values.thumbnail)
-
     try {
-      const uploadResponse = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
-
-      const urls = await uploadResponse.json()
+      const uploadImageValues =
+        await uploadFilesFormFields<GalleryFormSchemaType>(values, [
+          'thumbnail',
+        ])
 
       await fetch('/api/gallery', {
         method: 'POST',
         body: JSON.stringify({
           ...values,
+          ...uploadImageValues,
           createdAt: values.createdAt || new Date().toISOString(),
-          thumbnail: urls.thumbnail,
         }),
       })
 
@@ -82,13 +79,7 @@ export default function GalleryCreatePage() {
 
   const form = useForm<GalleryFormSchemaType>({
     resolver: zodResolver(galleryFormSchema),
-    defaultValues: {
-      title: '',
-      thumbnail: '',
-      createdAt: '',
-      content: '',
-      isVisible: true,
-    },
+    defaultValues: initialGalleryFormData,
   })
 
   return (

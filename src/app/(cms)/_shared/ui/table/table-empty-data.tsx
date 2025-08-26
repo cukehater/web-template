@@ -1,8 +1,8 @@
 import { CloudAlert } from 'lucide-react'
 
-import { TableCell, TableRow } from '../shadcn'
+import { TableCell, TableRow } from '../../shadcn'
 
-export default function EmptyTableData({ colSpan }: { colSpan: number }) {
+export default function TableEmptyData({ colSpan }: { colSpan: number }) {
   return (
     <TableRow>
       <TableCell colSpan={colSpan}>

@@ -104,11 +104,21 @@ function TableCaption({
   )
 }
 
+function TableContainer({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn('rounded-md border overflow-hidden', className)}
+      {...props}
+    />
+  )
+}
+
 export {
   Table,
   TableBody,
   TableCaption,
   TableCell,
+  TableContainer,
   TableFooter,
   TableHead,
   TableHeader,

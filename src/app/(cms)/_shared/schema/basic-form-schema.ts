@@ -11,23 +11,30 @@ export const basicFormSchema = z.object({
     .nonempty(ALERT_MESSAGE.NONE_EMPTY)
     .max(13, ALERT_MESSAGE.TELEPHONE)
     .regex(REGEX.TELEPHONE, ALERT_MESSAGE.TELEPHONE),
-  fax: z.string().regex(REGEX.TELEPHONE, ALERT_MESSAGE.TELEPHONE).optional(),
+  fax: z.union([
+    z.string().regex(REGEX.TELEPHONE, ALERT_MESSAGE.TELEPHONE),
+    z.literal(''),
+  ]),
   email: z
     .string()
     .nonempty(ALERT_MESSAGE.NONE_EMPTY)
     .email(ALERT_MESSAGE.EMAIL),
   address: z.string().nonempty(ALERT_MESSAGE.NONE_EMPTY),
-  businessNumber: z
-    .string()
-    .regex(REGEX.ONLY_NUMBER_AND_DASH, ALERT_MESSAGE.ONLY_NUMBER_AND_DASH)
-    .optional(),
-  industry: z.string().optional(),
-  logo: z
-    .union([z.instanceof(File, { message: ALERT_MESSAGE.FILE }), z.string()])
-    .optional(),
-  favicon: z
-    .union([z.instanceof(File, { message: ALERT_MESSAGE.FILE }), z.string()])
-    .optional(),
+  businessNumber: z.union([
+    z
+      .string()
+      .regex(REGEX.ONLY_NUMBER_AND_DASH, ALERT_MESSAGE.ONLY_NUMBER_AND_DASH),
+    z.literal(''),
+  ]),
+  industry: z.string(),
+  logo: z.union([
+    z.instanceof(File, { message: ALERT_MESSAGE.FILE }),
+    z.string(),
+  ]),
+  favicon: z.union([
+    z.instanceof(File, { message: ALERT_MESSAGE.FILE }),
+    z.string(),
+  ]),
 
   // SEO
   title: z.string().nonempty(ALERT_MESSAGE.NONE_EMPTY),
@@ -35,17 +42,18 @@ export const basicFormSchema = z.object({
   keywords: z.string().nonempty(ALERT_MESSAGE.NONE_EMPTY),
 
   // Open Graph
-  ogTitle: z.string().optional(),
-  ogDescription: z.string().optional(),
-  ogImage: z
-    .union([z.instanceof(File, { message: ALERT_MESSAGE.FILE }), z.string()])
-    .optional(),
+  ogTitle: z.string(),
+  ogDescription: z.string(),
+  ogImage: z.union([
+    z.instanceof(File, { message: ALERT_MESSAGE.FILE }),
+    z.string(),
+  ]),
 
   // Google Analytics
-  googleAnalyticsId: z.string().optional(),
+  googleAnalyticsId: z.string(),
 
   // 네이버 웹마스터 도구
-  naverWebmasterId: z.string().optional(),
+  naverWebmasterId: z.string(),
 })
 
 export type BasicFormSchemaType = z.infer<typeof basicFormSchema>
@@ -54,19 +62,19 @@ export const initialBasicFormData: BasicFormSchemaType = {
   companyName: '',
   representative: '',
   tel: '',
-  fax: undefined,
+  fax: '',
   email: '',
   address: '',
-  businessNumber: undefined,
-  industry: undefined,
-  logo: undefined,
-  favicon: undefined,
+  businessNumber: '',
+  industry: '',
+  logo: '',
+  favicon: '',
   title: '',
   description: '',
   keywords: '',
-  ogTitle: undefined,
-  ogDescription: undefined,
-  ogImage: undefined,
-  googleAnalyticsId: undefined,
-  naverWebmasterId: undefined,
+  ogTitle: '',
+  ogDescription: '',
+  ogImage: '',
+  googleAnalyticsId: '',
+  naverWebmasterId: '',
 }
