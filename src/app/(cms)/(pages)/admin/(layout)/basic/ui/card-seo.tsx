@@ -1,7 +1,7 @@
 import { Search } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
 
-import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
+import { BasicFormSchemaType } from '@/app/(cms)/shared/schema'
 import {
   Card,
   CardContent,
@@ -15,7 +15,7 @@ import {
   FormMessage,
   Input,
   Textarea,
-} from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
 
 export default function CardSEO({
   form,
@@ -25,11 +25,11 @@ export default function CardSEO({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='flex items-center gap-2'>
+        <CardTitle>
           <Search className='size-5' /> SEO 관리
         </CardTitle>
       </CardHeader>
-      <CardContent className='space-y-6'>
+      <CardContent>
         <FormField
           control={form.control}
           name='title'

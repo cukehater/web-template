@@ -1,8 +1,8 @@
 import { Share2 } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
 
-import { fileChangeHandler } from '@/app/(cms)/_shared/lib'
-import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
+import { fileChangeHandler } from '@/app/(cms)/shared/lib'
+import { BasicFormSchemaType } from '@/app/(cms)/shared/schema'
 import {
   Card,
   CardContent,
@@ -16,8 +16,8 @@ import {
   FormMessage,
   Input,
   Textarea,
-} from '@/app/(cms)/_shared/shadcn'
-import ImagePreview from '@/app/(cms)/_shared/ui/image-preview'
+} from '@/app/(cms)/shared/shadcn'
+import ImagePreview from '@/app/(cms)/shared/ui/image-preview'
 
 export default function CardOpenGraph({
   form,
@@ -27,11 +27,11 @@ export default function CardOpenGraph({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='flex items-center gap-2'>
+        <CardTitle>
           <Share2 className='size-5' /> Open Graph 관리
         </CardTitle>
       </CardHeader>
-      <CardContent className='space-y-6'>
+      <CardContent>
         <FormField
           control={form.control}
           name='ogTitle'

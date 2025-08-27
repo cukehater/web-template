@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # Project Structure & Architecture Rules
 
 ## 🏗️ **CRITICAL: Follow This Structure**
@@ -6,10 +10,10 @@ This project uses a **Feature-based Architecture** with clear layer separation. 
 
 ```
 src/app/(cms)/
-├── _entities/     # Domain entities (admin-menu, auth, board)
-├── _features/     # Business features (login, logout)
-├── _shared/       # Common utilities (lib, schema, shadcn)
-└── _widgets/      # Reusable UI widgets
+├── entities/     # Domain entities (admin-menu, auth, board)
+├── features/     # Business features (login, logout)
+├── shared/       # Common utilities (lib, schema, shadcn)
+└── widgets/      # Reusable UI widgets
 ```
 
 ## 📁 **File Naming Conventions**
@@ -42,7 +46,7 @@ src/app/(cms)/
 import React from 'react'
 import { z } from 'zod'
 import { NextRequest } from 'next/server'
-import { cn } from '@/app/(cms)/_shared/lib'
+import { cn } from '@/app/(cms)/shared/lib'
 import { Button } from './button'
 ```
 

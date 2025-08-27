@@ -1,6 +1,6 @@
 import { Image, Plus, Settings } from 'lucide-react'
 
-import { prisma } from '@/app/(cms)/_shared/lib'
+import { prisma } from '@/app/(cms)/shared/lib'
 import {
   Badge,
   Button,
@@ -13,8 +13,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/app/(cms)/_shared/shadcn'
-import { PageTopTitle } from '@/app/(cms)/_shared/ui'
+} from '@/app/(cms)/shared/shadcn'
+import { PageTopTitle } from '@/app/(cms)/shared/ui'
 
 import BannerForm from './ui/banner-form'
 import BannerPreview from './ui/banner-preview'

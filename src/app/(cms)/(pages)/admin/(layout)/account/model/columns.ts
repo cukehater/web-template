@@ -4,7 +4,7 @@ import { formatDate } from 'date-fns'
 import {
   EditableTableColumn,
   EditableTableDialogColumn,
-} from '@/app/(cms)/_shared/model'
+} from '@/app/(cms)/shared/model'
 
 export const columns: EditableTableColumn<User>[] = [
   {

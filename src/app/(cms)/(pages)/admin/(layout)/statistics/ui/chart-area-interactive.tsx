@@ -10,21 +10,21 @@ import {
   CardHeader,
   CardTitle,
   ChartConfig,
-} from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
 import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
 
 export const description = 'An interactive area chart'
 

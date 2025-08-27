@@ -106,3 +106,13 @@ model Gallery {
   @@index([order])
   @@index([createdAt])
 }
+
+model General {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  isVisible Boolean  @default(true)
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

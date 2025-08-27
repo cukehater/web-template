@@ -1,7 +1,7 @@
 import { BarChart3 } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
 
-import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
+import { BasicFormSchemaType } from '@/app/(cms)/shared/schema'
 import {
   Card,
   CardContent,
@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
 
 export default function CardGoogleAnalytics({
   form,
@@ -24,11 +24,11 @@ export default function CardGoogleAnalytics({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='flex items-center gap-2'>
+        <CardTitle>
           <BarChart3 className='size-5' /> Google Analytics 관리
         </CardTitle>
       </CardHeader>
-      <CardContent className='space-y-6'>
+      <CardContent>
         <FormField
           control={form.control}
           name='googleAnalyticsId'

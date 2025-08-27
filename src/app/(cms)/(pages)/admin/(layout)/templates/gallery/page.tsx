@@ -1,9 +1,9 @@
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 
-import { GalleryTable } from '@/app/(cms)/_entities/board'
-import { Button } from '@/app/(cms)/_shared/shadcn'
-import { PageTopTitle } from '@/app/(cms)/_shared/ui'
+import { GalleryTable } from '@/app/(cms)/entities/board/gallery'
+import { Button } from '@/app/(cms)/shared/shadcn'
+import { PageTopTitle } from '@/app/(cms)/shared/ui'
 
 export default async function Page({
   searchParams,
@@ -14,7 +14,7 @@ export default async function Page({
   const limit = (await searchParams).limit || '10'
 
   const { data, pagination } = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/gallery?page=${page}&limit=${limit}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/board/gallery?page=${page}&limit=${limit}`,
   ).then(res => res.json())
 
   return (

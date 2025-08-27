@@ -1,7 +1,7 @@
 import { UserCog2 } from 'lucide-react'
 
-import { prisma } from '@/app/(cms)/_shared/lib'
-import { PageTopTitle } from '@/app/(cms)/_shared/ui'
+import { prisma } from '@/app/(cms)/shared/lib'
+import { PageTopTitle } from '@/app/(cms)/shared/ui'
 
 import AccountTable from './ui/account-table'
 

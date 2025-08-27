@@ -5,7 +5,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import {
   EditableTableColumn,
   EditableTableDialogColumn,
-} from '@/app/(cms)/_shared/model'
+} from '@/app/(cms)/shared/model'
 
 export const columns: EditableTableColumn<Popup>[] = [
   {

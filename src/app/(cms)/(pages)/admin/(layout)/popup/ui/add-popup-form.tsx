@@ -6,7 +6,7 @@ import { useRef } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import z from 'zod'
 
-import { errorToast, successToast } from '@/app/(cms)/_shared/lib'
+import { errorToast, successToast } from '@/app/(cms)/shared/lib'
 import {
   Button,
   Checkbox,
@@ -20,7 +20,7 @@ import {
   SheetClose,
   SheetFooter,
   Switch,
-} from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
 
 const formSchema = z.object({
   isActive: z.boolean(),

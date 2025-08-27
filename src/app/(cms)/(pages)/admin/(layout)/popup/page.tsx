@@ -1,6 +1,6 @@
 import { PictureInPicture2, Plus } from 'lucide-react'
 
-import { prisma } from '@/app/(cms)/_shared/lib'
+import { prisma } from '@/app/(cms)/shared/lib'
 import {
   Button,
   Sheet,
@@ -9,8 +9,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/app/(cms)/_shared/shadcn'
-import { PageTopTitle } from '@/app/(cms)/_shared/ui'
+} from '@/app/(cms)/shared/shadcn'
+import { PageTopTitle } from '@/app/(cms)/shared/ui'
 
 import AddPopupForm from './ui/add-popup-form'
 import PopupTable from './ui/popup-table'

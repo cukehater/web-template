@@ -3,7 +3,7 @@
 import { User } from '@prisma/client'
 import { useState } from 'react'
 
-import { errorToast, successToast } from '@/app/(cms)/_shared/lib'
+import { errorToast, successToast } from '@/app/(cms)/shared/lib'
 
 export const useEditAccount = (initialUsers: User[]) => {
   const [users, setUsers] = useState(initialUsers)

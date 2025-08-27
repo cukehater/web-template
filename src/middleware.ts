@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { TokenVerificationError, verifyToken } from './app/(cms)/_entities/auth'
+import { TokenVerificationError, verifyToken } from './app/(cms)/entities/auth'
 
 /**
  * Next.js 미들웨어 함수

@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # 🔌 API 개발 가이드라인
 
 ## 📋 **API 라우트 구조**
@@ -28,7 +32,7 @@ src/app/api/
 ```typescript
 // app/api/protected/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyToken } from '@/app/(cms)/_shared/lib/jwt'
+import { verifyToken } from '@/app/(cms)/shared/lib/jwt'
 
 export async function GET(request: NextRequest) {
   try {
@@ -209,7 +213,7 @@ export async function POST(request: NextRequest) {
 ### **Prisma 트랜잭션**
 
 ```typescript
-import { prisma } from '@/app/(cms)/_shared/lib/prisma'
+import { prisma } from '@/app/(cms)/shared/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {

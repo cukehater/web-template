@@ -14,7 +14,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
 
 interface Banner {
   id: string

@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # 🎨 UI 컴포넌트 개발 가이드라인
 
 ## 🏗️ **컴포넌트 구조**
@@ -6,8 +10,8 @@
 
 ```typescript
 // components/feature/feature-card.tsx
-import { cn } from '@/app/(cms)/_shared/lib/cn'
-import { Card, CardContent, CardHeader, CardTitle } from '@/app/(cms)/_shared/shadcn/card'
+import { cn } from '@/app/(cms)/shared/lib/cn'
+import { Card, CardContent, CardHeader, CardTitle } from '@/app/(cms)/shared/shadcn/card'
 
 interface FeatureCardProps {
   title: string

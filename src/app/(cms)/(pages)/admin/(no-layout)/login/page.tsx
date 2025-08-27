@@ -1,12 +1,17 @@
-import { apiGet } from '@/app/(cms)/_shared/api'
-import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
-
-import LoginForm from './ui/login-form'
+import { LoginForm } from '@/app/(cms)/features/auth'
+import { apiGet } from '@/app/(cms)/shared/api'
+import { BasicFormSchemaType } from '@/app/(cms)/shared/schema'
 
 export default async function Page() {
   const { data: basicData } = await apiGet<BasicFormSchemaType>(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/basic`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/entities/basic/api`,
   )
 
-  return <LoginForm logo={basicData?.logo as string} />
+  const logo = basicData?.logo || ''
+
+  return (
+    <div className='flex h-screen flex-col w-screen items-center justify-center'>
+      <LoginForm logo={logo as string} />
+    </div>
+  )
 }

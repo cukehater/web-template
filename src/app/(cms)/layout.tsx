@@ -1,4 +1,4 @@
-import { Toaster } from './_shared/shadcn'
+import { Toaster } from './shared/shadcn'
 
 export default function RootLayout({
   children,

@@ -1,7 +1,7 @@
-import { BreadcrumbContainer } from '@//app/(cms)/_widgets/breadcrumb'
-import { apiGet } from '@/app/(cms)/_shared/api'
-import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
-import SiderContainer from '@/app/(cms)/_widgets/sider/ui/sider-container'
+import { apiGet } from '@/app/(cms)/shared/api'
+import { BasicFormSchemaType } from '@/app/(cms)/shared/schema'
+import { BreadcrumbContainer } from '@/app/(cms)/widgets/breadcrumb'
+import SiderContainer from '@/app/(cms)/widgets/sider/ui/sider-container'
 
 export default async function Layout({
   children,
@@ -9,7 +9,7 @@ export default async function Layout({
   children: React.ReactNode
 }) {
   const { data: basicData } = await apiGet<BasicFormSchemaType>(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/basic`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/entities/basic/api`,
   )
 
   return (

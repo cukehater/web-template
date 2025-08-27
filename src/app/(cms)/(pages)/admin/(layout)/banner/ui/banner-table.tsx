@@ -21,16 +21,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/app/(cms)/_shared/shadcn'
-import { Button } from '@/app/(cms)/_shared/shadcn'
-import { Badge } from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
+import { Button } from '@/app/(cms)/shared/shadcn'
+import { Badge } from '@/app/(cms)/shared/shadcn'
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
 
 import BannerForm from './banner-form'
 

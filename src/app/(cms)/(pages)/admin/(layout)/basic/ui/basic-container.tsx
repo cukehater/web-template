@@ -2,9 +2,9 @@
 
 import { Cog, Loader2, Save } from 'lucide-react'
 
-import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
-import { Button, Form } from '@/app/(cms)/_shared/shadcn'
-import { PageTopTitle } from '@/app/(cms)/_shared/ui'
+import { BasicFormSchemaType } from '@/app/(cms)/shared/schema'
+import { Button, Form } from '@/app/(cms)/shared/shadcn'
+import { PageTopTitle } from '@/app/(cms)/shared/ui'
 
 import { useBasicForm } from '../model/use-basic-form'
 import CardCompany from './card-company'

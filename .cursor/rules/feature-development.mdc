@@ -6,10 +6,10 @@
 
 ```
 src/app/(cms)/
-├── _entities/          # 도메인 엔티티 (admin-menu, auth, board 등)
-├── _features/          # 비즈니스 기능 (login, logout 등)
-├── _shared/            # 공통 컴포넌트 및 유틸리티
-└── _widgets/           # 재사용 가능한 위젯 (breadcrumb, sider 등)
+├── entities/          # 도메인 엔티티 (admin-menu, auth, board 등)
+├── features/          # 비즈니스 기능 (login, logout 등)
+├── shared/            # 공통 컴포넌트 및 유틸리티
+└── widgets/           # 재사용 가능한 위젯 (breadcrumb, sider 등)
 ```
 
 ### **파일 명명 규칙**
@@ -204,8 +204,8 @@ export async function POST(request: NextRequest) {
 
 ```typescript
 // ✅ 권장: Shadcn UI 컴포넌트 활용
-import { Button } from '@/app/(cms)/_shared/shadcn/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/app/(cms)/_shared/shadcn/card'
+import { Button } from '@/app/(cms)/shared/shadcn/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/app/(cms)/shared/shadcn/card'
 
 // ✅ 일관된 스타일링
 <Card className="w-full max-w-md">
@@ -253,7 +253,7 @@ model User {
 
 ```typescript
 // ✅ Prisma 클라이언트 사용
-import { prisma } from '@/app/(cms)/_shared/lib/prisma'
+import { prisma } from '@/app/(cms)/shared/lib/prisma'
 
 export async function createUser(data: CreateUserData) {
   return await prisma.user.create({
@@ -336,18 +336,18 @@ import Image from 'next/image'
 
 ### **기존 스키마 및 타입**
 
-- [basic-form-schema.ts](<mdc:src/app/(cms)/_shared/schema/basic-form-schema.ts>)
-- [gallery-form-schema.ts](<mdc:src/app/(cms)/_shared/schema/gallery-form-schema.ts>)
+- [basic-form-schema.ts](<mdc:src/app/(cms)/shared/schema/basic-form-schema.ts>)
+- [gallery-form-schema.ts](<mdc:src/app/(cms)/shared/schema/gallery-form-schema.ts>)
 
 ### **공통 컴포넌트**
 
-- [shadcn 컴포넌트들](<mdc:src/app/(cms)/_shared/shadcn/>)
-- [공통 UI 컴포넌트](<mdc:src/app/(cms)/_shared/ui/>)
+- [shadcn 컴포넌트들](<mdc:src/app/(cms)/shared/shadcn/>)
+- [공통 UI 컴포넌트](<mdc:src/app/(cms)/shared/ui/>)
 
 ### **유틸리티 함수**
 
-- [공통 라이브러리](<mdc:src/app/(cms)/_shared/lib/>)
-- [Prisma 설정](<mdc:src/app/(cms)/_shared/lib/prisma.ts>)
+- [공통 라이브러리](<mdc:src/app/(cms)/shared/lib/>)
+- [Prisma 설정](<mdc:src/app/(cms)/shared/lib/prisma.ts>)
   description:
   globs:
   alwaysApply: false

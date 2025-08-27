@@ -17,18 +17,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/app/(cms)/_shared/shadcn'
-import { Input } from '@/app/(cms)/_shared/shadcn'
-import { Button } from '@/app/(cms)/_shared/shadcn'
-import { Textarea } from '@/app/(cms)/_shared/shadcn'
-import { Switch } from '@/app/(cms)/_shared/shadcn'
-import { Calendar } from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
+import { Input } from '@/app/(cms)/shared/shadcn'
+import { Button } from '@/app/(cms)/shared/shadcn'
+import { Textarea } from '@/app/(cms)/shared/shadcn'
+import { Switch } from '@/app/(cms)/shared/shadcn'
+import { Calendar } from '@/app/(cms)/shared/shadcn'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/app/(cms)/_shared/shadcn'
-import { Card, CardContent } from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
+import { Card, CardContent } from '@/app/(cms)/shared/shadcn'
 
 interface Banner {
   id: string

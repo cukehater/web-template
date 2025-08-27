@@ -1,8 +1,8 @@
 import { Building2 } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
 
-import { fileChangeHandler } from '@/app/(cms)/_shared/lib'
-import { BasicFormSchemaType } from '@/app/(cms)/_shared/schema'
+import { fileChangeHandler } from '@/app/(cms)/shared/lib'
+import { BasicFormSchemaType } from '@/app/(cms)/shared/schema'
 import {
   Card,
   CardContent,
@@ -15,8 +15,8 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from '@/app/(cms)/_shared/shadcn'
-import ImagePreview from '@/app/(cms)/_shared/ui/image-preview'
+} from '@/app/(cms)/shared/shadcn'
+import ImagePreview from '@/app/(cms)/shared/ui/image-preview'
 
 export default function CardCompany({
   form,
@@ -26,11 +26,11 @@ export default function CardCompany({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='flex items-center gap-2'>
+        <CardTitle>
           <Building2 className='size-5' /> 회사 정보 관리
         </CardTitle>
       </CardHeader>
-      <CardContent className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+      <CardContent className='grid grid-cols-1 md:grid-cols-2 gap-x-4'>
         <FormField
           control={form.control}
           name='companyName'

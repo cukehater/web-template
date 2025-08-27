@@ -7,18 +7,18 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { uploadFilesFormFields } from '@/app/(cms)/_shared/api'
+import { uploadFilesFormFields } from '@/app/(cms)/shared/api'
 import {
   ALERT_MESSAGE,
   errorToast,
   fileChangeHandler,
   successToast,
-} from '@/app/(cms)/_shared/lib'
+} from '@/app/(cms)/shared/lib'
 import {
   galleryFormSchema,
   GalleryFormSchemaType,
   initialGalleryFormData,
-} from '@/app/(cms)/_shared/schema'
+} from '@/app/(cms)/shared/schema'
 import {
   AlertDialog,
   Button,
@@ -32,15 +32,15 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from '@/app/(cms)/_shared/shadcn'
+} from '@/app/(cms)/shared/shadcn'
 import {
   ConfirmDialog,
   DateTimePicker,
   PageTopTitle,
   RichEditor,
   SwitchField,
-} from '@/app/(cms)/_shared/ui'
-import ImagePreview from '@/app/(cms)/_shared/ui/image-preview'
+} from '@/app/(cms)/shared/ui'
+import ImagePreview from '@/app/(cms)/shared/ui/image-preview'
 
 export default function GalleryCreatePage() {
   const router = useRouter()
@@ -55,7 +55,7 @@ export default function GalleryCreatePage() {
           'thumbnail',
         ])
 
-      await fetch('/api/gallery', {
+      await fetch('/api/board/gallery', {
         method: 'POST',
         body: JSON.stringify({
           ...values,

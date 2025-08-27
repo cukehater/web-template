@@ -2,7 +2,7 @@
 
 import { User } from '@prisma/client'
 
-import { EditableTable } from '@/app/(cms)/_shared/ui'
+import { EditableTable } from '@/app/(cms)/shared/ui'
 
 import { columns, dialogColumns } from '../model/columns'
 import { useEditAccount } from '../model/use-edit-account'
