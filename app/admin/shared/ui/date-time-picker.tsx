@@ -1,5 +1,9 @@
 'use client'
 
+import { ChevronDown } from 'lucide-react'
+import { useCallback, useState } from 'react'
+import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
+
 import {
   Button,
   Calendar,
@@ -7,11 +11,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@cms/shared/shadcn'
-import { ChevronDownIcon } from 'lucide-react'
-import { useCallback, useState } from 'react'
-import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
-
+} from '../shadcn'
 import SwitchField from './switch-field'
 
 export default function DateTimePicker<T extends FieldValues>({
@@ -79,7 +79,7 @@ export default function DateTimePicker<T extends FieldValues>({
                 variant='outline'
               >
                 {getDateDisplayText()}
-                <ChevronDownIcon className='h-4 w-4' />
+                <ChevronDown className='h-4 w-4' />
               </Button>
             </PopoverTrigger>
             <PopoverContent

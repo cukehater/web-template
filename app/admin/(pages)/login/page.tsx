@@ -1,5 +1,5 @@
 import { LoginForm } from '@cms/features/auth'
-import { apiClient } from '@cms/shared/api'
+import { apiClient } from '@cms/shared/lib'
 import { BasicFormSchemaType } from '@cms/shared/schema'
 
 export default async function Page() {

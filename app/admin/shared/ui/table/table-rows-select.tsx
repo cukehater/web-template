@@ -1,15 +1,14 @@
 'use client'
 
-import { Eye } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
-
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../../shadcn'
+} from '@cms/shared/shadcn'
+import { Eye } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function TableRowsSelect({
   currentLimit,

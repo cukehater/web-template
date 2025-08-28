@@ -5,3 +5,4 @@ export type {
   PaginationInfo,
   User,
 } from './type'
+export { useIsMobile } from './use-is-mobile'

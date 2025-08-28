@@ -1,12 +1,11 @@
-import { Eye, EyeOff, MoreHorizontal, SquarePen, Trash2 } from 'lucide-react'
-
 import {
   Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../../shadcn'
+} from '@cms/shared/shadcn'
+import { Eye, EyeOff, MoreHorizontal, SquarePen, Trash2 } from 'lucide-react'
 
 export default function TableActionDropdown({
   onToggleVisible,

@@ -1,5 +1,6 @@
-import { ALERT_MESSAGE, ALLOWED_TYPES, errorToast } from '@cms/shared/lib'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
+
+import { ALERT_MESSAGE, ALLOWED_TYPES, errorToast } from '../lib'
 
 export const fileChangeHandler = <T extends FieldValues>(
   e: React.ChangeEvent<HTMLInputElement>,

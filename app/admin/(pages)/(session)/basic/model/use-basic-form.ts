@@ -1,10 +1,10 @@
-import { uploadFilesFormFields } from '@cms/shared/api'
 import {
   ALERT_MESSAGE,
   errorToast,
   hasFormChange,
   infoToast,
   successToast,
+  uploadFilesFormFields,
 } from '@cms/shared/lib'
 import { basicFormSchema, BasicFormSchemaType } from '@cms/shared/schema'
 import { zodResolver } from '@hookform/resolvers/zod'

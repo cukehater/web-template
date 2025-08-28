@@ -137,6 +137,7 @@ export {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from './sidebar'
 export { Toaster } from './sonner'
 export { Switch } from './switch'

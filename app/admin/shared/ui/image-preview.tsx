@@ -1,10 +1,10 @@
 'use client'
 
-import { cn } from '@cms/shared/lib'
 import { X } from 'lucide-react'
 import { useRef } from 'react'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
 
+import { cn } from '../lib'
 import { Button } from '../shadcn'
 
 export default function ImagePreview<T extends FieldValues>({

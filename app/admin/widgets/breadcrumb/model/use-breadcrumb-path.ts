@@ -1,4 +1,4 @@
-import { ADMIN_MENUS, MenuItemType } from '@cms/entities/admin-menu'
+import { type MenuItemType, routeItems } from '@cms/features/change-route'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -27,7 +27,7 @@ export function useBreadcrumbPath() {
       }
     }
 
-    recursion(ADMIN_MENUS, [])
+    recursion(routeItems, [])
 
     const result = Array.from(set.keys()).filter(
       item => item.url === pathname,

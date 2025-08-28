@@ -55,14 +55,8 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ['./*', '../*'],
-              message:
-                '상대 경로 import는 금지됩니다. alias를 사용해주세요. (예: @/cms/*, @/web/*, @/assets/*)',
-            },
-            {
               group: ['../../*', '../../../*', '../../../../*'],
-              message:
-                '깊은 상대 경로 import는 금지됩니다. alias를 사용해주세요.',
+              message: '깊은 상대 경로 import는 금지됩니다.',
             },
           ],
         },

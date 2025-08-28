@@ -1,7 +1,7 @@
-import { apiClient } from '@cms/shared/api'
+import { apiClient } from '@cms/shared/lib'
 import { BasicFormSchemaType } from '@cms/shared/schema'
 import { BreadcrumbContainer } from '@cms/widgets/breadcrumb'
-import SiderContainer from '@cms/widgets/sider/ui/sider-container'
+import { SiderContainer } from '@cms/widgets/sidebar'
 
 export default async function Layout({
   children,

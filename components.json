@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@/app/(cms)/shared",
-    "utils": "@/app/(cms)/shared/lib",
-    "ui": "@/app/(cms)/shared/shadcn",
-    "lib": "@/app/(cms)/shared/lib",
-    "hooks": "@/app/(cms)/shared/model"
+    "components": "@cms/shared",
+    "utils": "@cms/shared/lib",
+    "ui": "@cms/shared/shadcn",
+    "lib": "@cms/shared/lib",
+    "hooks": "@cms/shared/model"
   },
   "iconLibrary": "lucide"
 }

@@ -1,6 +1,5 @@
 'use client'
 
-import { cn } from '@cms/shared/lib'
 import {
   Button,
   Dialog,
@@ -32,6 +31,7 @@ import {
 import { Frown, Loader2, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
+import { cn } from '../lib'
 import {
   EditableTableColumn,
   EditableTableDialogColumn,

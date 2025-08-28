@@ -1,5 +1,6 @@
-import { ALERT_MESSAGE, REGEX } from '@cms/shared/lib'
 import { z } from 'zod'
+
+import { ALERT_MESSAGE, REGEX } from '../lib'
 
 export const basicFormSchema = z.object({
   // 회사 정보
