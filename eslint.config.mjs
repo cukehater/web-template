@@ -47,6 +47,26 @@ export default tseslint.config(
       'prefer-const': 'warn', // 재할당 없는 let은 const로
       'no-nested-ternary': 'warn', // 삼항 연산자 중첩 금지
       'no-unused-vars': 'off', // TypeScript에서는 @typescript-eslint/no-unused-vars 사용
+      'no-duplicate-imports': 'warn', // 동일한 모듈에서 중복 import 금지
+
+      // ✅ Import 경로 제한 규칙
+      'no-restricted-imports': [
+        'warn',
+        {
+          patterns: [
+            {
+              group: ['./*', '../*'],
+              message:
+                '상대 경로 import는 금지됩니다. alias를 사용해주세요. (예: @/cms/*, @/web/*, @/assets/*)',
+            },
+            {
+              group: ['../../*', '../../../*', '../../../../*'],
+              message:
+                '깊은 상대 경로 import는 금지됩니다. alias를 사용해주세요.',
+            },
+          ],
+        },
+      ],
 
       // ✅ TypeScript 규칙
       '@typescript-eslint/no-unused-vars': [

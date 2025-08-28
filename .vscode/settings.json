@@ -6,6 +6,7 @@
     "shadcn",
     "Sider",
     "sonner",
+    "turbopack",
     "uuidv"
   ],
   "workbench.colorCustomizations": {
@@ -27,12 +28,5 @@
     "titleBar.inactiveBackground": "#21573299",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#215732",
-  "material-icon-theme.folders.associations": {
-    "admin": "",
-    "settings": "",
-    "templates": "",
-    "history": "",
-    "navigation": ""
-  }
+  "peacock.color": "#215732"
 }
