@@ -9,7 +9,7 @@ export default async function Layout({
   children: React.ReactNode
 }) {
   const { data: basicData } = await apiClient<BasicFormSchemaType>(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/entities/basic/api`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/admin/entities/basic/api`,
   )
 
   return (
