@@ -1,5 +1,3 @@
-import { cn } from '@cms/shared/lib'
-import { Button } from '@cms/shared/shadcn'
 import { Editor } from '@tiptap/react'
 import {
   AlignCenter,
@@ -19,6 +17,9 @@ import {
   UnderlineIcon,
   Undo,
 } from 'lucide-react'
+
+import { cn } from '../../lib'
+import { Button } from '../../shadcn'
 
 export default function RichEditorTools({ editor }: { editor: Editor | null }) {
   if (!editor) {

@@ -1,7 +1,7 @@
 import { apiClient, extractDefaultValues } from '@/cms/shared/lib'
 import { BasicFormSchemaType, initialBasicFormData } from '@/cms/shared/schema'
 
-import BasicContainer from './basic-container'
+import CardContainer from './components/card-container'
 
 export default async function Page() {
   const { data: basicData } = await apiClient(
@@ -14,5 +14,5 @@ export default async function Page() {
     ['updatedAt', 'createdAt', 'id'],
   )
 
-  return <BasicContainer defaultValues={defaultValues as BasicFormSchemaType} />
+  return <CardContainer defaultValues={defaultValues as BasicFormSchemaType} />
 }

@@ -55,7 +55,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ['../../*', '../../../*', '../../../../*'],
+              group: ['../../../*', '../../../../*'],
               message: '깊은 상대 경로 import는 금지됩니다.',
             },
           ],

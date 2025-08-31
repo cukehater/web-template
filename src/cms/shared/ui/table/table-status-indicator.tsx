@@ -1,4 +1,4 @@
-import { cn } from '@cms/shared/lib'
+import { cn } from '../../lib'
 
 export default function TableStatusIndicator({
   currentStatus,

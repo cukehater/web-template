@@ -1,5 +1,6 @@
-import { Button } from '@cms/shared/shadcn'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+
+import { Button } from '../../shadcn'
 
 export default function TableOrderButtons({
   onOrderChangeUp,
