@@ -1,8 +1,8 @@
-import '@/app/assets/styles'
+import './assets/styles'
 
-import { FONT_NOTO_SANS_KR } from '@/app/assets/fonts'
+import { FONT_NOTO_SANS_KR } from './assets/fonts'
 
-export default function Layout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
