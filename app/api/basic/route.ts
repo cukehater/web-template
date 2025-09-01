@@ -25,7 +25,7 @@ export async function GET(): Promise<NextResponse<ApiRouteReturnType<BasicFormSc
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse<ApiRouteReturnType<null>>> {
-  const body = await req.json()
+  const { body } = await req.json()
 
   try {
     await prisma.basic.upsert({

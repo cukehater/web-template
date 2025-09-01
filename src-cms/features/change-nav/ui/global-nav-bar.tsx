@@ -14,15 +14,15 @@ import {
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
-import { routeItems } from '../models/route-items'
+import { navItems } from '../models/nav-items'
 import useActiveMenu from '../models/use-active-menu'
 
-export default function SidebarNav() {
+export default function GlobalNavBar() {
   const { pathname, isMenuActive } = useActiveMenu()
 
   return (
     <SidebarMenu>
-      {routeItems.map((item) => {
+      {navItems.map((item) => {
         const isActive = isMenuActive(item)
 
         if (!item.items) {

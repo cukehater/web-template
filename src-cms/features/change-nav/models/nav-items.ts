@@ -9,14 +9,14 @@ import {
   UserCog
 } from 'lucide-react'
 
-export interface MenuItemType {
+export interface NavItemsType {
   title: string
   url?: string
   icon?: LucideIcon
-  items?: MenuItemType[]
+  items?: NavItemsType[]
 }
 
-export const routeItems: MenuItemType[] = [
+export const navItems: NavItemsType[] = [
   {
     title: '사이트 기본 설정',
     url: '/admin/basic',

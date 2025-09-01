@@ -13,12 +13,12 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@cms/shared/shadcn'
-import { GalleryVerticalEnd, Link2Icon, MoreVerticalIcon } from 'lucide-react'
+import { GalleryVerticalEnd, Link2Icon, LogOutIcon, MoreVerticalIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-import SidebarLogoutButton from './sidebar-logout-button'
+import { logout } from '../api/logout'
 
 export default function SidebarAccount({ basicData }: { basicData: BasicFormSchemaType }) {
   const { isMobile, state } = useSidebar()
@@ -67,7 +67,14 @@ export default function SidebarAccount({ basicData }: { basicData: BasicFormSche
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer gap-2 p-0">
-                <SidebarLogoutButton />
+                <Link
+                  className="w-full flex items-center gap-2 justify-start py-1.5 px-2"
+                  href="/"
+                  onClick={logout}
+                >
+                  <LogOutIcon className="size-4" />
+                  <p className="font-medium text-muted-foreground">로그아웃</p>
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

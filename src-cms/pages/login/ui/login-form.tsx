@@ -14,10 +14,10 @@ import {
 } from '@cms/shared/shadcn'
 import { AlertCircleIcon, GalleryVerticalEnd, Loader2 } from 'lucide-react'
 
-import UseLogin from '../models/use-login'
+import useLogin from '../models/use-login'
 
 export default function LoginForm({ logo }: { logo: string }) {
-  const { form, onSubmit, isLoading, error } = UseLogin()
+  const { form, onSubmit, isLoading, error } = useLogin()
 
   return (
     <Form {...form}>

@@ -1,23 +1,24 @@
-import { ALERT_MESSAGES } from './alert-messages'
-import { errorToast } from './toasts'
+import { errorToast } from '../lib/toasts'
 
 export const uploadFilesFormFields = async function <T>(values: T, fields: (keyof T)[]) {
   const formData = new FormData()
+
   for (const key of fields) {
     if (values[key] && values[key] instanceof File) {
       formData.append(key as string, values[key] as unknown as File)
     }
   }
 
-  const uploadRes = await fetch('/api/upload', {
+  // TODO: Form data
+  const res = await fetch('/api/upload', {
     method: 'POST',
     body: formData
-  })
+  }).then((res) => res.json())
 
-  if (!uploadRes.ok) {
-    errorToast(ALERT_MESSAGES.REQUEST_ERROR)
+  if (!res.ok) {
+    errorToast(res.message)
     return
   }
 
-  return await uploadRes.json()
+  return res.data
 }

@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { initialLoginFormData, loginFormSchema, LoginFormSchemaType } from './login-form-schema'
+import { initialLoginFormData, loginFormSchema, LoginFormSchemaType } from './schema'
 
-export default function UseLogin() {
+export default function useLogin() {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)

@@ -13,7 +13,7 @@ import { v4 as uuid } from 'uuid'
 
 import { useBreadcrumbPath } from '../models/use-breadcrumb-path'
 
-export default function BreadcrumbContainer() {
+export default function Breadcrumb() {
   const { breadcrumbPath } = useBreadcrumbPath()
 
   return (

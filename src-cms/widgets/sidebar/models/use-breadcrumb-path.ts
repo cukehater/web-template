@@ -1,4 +1,4 @@
-import { MenuItemType, routeItems } from '@cms/features/change-route'
+import { navItems, NavItemsType } from '@cms/features/change-nav'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -16,7 +16,7 @@ export function useBreadcrumbPath() {
   const getBreadcrumbPath = useCallback(() => {
     const set = new Set<BreadcrumbPathType>()
 
-    function recursion(list: MenuItemType[], parent: string[]) {
+    function recursion(list: NavItemsType[], parent: string[]) {
       for (const { title, url, items } of list) {
         if (url) {
           set.add({ title, url, parent })
@@ -27,7 +27,7 @@ export function useBreadcrumbPath() {
       }
     }
 
-    recursion(routeItems, [])
+    recursion(navItems, [])
 
     const result = Array.from(set.keys()).filter((item) => item.url === pathname)[0]
 

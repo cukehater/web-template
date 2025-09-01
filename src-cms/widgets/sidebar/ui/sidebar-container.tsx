@@ -1,6 +1,6 @@
 'use client'
 
-import { SidebarNav } from '@cms/features/change-route'
+import { GlobalNavBar } from '@cms/features/change-nav'
 import { BasicFormSchemaType } from '@cms/shared/models'
 import {
   Sidebar,
@@ -11,6 +11,7 @@ import {
   SidebarRail
 } from '@cms/shared/shadcn'
 
+import Breadcrumb from './breadcrumb'
 import SidebarAccount from './sidebar-account'
 
 export default function SidebarContainer({
@@ -26,12 +27,15 @@ export default function SidebarContainer({
         <SidebarAccount basicData={basicData} />
         <SidebarContent>
           <SidebarGroup>
-            <SidebarNav />
+            <GlobalNavBar />
           </SidebarGroup>
         </SidebarContent>
         <SidebarRail />
       </Sidebar>
-      <SidebarInset>{children}</SidebarInset>
+      <SidebarInset>
+        <Breadcrumb />
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   )
 }

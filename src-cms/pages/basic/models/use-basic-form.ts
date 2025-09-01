@@ -1,17 +1,11 @@
-import {
-  ALERT_MESSAGES,
-  errorToast,
-  hasFormChange,
-  infoToast,
-  successToast,
-  uploadFilesFormFields
-} from '@cms/shared/lib'
+import { apiPost, uploadFilesFormFields } from '@cms/shared/api'
+import { ALERT_MESSAGES, errorToast, hasFormChange, infoToast, successToast } from '@cms/shared/lib'
 import { basicFormSchema, BasicFormSchemaType } from '@cms/shared/models'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
-export default function UseBasicForm(defaultValues: BasicFormSchemaType) {
+export default function useBasicForm(defaultValues: BasicFormSchemaType) {
   const router = useRouter()
   const form = useForm<BasicFormSchemaType>({
     resolver: zodResolver(basicFormSchema),
@@ -33,15 +27,11 @@ export default function UseBasicForm(defaultValues: BasicFormSchemaType) {
         'ogImage'
       ])
 
-      const res = await fetch('/entities/basic/api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+      const res = await apiPost('/api/basic', {
+        body: {
           ...values,
           ...uploadImageValues
-        })
+        }
       })
 
       if (!res.ok) {

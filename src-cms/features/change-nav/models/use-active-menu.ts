@@ -1,17 +1,17 @@
 import { usePathname } from 'next/navigation'
 
-import { MenuItemType } from './route-items'
+import { NavItemsType } from './nav-items'
 
 export default function useActiveMenu() {
   const pathname = usePathname()
 
-  function isMenuActive(menuItem: MenuItemType): boolean {
+  function isMenuActive(menuItem: NavItemsType): boolean {
     if (menuItem.url && pathname === menuItem.url) {
       return true
     }
 
     if (menuItem.items) {
-      return menuItem.items.some((subItem: MenuItemType) => subItem.url && pathname === subItem.url)
+      return menuItem.items.some((subItem: NavItemsType) => subItem.url && pathname === subItem.url)
     }
 
     return false
