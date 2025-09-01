@@ -1,1 +1,1 @@
-export { Login as default } from '@cms/pages/login'
+export { LoginPage as default } from '@cms/pages/login'

@@ -12,16 +12,16 @@ async function main() {
       data: {
         userId: 'master',
         name: '마스터',
-        password: await bcrypt.hash('master', 10), // 'password'
-      },
+        password: await bcrypt.hash('master', 10) // 'password'
+      }
     }),
     prisma.user.create({
       data: {
         userId: 'admin',
         name: '관리자',
-        password: await bcrypt.hash('admin', 10), // 'password'
-      },
-    }),
+        password: await bcrypt.hash('admin', 10) // 'password'
+      }
+    })
   ])
 
   await Promise.all([
@@ -34,8 +34,8 @@ async function main() {
         linkUrl: 'https://example.com/new-product',
         isActive: true,
         startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-12-31'),
-      },
+        endDate: new Date('2024-12-31')
+      }
     }),
     prisma.banner.create({
       data: {
@@ -47,21 +47,20 @@ async function main() {
         order: 2,
         isActive: true,
         startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-06-30'),
-      },
+        endDate: new Date('2024-06-30')
+      }
     }),
     prisma.banner.create({
       data: {
         title: '고객 서비스 안내',
         description: '24시간 고객 서비스를 이용하실 수 있습니다.',
-        imageUrl:
-          'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=1200&h=400&fit=crop',
+        imageUrl: 'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=1200&h=400&fit=crop',
         linkUrl: 'https://example.com/customer-service',
         order: 3,
         isActive: true,
         startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-12-31'),
-      },
+        endDate: new Date('2024-12-31')
+      }
     }),
     prisma.banner.create({
       data: {
@@ -73,21 +72,20 @@ async function main() {
         order: 4,
         isActive: false, // 비활성화된 배너
         startDate: new Date('2024-03-01'),
-        endDate: new Date('2024-05-31'),
-      },
+        endDate: new Date('2024-05-31')
+      }
     }),
     prisma.banner.create({
       data: {
         title: '회원가입 혜택',
         description: '신규 회원가입 시 10% 할인 쿠폰을 드립니다.',
-        imageUrl:
-          'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=400&fit=crop',
+        imageUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=400&fit=crop',
         linkUrl: 'https://example.com/register',
         order: 5,
         isActive: true,
         startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-12-31'),
-      },
+        endDate: new Date('2024-12-31')
+      }
     }),
     prisma.banner.create({
       data: {
@@ -99,21 +97,20 @@ async function main() {
         order: 6,
         isActive: true,
         startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-12-31'),
-      },
+        endDate: new Date('2024-12-31')
+      }
     }),
     prisma.banner.create({
       data: {
         title: '브랜드 스토리',
         description: '우리 브랜드의 이야기를 들어보세요.',
-        imageUrl:
-          'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=400&fit=crop',
+        imageUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=400&fit=crop',
         linkUrl: 'https://example.com/brand-story',
         order: 7,
         isActive: true,
         startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-12-31'),
-      },
+        endDate: new Date('2024-12-31')
+      }
     }),
     prisma.banner.create({
       data: {
@@ -125,9 +122,9 @@ async function main() {
         order: 8,
         isActive: true,
         startDate: new Date('2024-01-01'),
-        endDate: new Date('2024-02-29'), // 곧 종료되는 배너
-      },
-    }),
+        endDate: new Date('2024-02-29') // 곧 종료되는 배너
+      }
+    })
   ])
 
   await Promise.all([
@@ -137,8 +134,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 1,
-      },
+        order: 1
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -146,8 +143,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 2,
-      },
+        order: 2
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -155,8 +152,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 3,
-      },
+        order: 3
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -164,8 +161,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 4,
-      },
+        order: 4
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -173,8 +170,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 5,
-      },
+        order: 5
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -182,8 +179,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 6,
-      },
+        order: 6
+      }
     }),
 
     prisma.gallery.create({
@@ -192,8 +189,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 7,
-      },
+        order: 7
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -201,8 +198,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 8,
-      },
+        order: 8
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -210,8 +207,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 9,
-      },
+        order: 9
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -219,8 +216,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 10,
-      },
+        order: 10
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -228,8 +225,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 11,
-      },
+        order: 11
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -237,8 +234,8 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 12,
-      },
+        order: 12
+      }
     }),
     prisma.gallery.create({
       data: {
@@ -246,14 +243,14 @@ async function main() {
         content: 'test',
         thumbnail: '',
         isVisible: true,
-        order: 13,
-      },
-    }),
+        order: 13
+      }
+    })
   ])
 }
 
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e)
     process.exit(1)
   })

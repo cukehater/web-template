@@ -4,55 +4,78 @@ import {
   generateAccessToken,
   generateRefreshToken,
   REFRESH_TOKEN_MAX_AGE,
-  saveRefreshToken,
-  setHttpOnlyCookie,
-  validateUser,
-} from '@cms/entities/auth'
-import { ALERT_MESSAGE } from '@cms/shared/lib'
+  saveRefreshToken
+} from '@cms/app/tokens'
+import { ApiRouteReturnType, prisma } from '@cms/shared/api'
+import { ALERT_MESSAGES, setHttpOnlyCookie } from '@cms/shared/lib'
+import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(request: NextRequest) {
+export default async function validateUser(userId: string, password: string) {
+  const user = await getUserByUserID(userId)
+
+  if (!user) {
+    return null
+  }
+
+  const isValidPassword = await verifyPassword(password, user.password)
+
+  if (!isValidPassword) {
+    return null
+  }
+
+  return user
+}
+
+export async function POST(req: NextRequest): Promise<NextResponse<ApiRouteReturnType<null>>> {
   try {
-    const { userId, password } = await request.json()
+    const {
+      body: { userId, password }
+    } = await req.json()
 
     const user = await validateUser(userId, password)
 
     if (!user) {
-      return NextResponse.json(ALERT_MESSAGE.LOGIN_ERROR, { status: 401 })
+      return NextResponse.json({ message: ALERT_MESSAGES.LOGIN_ERROR, ok: false }, { status: 401 })
     }
 
     const accessToken = await generateAccessToken({
       id: user.id,
       userId: user.userId,
-      name: user.name,
+      name: user.name
     })
 
     const refreshToken = await generateRefreshToken({
       id: user.id,
       userId: user.userId,
-      name: user.name,
+      name: user.name
     })
 
     await deleteUserRefreshToken(user.userId)
     await saveRefreshToken(refreshToken, user.userId)
 
-    const response = NextResponse.json(ALERT_MESSAGE.REQUEST_SUCCESS)
-
-    setHttpOnlyCookie(
-      response,
-      'accessToken',
-      accessToken,
-      ACCESS_TOKEN_MAX_AGE,
-    )
-    setHttpOnlyCookie(
-      response,
-      'refreshToken',
-      refreshToken,
-      REFRESH_TOKEN_MAX_AGE,
+    const res = NextResponse.json(
+      { message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true },
+      {
+        status: 200
+      }
     )
 
-    return response
+    setHttpOnlyCookie(res, 'accessToken', accessToken, ACCESS_TOKEN_MAX_AGE)
+    setHttpOnlyCookie(res, 'refreshToken', refreshToken, REFRESH_TOKEN_MAX_AGE)
+
+    return res
   } catch {
-    return NextResponse.json(ALERT_MESSAGE.REQUEST_ERROR, { status: 500 })
+    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
   }
+}
+
+const getUserByUserID = async (userId: string) => {
+  return prisma.user.findUnique({
+    where: { userId }
+  })
+}
+
+const verifyPassword = async (password: string, hashedPassword: string): Promise<boolean> => {
+  return bcrypt.compare(password, hashedPassword)
 }

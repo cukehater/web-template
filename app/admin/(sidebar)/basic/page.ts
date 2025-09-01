@@ -1,1 +1,1 @@
-export { Basic as default } from '@cms/pages/basic'
+export { BasicPage as default } from '@cms/pages/basic'

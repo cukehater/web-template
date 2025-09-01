@@ -20,17 +20,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@cms/*": ["./src/cms/*"],
-      "@web/*": ["./src/web/*"]
+      "@/*": ["./app/*"],
+      "@cms/*": ["./src-cms/*"],
+      "@web/*": ["./src-web/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "tailwind.config.mjs"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.mjs"],
   "exclude": ["node_modules"]
 }

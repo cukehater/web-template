@@ -5,15 +5,15 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: 'images.unsplash.com'
       },
       // TODO: 삭제
       {
         protocol: 'https',
-        hostname: 'picsum.photos',
-      },
-    ],
-  },
+        hostname: 'picsum.photos'
+      }
+    ]
+  }
 }
 
 export default nextConfig

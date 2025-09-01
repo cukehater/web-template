@@ -1,0 +1,61 @@
+import {
+  ALERT_MESSAGES,
+  errorToast,
+  hasFormChange,
+  infoToast,
+  successToast,
+  uploadFilesFormFields
+} from '@cms/shared/lib'
+import { basicFormSchema, BasicFormSchemaType } from '@cms/shared/models'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+
+export default function UseBasicForm(defaultValues: BasicFormSchemaType) {
+  const router = useRouter()
+  const form = useForm<BasicFormSchemaType>({
+    resolver: zodResolver(basicFormSchema),
+    defaultValues
+  })
+
+  async function onSubmit(values: BasicFormSchemaType) {
+    try {
+      const watchedValues = form.watch()
+
+      if (!hasFormChange(watchedValues, defaultValues)) {
+        infoToast(ALERT_MESSAGES.NO_CHANGES)
+        return
+      }
+
+      const uploadImageValues = await uploadFilesFormFields<BasicFormSchemaType>(values, [
+        'logo',
+        'favicon',
+        'ogImage'
+      ])
+
+      const res = await fetch('/entities/basic/api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...values,
+          ...uploadImageValues
+        })
+      })
+
+      if (!res.ok) {
+        errorToast(ALERT_MESSAGES.SAVE_ERROR)
+        return
+      }
+
+      successToast(ALERT_MESSAGES.SAVE_SUCCESS)
+      form.reset({ ...values, ...uploadImageValues })
+      router.refresh()
+    } catch {
+      errorToast(ALERT_MESSAGES.REQUEST_ERROR)
+    }
+  }
+
+  return { form, onSubmit }
+}

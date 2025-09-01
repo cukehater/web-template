@@ -1,2 +1,0 @@
-- zod
-- husky

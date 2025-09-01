@@ -1,6 +1,5 @@
+import { TokenVerificationError, verifyToken } from '@cms/app/tokens'
 import { NextRequest, NextResponse } from 'next/server'
-
-import { TokenVerificationError, verifyToken } from '@/cms/entities/auth'
 
 /**
  * Next.js 미들웨어 함수
@@ -46,7 +45,7 @@ export async function middleware(request: NextRequest) {
 async function handleAdminPageAccess(
   request: NextRequest,
   accessToken: string | undefined,
-  refreshToken: string | undefined,
+  refreshToken: string | undefined
 ): Promise<NextResponse> {
   // 액세스 토큰이 없는 경우
   if (!accessToken) {
@@ -69,9 +68,7 @@ async function handleAdminPageAccess(
     return NextResponse.next()
   } catch (error) {
     if (error instanceof TokenVerificationError) {
-      console.error(
-        `Access token verification failed: ${error.code} - ${error.message}`,
-      )
+      console.error(`Access token verification failed: ${error.code} - ${error.message}`)
 
       // 토큰이 만료된 경우 리프레시 토큰으로 갱신 시도
       if (error.code === 'EXPIRED') {
@@ -94,7 +91,7 @@ async function handleAdminPageAccess(
  */
 async function handleMissingAccessToken(
   request: NextRequest,
-  refreshToken: string | undefined,
+  refreshToken: string | undefined
 ): Promise<NextResponse> {
   // 리프레시 토큰이 없는 경우 로그인 페이지로 리다이렉트
   if (!refreshToken) {
@@ -115,9 +112,7 @@ async function handleMissingAccessToken(
     return await issueNewTokens(request, refreshToken)
   } catch (error) {
     if (error instanceof TokenVerificationError) {
-      console.error(
-        `Refresh token verification failed: ${error.code} - ${error.message}`,
-      )
+      console.error(`Refresh token verification failed: ${error.code} - ${error.message}`)
     } else {
       console.error('Token verification failed:', error)
     }
@@ -133,10 +128,7 @@ async function handleMissingAccessToken(
  * @param refreshToken - 기존 리프레시 토큰
  * @returns NextResponse 객체 (새로운 토큰이 설정된 응답)
  */
-async function issueNewTokens(
-  request: NextRequest,
-  refreshToken: string,
-): Promise<NextResponse> {
+async function issueNewTokens(request: NextRequest, refreshToken: string): Promise<NextResponse> {
   try {
     console.warn('🔁 리프레시 토큰 로테이션')
 
@@ -144,9 +136,9 @@ async function issueNewTokens(
     const response = await fetch(`${request.nextUrl.origin}/api/auth/refresh`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ refreshToken }),
+      body: JSON.stringify({ refreshToken })
     })
 
     if (!response.ok) {
@@ -159,7 +151,7 @@ async function issueNewTokens(
     // Set-Cookie 헤더를 복사
     const setCookieHeaders = response.headers.getSetCookie()
 
-    setCookieHeaders.forEach(cookie => {
+    setCookieHeaders.forEach((cookie) => {
       newResponse.headers.append('Set-Cookie', cookie)
     })
 
@@ -182,7 +174,7 @@ async function issueNewTokens(
  */
 function handleLoginPageAccess(
   request: NextRequest,
-  accessToken: string | undefined,
+  accessToken: string | undefined
 ): NextResponse {
   // 이미 로그인된 사용자인 경우 관리자 페이지로 리다이렉트
   if (accessToken) {
@@ -219,5 +211,5 @@ function isLoginPage(pathname: string): boolean {
  * 관리자 페이지 경로에 대해서만 미들웨어가 실행되도록 설정
  */
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*']
 }

@@ -23,9 +23,9 @@ export default tseslint.config(
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: './tsconfig.json',
+        project: './tsconfig.json'
       },
-      globals: globals.browser,
+      globals: globals.browser
     },
     plugins: {
       '@typescript-eslint': tseslint.plugin,
@@ -34,12 +34,12 @@ export default tseslint.config(
       'simple-import-sort': simpleImportSortPlugin,
       'unused-imports': unusedImportsPlugin,
       'jsx-a11y': jsxA11yPlugin,
-      'react-refresh': reactRefresh,
+      'react-refresh': reactRefresh
     },
     settings: {
       react: {
-        version: 'detect', // React 버전을 자동으로 감지합니다.
-      },
+        version: 'detect' // React 버전을 자동으로 감지합니다.
+      }
     },
     rules: {
       // ✅ 일반 규칙
@@ -56,10 +56,10 @@ export default tseslint.config(
           patterns: [
             {
               group: ['../../../*', '../../../../*'],
-              message: '깊은 상대 경로 import는 금지됩니다.',
-            },
-          ],
-        },
+              message: '깊은 상대 경로 import는 금지됩니다.'
+            }
+          ]
+        }
       ],
 
       // ✅ TypeScript 규칙
@@ -67,8 +67,8 @@ export default tseslint.config(
         'warn',
         {
           varsIgnorePattern: '^_',
-          argsIgnorePattern: '^_',
-        },
+          argsIgnorePattern: '^_'
+        }
       ],
       '@typescript-eslint/no-explicit-any': 'warn', // any 타입 사용 경고
       '@typescript-eslint/naming-convention': [
@@ -77,49 +77,49 @@ export default tseslint.config(
         {
           selector: 'default',
           format: ['camelCase'],
-          leadingUnderscore: 'allow',
+          leadingUnderscore: 'allow'
         },
         // 변수: camelCase, PascalCase (React 컴포넌트), UPPER_CASE (상수)
         {
           selector: 'variable',
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
-          leadingUnderscore: 'allow',
+          leadingUnderscore: 'allow'
         },
         // 함수: camelCase 또는 PascalCase 허용
         {
           selector: 'function',
-          format: ['camelCase', 'PascalCase'],
+          format: ['camelCase', 'PascalCase']
         },
         // 타입 관련 (interface, type, class, enum 등): PascalCase 필수
         {
           selector: 'typeLike',
-          format: ['PascalCase'],
+          format: ['PascalCase']
         },
         // enum 멤버: PascalCase 또는 UPPER_CASE 허용
         {
           selector: 'enumMember',
-          format: ['PascalCase', 'UPPER_CASE'],
+          format: ['PascalCase', 'UPPER_CASE']
         },
         // 프로퍼티: camelCase, PascalCase (React props 등), UPPER_CASE (상수)
         {
           selector: ['property', 'parameterProperty'],
-          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE']
         },
         // Import 변수: camelCase 또는 PascalCase, UPPER_CASE(상수) 허용
         {
           selector: 'import',
-          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE']
         },
         // method 변수: camelCase, PascalCase, UPPER_CASE(상수) 허용
         {
           selector: 'method',
-          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE']
         },
         // objectLiteralProperty 변수: camelCase, PascalCase, UPPER_CASE(상수) 허용
         {
           selector: 'objectLiteralProperty',
-          format: [],
-        },
+          format: []
+        }
       ],
 
       // ✅ React JSX 규칙
@@ -131,10 +131,7 @@ export default tseslint.config(
       'react/jsx-uses-vars': 'warn', // JSX에서 사용된 변수는 unused로 처리하지 않음
       'react/jsx-key': 'warn', // 반복 JSX 요소에 key 필수
       'react/no-array-index-key': 'warn', // key로 index 사용 지양 (불안정한 key)
-      'react/jsx-max-props-per-line': [
-        'warn',
-        { maximum: 1, when: 'multiline' },
-      ], // props 한 줄에 하나씩
+      'react/jsx-max-props-per-line': ['warn', { maximum: 1, when: 'multiline' }], // props 한 줄에 하나씩
       'react/no-unescaped-entities': 'warn', // JSX에서 특수문자 직접 입력 금지
       'react/jsx-sort-props': [
         'warn',
@@ -142,8 +139,8 @@ export default tseslint.config(
           callbacksLast: true, // 콜백 함수 props는 마지막
           shorthandFirst: true, // 단축 props 우선 배치
           noSortAlphabetically: false, // 알파벳 정렬 가능
-          reservedFirst: true, // key, ref는 맨 앞
-        },
+          reservedFirst: true // key, ref는 맨 앞
+        }
       ],
       'react/display-name': 'warn', // 익명 컴포넌트에 이름 지정 유도
       'react/self-closing-comp': 'warn', // 자식 없는 태그는 self-closing 권장
@@ -152,15 +149,12 @@ export default tseslint.config(
         'warn',
         {
           eventHandlerPrefix: 'handle',
-          eventHandlerPropPrefix: 'on',
-        },
+          eventHandlerPropPrefix: 'on'
+        }
       ],
       'react/jsx-boolean-value': ['warn', 'never'], // boolean props는 value 생략 (ex. <input disabled />)
       'react/jsx-no-useless-fragment': 'warn', // 불필요한 Fragment 제거
-      'react/jsx-curly-brace-presence': [
-        'warn',
-        { props: 'never', children: 'never' },
-      ], // 중괄호 최소화
+      'react/jsx-curly-brace-presence': ['warn', { props: 'never', children: 'never' }], // 중괄호 최소화
 
       // ✅ React Hooks 규칙
       'react-hooks/exhaustive-deps': 'warn', // useEffect 의존성 누락 경고
@@ -178,8 +172,8 @@ export default tseslint.config(
           vars: 'all',
           varsIgnorePattern: '^_',
           args: 'after-used',
-          argsIgnorePattern: '^_',
-        },
+          argsIgnorePattern: '^_'
+        }
       ],
 
       // ✅ JSX 접근성
@@ -187,28 +181,25 @@ export default tseslint.config(
       'react/button-has-type': 'error', // button 태그에 type 속성 필수
 
       // ✅ React Refresh
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
-    },
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
+    }
   },
 
   // 4. JS 파일에서는 타입 검사 생략
   {
     files: ['**/*.js'],
-    extends: [tseslint.configs.disableTypeChecked],
+    extends: [tseslint.configs.disableTypeChecked]
   },
 
   {
     files: ['vite.config.ts'],
     languageOptions: {
       parserOptions: {
-        project: './tsconfig.node.json',
-      },
-    },
+        project: './tsconfig.node.json'
+      }
+    }
   },
 
   // 5. Prettier 설정: 포맷팅 충돌 방지
-  eslintConfigPrettier,
+  eslintConfigPrettier
 )
