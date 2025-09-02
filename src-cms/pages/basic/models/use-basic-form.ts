@@ -1,9 +1,11 @@
 import { apiPost, uploadFilesFormFields } from '@cms/shared/api'
 import { ALERT_MESSAGES, errorToast, hasFormChange, infoToast, successToast } from '@cms/shared/lib'
-import { basicFormSchema, BasicFormSchemaType } from '@cms/shared/models'
+import { UploadResponseType } from '@cms/shared/models'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+
+import { basicFormSchema, BasicFormSchemaType } from './schema'
 
 export default function useBasicForm(defaultValues: BasicFormSchemaType) {
   const router = useRouter()
@@ -21,20 +23,20 @@ export default function useBasicForm(defaultValues: BasicFormSchemaType) {
         return
       }
 
-      const uploadImageValues = await uploadFilesFormFields<BasicFormSchemaType>(values, [
+      const uploadImageValues = (await uploadFilesFormFields(values, [
         'logo',
         'favicon',
         'ogImage'
-      ])
+      ])) as UploadResponseType
 
-      const res = await apiPost('/api/basic', {
+      const result = await apiPost('/api/basic', {
         body: {
           ...values,
           ...uploadImageValues
         }
       })
 
-      if (!res.ok) {
+      if (!result.ok) {
         errorToast(ALERT_MESSAGES.SAVE_ERROR)
         return
       }

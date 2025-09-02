@@ -1,11 +1,13 @@
-import { ApiRouteReturnType } from '@cms/shared/api'
 import { ALERT_MESSAGES } from '@cms/shared/lib'
+import { ApiResponseType, UploadResponseType } from '@cms/shared/models'
 import { existsSync } from 'fs'
 import { mkdir, writeFile } from 'fs/promises'
 import { NextRequest, NextResponse } from 'next/server'
 import { join } from 'path'
 
-export async function POST(req: NextRequest): Promise<NextResponse<ApiRouteReturnType<null>>> {
+export async function POST(
+  req: NextRequest
+): Promise<NextResponse<ApiResponseType<UploadResponseType>>> {
   try {
     const formData = await req.formData()
     const urls = new Map()
@@ -37,7 +39,11 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiRouteRetur
     }
 
     return NextResponse.json(
-      { data: Object.fromEntries(urls), message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true },
+      {
+        data: Object.fromEntries(urls),
+        message: ALERT_MESSAGES.REQUEST_SUCCESS,
+        ok: true
+      },
       { status: 200 }
     )
   } catch {

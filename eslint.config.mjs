@@ -90,9 +90,20 @@ export default tseslint.config(
           selector: 'function',
           format: ['camelCase', 'PascalCase']
         },
-        // 타입 관련 (interface, type, class, enum 등): PascalCase 필수
+        // 타입 관련 (interface, type, class, enum 등): PascalCase 필수 + Type 접미사
         {
           selector: 'typeLike',
+          format: ['PascalCase'],
+          suffix: ['Type']
+        },
+        // 타입 매개변수: PascalCase 허용
+        {
+          selector: 'typeParameter',
+          format: ['PascalCase']
+        },
+        // 클래스: PascalCase 허용
+        {
+          selector: 'class',
           format: ['PascalCase']
         },
         // enum 멤버: PascalCase 또는 UPPER_CASE 허용

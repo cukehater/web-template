@@ -26,7 +26,6 @@ export {
   CardTitle
 } from './card'
 export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './carousel'
-export type { ChartConfig } from './chart'
 export {
   ChartContainer,
   ChartLegend,

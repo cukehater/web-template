@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Collapsible,
   CollapsibleContent,
@@ -15,10 +13,10 @@ import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
 import { navItems } from '../models/nav-items'
-import useActiveMenu from '../models/use-active-menu'
+import useActiveNav from '../models/use-active-nav'
 
-export default function GlobalNavBar() {
-  const { pathname, isMenuActive } = useActiveMenu()
+export default function SidebarNav() {
+  const { pathname, isMenuActive } = useActiveNav()
 
   return (
     <SidebarMenu>

@@ -1,5 +1,6 @@
-import { TokenVerificationError, verifyToken } from '@cms/app/tokens'
 import { NextRequest, NextResponse } from 'next/server'
+
+import { TokenVerificationError, verifyToken } from '@/tokens'
 
 /**
  * Next.js 미들웨어 함수

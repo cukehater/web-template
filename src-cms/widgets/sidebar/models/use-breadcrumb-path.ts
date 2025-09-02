@@ -1,6 +1,7 @@
-import { navItems, NavItemsType } from '@cms/features/change-nav'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+
+import { navItems, NavItemsType } from './nav-items'
 
 type BreadcrumbPathType = {
   title: string

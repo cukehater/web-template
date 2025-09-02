@@ -1,7 +1,6 @@
 'use client'
 
 import { cn } from '@cms/shared/lib'
-import { BasicFormSchemaType } from '@cms/shared/models'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +19,13 @@ import React from 'react'
 
 import { logout } from '../api/logout'
 
-export default function SidebarAccount({ basicData }: { basicData: BasicFormSchemaType }) {
+export default function SidebarAccount({
+  companyName,
+  favicon
+}: {
+  companyName: string
+  favicon: string
+}) {
   const { isMobile, state } = useSidebar()
 
   return (
@@ -33,12 +38,12 @@ export default function SidebarAccount({ basicData }: { basicData: BasicFormSche
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 size="lg"
               >
-                {basicData?.favicon ? (
+                {favicon ? (
                   <Image
-                    alt={basicData?.companyName}
+                    alt={companyName}
                     className={cn('rounded-md', state === 'collapsed' && 'h-8 w-8 p-0.75')}
                     height={24}
-                    src={basicData?.favicon as string}
+                    src={favicon as string}
                     width={24}
                   />
                 ) : (
@@ -48,7 +53,7 @@ export default function SidebarAccount({ basicData }: { basicData: BasicFormSche
                 )}
 
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{basicData?.companyName || ''}</span>
+                  <span className="truncate font-semibold">{companyName || ''}</span>
                   <span className="truncate text-xs">Administrator</span>
                 </div>
                 <MoreVerticalIcon className="ml-auto" />

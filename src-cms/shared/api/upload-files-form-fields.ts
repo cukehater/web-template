@@ -1,4 +1,5 @@
 import { errorToast } from '../lib/toasts'
+import { apiPost } from './api-clients'
 
 export const uploadFilesFormFields = async function <T>(values: T, fields: (keyof T)[]) {
   const formData = new FormData()
@@ -9,16 +10,12 @@ export const uploadFilesFormFields = async function <T>(values: T, fields: (keyo
     }
   }
 
-  // TODO: Form data
-  const res = await fetch('/api/upload', {
-    method: 'POST',
-    body: formData
-  }).then((res) => res.json())
+  const result = await apiPost('/api/upload', formData)
 
-  if (!res.ok) {
-    errorToast(res.message)
+  if (!result.ok) {
+    errorToast(result.message)
     return
   }
 
-  return res.data
+  return result.data
 }

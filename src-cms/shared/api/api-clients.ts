@@ -3,7 +3,7 @@ import { ALERT_MESSAGES } from '../lib'
 interface ApiClientOptionsType {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   headers?: Record<string, string>
-  body?: Record<string, unknown>
+  body?: Record<string, unknown> | FormData
   cache?: RequestCache
   revalidate?: number
   credentials?: RequestCredentials
@@ -11,12 +11,6 @@ interface ApiClientOptionsType {
 }
 
 interface ApiResponseType<T> {
-  data?: T
-  message: string
-  ok: boolean
-}
-
-export interface ApiRouteReturnType<T> {
   data?: T
   message: string
   ok: boolean
@@ -63,13 +57,27 @@ async function clientApiClient<T>(
   options?: ApiClientOptionsType
 ): Promise<ApiResponseType<T>> {
   try {
+    const isFormData = options?.body instanceof FormData
+
+    let body: BodyInit | undefined = undefined
+    if (isFormData) {
+      body = options.body as FormData
+    } else {
+      body = JSON.stringify(options?.body)
+    }
+
+    const headers: Record<string, string> = {}
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json'
+    }
+    if (options?.headers) {
+      Object.assign(headers, options.headers)
+    }
+
     const res = await fetch(url, {
       method: options?.method || 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-      },
-      body: options?.body ? JSON.stringify(options.body) : undefined,
+      headers,
+      body,
       credentials: options?.credentials || 'include',
       signal: options?.signal
     })
@@ -113,10 +121,14 @@ export async function apiGet<T>(
 
 export async function apiPost<T>(
   url: string,
-  body: Record<string, unknown>,
+  body: Record<string, unknown> | FormData,
   options?: Omit<ApiClientOptionsType, 'method'>
 ): Promise<ApiResponseType<T>> {
-  return apiClient<T>(url, { ...options, method: 'POST', body })
+  return apiClient<T>(url, {
+    ...options,
+    method: 'POST',
+    body
+  })
 }
 
 export async function apiPut<T>(
@@ -137,7 +149,8 @@ export async function apiPatch<T>(
 
 export async function apiDelete<T>(
   url: string,
+  body: Record<string, unknown>,
   options?: Omit<ApiClientOptionsType, 'method' | 'body'>
 ): Promise<ApiResponseType<T>> {
-  return apiClient<T>(url, { ...options, method: 'DELETE' })
+  return apiClient<T>(url, { ...options, method: 'DELETE', body })
 }

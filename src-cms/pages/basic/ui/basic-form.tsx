@@ -1,7 +1,6 @@
 'use client'
 
 import { fileChangeHandler } from '@cms/shared/lib'
-import { BasicFormSchemaType } from '@cms/shared/models'
 import {
   Button,
   Card,
@@ -21,9 +20,10 @@ import {
 import { ImagePreview, PageTopTitle } from '@cms/shared/ui'
 import { BarChart3, Building2, Cog, Globe, Loader2, Save, Search, Share2 } from 'lucide-react'
 
+import type { BasicFormSchemaType } from '../models/schema'
 import useBasicForm from '../models/use-basic-form'
 
-export default function BasicCards({ defaultValues }: { defaultValues: BasicFormSchemaType }) {
+export default function BasicForm({ defaultValues }: { defaultValues: BasicFormSchemaType }) {
   const { form, onSubmit } = useBasicForm(defaultValues)
 
   return (

@@ -1,8 +1,10 @@
-import { deleteUserRefreshToken, verifyToken } from '@cms/app/tokens'
-import { setHttpOnlyCookie } from '@cms/shared/lib'
+import { ALERT_MESSAGES, setHttpOnlyCookie } from '@cms/shared/lib'
+import { ApiResponseType } from '@cms/shared/models'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest) {
+import { deleteUserRefreshToken, verifyToken } from '@/tokens'
+
+export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseType<never>>> {
   try {
     const refreshToken = req.cookies.get('refreshToken')?.value
 
@@ -12,13 +14,21 @@ export async function POST(req: NextRequest) {
       await deleteUserRefreshToken(payload.userId)
     }
 
-    const response = NextResponse.json({ success: true })
+    const response = NextResponse.json(
+      {
+        message: ALERT_MESSAGES.REQUEST_SUCCESS,
+        ok: true
+      },
+      {
+        status: 200
+      }
+    )
 
     setHttpOnlyCookie(response, 'accessToken', '', 0)
     setHttpOnlyCookie(response, 'refreshToken', '', 0)
 
     return response
   } catch {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
   }
 }

@@ -7,28 +7,28 @@ import * as React from 'react'
 import { cn } from '../lib'
 import { Button } from './button'
 
-type CarouselApi = UseEmblaCarouselType[1]
-type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
-type CarouselOptions = UseCarouselParameters[0]
-type CarouselPlugin = UseCarouselParameters[1]
+type CarouselApiType = UseEmblaCarouselType[1]
+type UseCarouselParametersType = Parameters<typeof useEmblaCarousel>
+type CarouselOptionsType = UseCarouselParametersType[0]
+type CarouselPluginType = UseCarouselParametersType[1]
 
-type CarouselProps = {
-  opts?: CarouselOptions
-  plugins?: CarouselPlugin
+type CarouselPropsType = {
+  opts?: CarouselOptionsType
+  plugins?: CarouselPluginType
   orientation?: 'horizontal' | 'vertical'
-  setApi?: (api: CarouselApi) => void
+  setApi?: (api: CarouselApiType) => void
 }
 
-type CarouselContextProps = {
+type CarouselContextPropsType = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0]
   api: ReturnType<typeof useEmblaCarousel>[1]
   scrollPrev: () => void
   scrollNext: () => void
   canScrollPrev: boolean
   canScrollNext: boolean
-} & CarouselProps
+} & CarouselPropsType
 
-const CarouselContext = React.createContext<CarouselContextProps | null>(null)
+const CarouselContext = React.createContext<CarouselContextPropsType | null>(null)
 
 function useCarousel() {
   const context = React.useContext(CarouselContext)
@@ -48,7 +48,7 @@ function Carousel({
   className,
   children,
   ...props
-}: React.ComponentProps<'div'> & CarouselProps) {
+}: React.ComponentProps<'div'> & CarouselPropsType) {
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -59,7 +59,7 @@ function Carousel({
   const [canScrollPrev, setCanScrollPrev] = React.useState(false)
   const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-  const onSelect = React.useCallback((api: CarouselApi) => {
+  const onSelect = React.useCallback((api: CarouselApiType) => {
     if (!api) return
     setCanScrollPrev(api.canScrollPrev())
     setCanScrollNext(api.canScrollNext())
@@ -220,4 +220,11 @@ function CarouselNext({
   )
 }
 
-export { Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious }
+export {
+  Carousel,
+  type CarouselApiType,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+}

@@ -23,11 +23,9 @@ export default function useLogin() {
 
     setIsLoading(true)
 
-    const { userId, password } = values
-
     try {
       const result = await apiPost('/api/auth/login', {
-        body: { userId, password },
+        body: values,
         credentials: 'include'
       })
 

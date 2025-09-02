@@ -1,3 +1,9 @@
+import { prisma } from '@cms/shared/api'
+import { ALERT_MESSAGES, setHttpOnlyCookie } from '@cms/shared/lib'
+import { ApiResponseType } from '@cms/shared/models'
+import bcrypt from 'bcryptjs'
+import { NextRequest, NextResponse } from 'next/server'
+
 import {
   ACCESS_TOKEN_MAX_AGE,
   deleteUserRefreshToken,
@@ -5,13 +11,9 @@ import {
   generateRefreshToken,
   REFRESH_TOKEN_MAX_AGE,
   saveRefreshToken
-} from '@cms/app/tokens'
-import { ApiRouteReturnType, prisma } from '@cms/shared/api'
-import { ALERT_MESSAGES, setHttpOnlyCookie } from '@cms/shared/lib'
-import bcrypt from 'bcryptjs'
-import { NextRequest, NextResponse } from 'next/server'
+} from '@/tokens'
 
-export default async function validateUser(userId: string, password: string) {
+async function validateUser(userId: string, password: string) {
   const user = await getUserByUserID(userId)
 
   if (!user) {
@@ -27,7 +29,7 @@ export default async function validateUser(userId: string, password: string) {
   return user
 }
 
-export async function POST(req: NextRequest): Promise<NextResponse<ApiRouteReturnType<null>>> {
+export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseType<never>>> {
   try {
     const {
       body: { userId, password }
@@ -54,17 +56,17 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiRouteRetur
     await deleteUserRefreshToken(user.userId)
     await saveRefreshToken(refreshToken, user.userId)
 
-    const res = NextResponse.json(
+    const response = NextResponse.json(
       { message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true },
       {
         status: 200
       }
     )
 
-    setHttpOnlyCookie(res, 'accessToken', accessToken, ACCESS_TOKEN_MAX_AGE)
-    setHttpOnlyCookie(res, 'refreshToken', refreshToken, REFRESH_TOKEN_MAX_AGE)
+    setHttpOnlyCookie(response, 'accessToken', accessToken, ACCESS_TOKEN_MAX_AGE)
+    setHttpOnlyCookie(response, 'refreshToken', refreshToken, REFRESH_TOKEN_MAX_AGE)
 
-    return res
+    return response
   } catch {
     return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
   }

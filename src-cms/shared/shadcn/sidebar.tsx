@@ -6,7 +6,6 @@ import { PanelLeftIcon } from 'lucide-react'
 import React from 'react'
 
 import { cn } from '../lib'
-import { useIsMobile } from '../models'
 import { Button } from './button'
 import { Input } from './input'
 import { Separator } from './separator'
@@ -21,7 +20,7 @@ const SIDEBAR_WIDTH_MOBILE = '18rem'
 const SIDEBAR_WIDTH_ICON = '3rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
-type SidebarContextProps = {
+type SidebarContextPropsType = {
   state: 'expanded' | 'collapsed'
   open: boolean
   setOpen: (open: boolean) => void
@@ -31,7 +30,7 @@ type SidebarContextProps = {
   toggleSidebar: () => void
 }
 
-const SidebarContext = React.createContext<SidebarContextProps | null>(null)
+const SidebarContext = React.createContext<SidebarContextPropsType | null>(null)
 
 function useSidebar() {
   const context = React.useContext(SidebarContext)
@@ -55,7 +54,18 @@ function SidebarProvider({
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }) {
-  const isMobile = useIsMobile()
+  const MOBILE_BREAKPOINT = 768
+  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
+
+  React.useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+    const onChange = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+    }
+    mql.addEventListener('change', onChange)
+    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+    return () => mql.removeEventListener('change', onChange)
+  }, [])
 
   const [openMobile, setOpenMobile] = React.useState(false)
 
@@ -100,12 +110,12 @@ function SidebarProvider({
   // This makes it easier to style the sidebar with Tailwind classes.
   const state = open ? 'expanded' : 'collapsed'
 
-  const contextValue = React.useMemo<SidebarContextProps>(
+  const contextValue = React.useMemo<SidebarContextPropsType>(
     () => ({
       state,
       open,
       setOpen,
-      isMobile,
+      isMobile: isMobile ?? false,
       openMobile,
       setOpenMobile,
       toggleSidebar

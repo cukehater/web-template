@@ -1,7 +1,5 @@
 'use client'
 
-import { GlobalNavBar } from '@cms/features/change-nav'
-import { BasicFormSchemaType } from '@cms/shared/models'
 import {
   Sidebar,
   SidebarContent,
@@ -13,21 +11,24 @@ import {
 
 import Breadcrumb from './breadcrumb'
 import SidebarAccount from './sidebar-account'
+import SidebarNav from './sidebar-nav'
 
 export default function SidebarContainer({
-  basicData,
+  companyName,
+  favicon,
   children
 }: {
-  basicData: BasicFormSchemaType
+  companyName: string
+  favicon: string
   children: React.ReactNode
 }) {
   return (
     <SidebarProvider defaultOpen={false}>
       <Sidebar className="group/sidebar" collapsible="icon">
-        <SidebarAccount basicData={basicData} />
+        <SidebarAccount companyName={companyName} favicon={favicon} />
         <SidebarContent>
           <SidebarGroup>
-            <GlobalNavBar />
+            <SidebarNav />
           </SidebarGroup>
         </SidebarContent>
         <SidebarRail />

@@ -6,7 +6,7 @@ import { ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY, REFRESH_TOKEN_MAX_AGE } from
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
 
-export interface TokenPayload {
+export interface TokenPayloadType {
   id: string
   userId: string
   name: string
@@ -26,7 +26,7 @@ export class TokenVerificationError extends Error {
 }
 
 // 액세스 토큰 생성
-export const generateAccessToken = async (payload: TokenPayload): Promise<string> => {
+export const generateAccessToken = async (payload: TokenPayloadType): Promise<string> => {
   return await new SignJWT({ ...payload, type: 'access' })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
@@ -35,7 +35,7 @@ export const generateAccessToken = async (payload: TokenPayload): Promise<string
 }
 
 // 리프레시 토큰 생성
-export const generateRefreshToken = async (payload: TokenPayload): Promise<string> => {
+export const generateRefreshToken = async (payload: TokenPayloadType): Promise<string> => {
   return await new SignJWT({ ...payload, type: 'refresh' })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
@@ -64,10 +64,10 @@ export const deleteUserRefreshToken = async (userId: string): Promise<void> => {
 }
 
 // 토큰 검증
-export const verifyToken = async (token: string): Promise<TokenPayload & { type: string }> => {
+export const verifyToken = async (token: string): Promise<TokenPayloadType & { type: string }> => {
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET)
-    return payload as unknown as TokenPayload & { type: string }
+    return payload as unknown as TokenPayloadType & { type: string }
   } catch (error) {
     if (error instanceof JWTExpired) {
       throw new TokenVerificationError('Token has expired', 'EXPIRED')

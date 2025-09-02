@@ -19,5 +19,6 @@ export const ALERT_MESSAGES = {
   ORDER_CHANGE_FIRST: '더 이상 위로 이동할 수 없습니다.',
   ORDER_CHANGE_LAST: '더 이상 아래로 이동할 수 없습니다.',
   CANCEL: '작업을 취소하시겠습니까?',
-  CANCEL_DESCRIPTION: '작업을 취소하면 작성된 내용이 사라집니다.'
+  CANCEL_DESCRIPTION: '작업을 취소하면 작성된 내용이 사라집니다.',
+  TYPE_PARAMETER_REQUIRED: '타입 파라미터가 필요합니다.'
 }

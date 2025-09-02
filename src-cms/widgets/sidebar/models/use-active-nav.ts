@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation'
 
 import { NavItemsType } from './nav-items'
 
-export default function useActiveMenu() {
+export default function useActiveNav() {
   const pathname = usePathname()
 
   function isMenuActive(menuItem: NavItemsType): boolean {
