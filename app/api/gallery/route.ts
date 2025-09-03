@@ -1,6 +1,7 @@
+import { PaginationType } from '@cms/features/pagination'
 import { prisma } from '@cms/shared/api'
 import { ALERT_MESSAGES } from '@cms/shared/lib'
-import { ApiResponseType, PaginationType } from '@cms/shared/models'
+import { ApiResponseType } from '@cms/shared/models'
 import { Gallery } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 

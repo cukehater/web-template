@@ -32,7 +32,11 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { galleryFormSchema, GalleryFormSchemaType, initialGalleryFormData } from '../models/schema'
+import {
+  galleryFormSchema,
+  GalleryFormSchemaType,
+  initialGalleryFormData
+} from '../../models/schema'
 
 export default function GalleryCreatePage() {
   const router = useRouter()

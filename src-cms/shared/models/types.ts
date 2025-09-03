@@ -16,10 +16,3 @@ export type ApiResponseType<T> = ApiSuccessResponseType<T> | ApiErrorResponseTyp
 export interface UploadResponseType {
   [key: string]: string
 }
-
-export interface PaginationType {
-  page: number
-  limit: number
-  total: number
-  totalPages: number
-}

@@ -41,12 +41,12 @@ export default function BasicForm({ defaultValues }: { defaultValues: BasicFormS
           {form.formState.isSubmitting ? (
             <>
               <Loader2 className="animate-spin" />
-              저장 중
+              변경 내용 저장 중
             </>
           ) : (
             <>
               <Save />
-              저장하기
+              변경 내용 저장
             </>
           )}
         </Button>

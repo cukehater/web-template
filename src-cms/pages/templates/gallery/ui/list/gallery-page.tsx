@@ -1,23 +1,25 @@
-import { apiGet } from '@cms/shared/api'
-import { PaginationType } from '@cms/shared/models'
 import { Button } from '@cms/shared/shadcn'
 import { PageTopTitle } from '@cms/shared/ui'
-import { Gallery } from '@prisma/client'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 
-import { GalleryResponseType } from '../models/types'
+import { fetchGalleryList } from '../../api/fetch-gallery-list'
 import GalleryTable from './gallery-table'
 
-export default async function GalleryPage({
-  searchParams
-}: {
-  searchParams: { page?: string; limit?: string }
-}) {
-  const page = (await searchParams).page || '1'
-  const limit = (await searchParams).limit || '10'
+interface GalleryPagePropsType {
+  searchParams: {
+    page: string
+    limit: string
+  }
+}
 
-  const { data } = await apiGet<GalleryResponseType>(`/api/gallery?page=${page}&limit=${limit}`)
+export default async function GalleryPage({ searchParams }: GalleryPagePropsType) {
+  const page = (await searchParams).page || '1'
+  const limit = (await searchParams).limit
+  const allowedLimits = ['10', '20', '50']
+  const currentLimit = allowedLimits.includes(limit) ? limit : '10'
+
+  const { data, pagination } = await fetchGalleryList(parseInt(page), parseInt(currentLimit))
 
   return (
     <>
@@ -25,16 +27,16 @@ export default async function GalleryPage({
         <Button asChild>
           <Link className="inline-flex items-center justify-center gap-2" href="./gallery/create">
             <Plus className="size-4" />
-            추가하기
+            게시글 생성
           </Link>
         </Button>
       </PageTopTitle>
 
       <GalleryTable
-        currentLimit={parseInt(limit)}
+        currentLimit={parseInt(currentLimit) as 10 | 20 | 50}
         currentPage={parseInt(page)}
-        initialData={data?.data as Gallery[]}
-        pagination={data?.pagination as PaginationType}
+        initialData={data}
+        pagination={pagination}
       />
     </>
   )

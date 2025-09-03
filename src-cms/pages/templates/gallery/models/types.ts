@@ -1,4 +1,4 @@
-import { PaginationType } from '@cms/shared/models'
+import { PaginationType } from '@cms/features/pagination'
 import { Gallery } from '@prisma/client'
 
 export interface GalleryResponseType {

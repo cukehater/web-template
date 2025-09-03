@@ -1,1 +1,1 @@
-export type { ApiResponseType, PaginationType, UploadResponseType } from './types'
+export type { ApiResponseType, UploadResponseType } from './types'
