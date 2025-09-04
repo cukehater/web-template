@@ -106,10 +106,10 @@ async function clientApiClient<T>(
 
 function apiClient<T>(url: string, options?: ApiClientOptionsType): Promise<ApiResponseType<T>> {
   if (typeof window === 'undefined') {
-    return serverApiClient(url, options)
+    return serverApiClient<T>(url, options)
   }
 
-  return clientApiClient(url, options)
+  return clientApiClient<T>(url, options)
 }
 
 export async function apiGet<T>(

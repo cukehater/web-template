@@ -5,39 +5,41 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '../../shadcn'
 
 export default function TableActionDropdown({
+  disabled,
   onToggleVisible,
   visibleStatus,
   onEdit,
-  onDelete,
+  onDelete
 }: {
+  disabled?: boolean
   onToggleVisible?: () => void
   visibleStatus?: boolean
   onEdit?: () => void
   onDelete?: () => void
 }) {
   return (
-    <div className='text-center'>
+    <div className="text-center">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className='h-8 w-8 p-0' variant='ghost'>
+          <Button className="h-8 w-8 p-0" disabled={disabled} variant="ghost">
             <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end' className='border bg-white rounded-md'>
+        <DropdownMenuContent align="end" className="border bg-white rounded-md">
           {onToggleVisible && (
             <DropdownMenuItem onClick={onToggleVisible}>
               {visibleStatus ? (
                 <>
-                  <EyeOff className='size-4' />
+                  <EyeOff className="size-4" />
                   비활성화
                 </>
               ) : (
                 <>
-                  <Eye className='size-4' />
+                  <Eye className="size-4" />
                   활성화
                 </>
               )}
@@ -50,7 +52,7 @@ export default function TableActionDropdown({
             </DropdownMenuItem>
           )}
           {onDelete && (
-            <DropdownMenuItem className='text-red-600' onClick={onDelete}>
+            <DropdownMenuItem className="text-red-600" onClick={onDelete}>
               <Trash2 />
               삭제
             </DropdownMenuItem>

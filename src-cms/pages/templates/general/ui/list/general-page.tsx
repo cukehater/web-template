@@ -6,13 +6,13 @@ import {
 } from '@cms/shared/models'
 import { Button } from '@cms/shared/shadcn'
 import { PageTopTitle } from '@cms/shared/ui'
-import { Gallery } from '@prisma/client'
+import { General } from '@prisma/client'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
 
-import GalleryTable from './gallery-table'
+import GeneralTable from './general-table'
 
-export default async function GalleryPage({ searchParams }: TableSearchParamsType) {
+export default async function GeneralPage({ searchParams }: TableSearchParamsType) {
   const asyncSearchParams = await searchParams
   const page = asyncSearchParams.page || '1'
   const allowedLimits = ['10', '20', '50']
@@ -20,24 +20,24 @@ export default async function GalleryPage({ searchParams }: TableSearchParamsTyp
     allowedLimits.includes(asyncSearchParams.limit) ? asyncSearchParams.limit : '10'
   ) as RowAmountLimitType
 
-  const { data, pagination } = (await fetchTableData<TableDataResponseType<Gallery>>({
-    table: 'gallery',
+  const { data, pagination } = (await fetchTableData<TableDataResponseType<General>>({
+    table: 'general',
     page,
     limit
-  })) as TableDataResponseType<Gallery>
+  })) as TableDataResponseType<General>
 
   return (
     <>
-      <PageTopTitle description="갤러리 게시판을 관리합니다." title="갤러리 게시판">
+      <PageTopTitle description="일반 게시판을 관리합니다." title="일반 게시판">
         <Button asChild>
-          <Link className="inline-flex items-center justify-center gap-2" href="./gallery/create">
+          <Link className="inline-flex items-center justify-center gap-2" href="./general/create">
             <Plus className="size-4" />
             게시글 생성
           </Link>
         </Button>
       </PageTopTitle>
 
-      <GalleryTable
+      <GeneralTable
         currentLimit={limit}
         currentPage={page}
         initialData={data}

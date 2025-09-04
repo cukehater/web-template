@@ -115,4 +115,7 @@ model General {
   order     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([order])
+  @@index([createdAt])
 }

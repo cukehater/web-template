@@ -2,20 +2,26 @@ import { apiDelete } from '@cms/shared/api'
 import { ALERT_MESSAGES, errorToast, successToast } from '@cms/shared/lib'
 
 interface DeleteItemParamsType {
+  table: string
   id: string
-  onSuccess: () => void
+  onSuccess?: () => void
   order: number
 }
 
-export async function handleTableItemDelete({ id, order, onSuccess }: DeleteItemParamsType) {
+export async function handleTableItemDelete({
+  table,
+  id,
+  order,
+  onSuccess = () => {}
+}: DeleteItemParamsType) {
   try {
-    await apiDelete('/api/gallery', {
+    await apiDelete(`/api/post?table=${table}`, {
       id,
       order
     })
 
     onSuccess()
-    successToast(ALERT_MESSAGES.REQUEST_SUCCESS)
+    successToast(ALERT_MESSAGES.POST_DELETE_SUCCESS)
   } catch {
     errorToast(ALERT_MESSAGES.REQUEST_ERROR)
   }

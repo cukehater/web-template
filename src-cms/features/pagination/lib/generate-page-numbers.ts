@@ -1,4 +1,4 @@
-import { PaginationType } from '../models/types'
+import { PaginationType } from '@cms/shared/models'
 
 export const generatePageNumbers = (paginationInfo: PaginationType) => {
   const pages = []

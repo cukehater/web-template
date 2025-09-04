@@ -13,10 +13,11 @@ import StarterKit from '@tiptap/starter-kit'
 
 import RichEditorTools from './rich-editor-tools'
 
+// TODO: 에디터 커스터마이징
 export default function RichEditor({
   content = '',
   onChange,
-  placeholder = '내용을 입력하세요...',
+  placeholder = '내용을 입력하세요...'
 }: {
   content?: string
   onChange?: (content: string) => void
@@ -26,35 +27,35 @@ export default function RichEditor({
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder,
+        placeholder
       }),
       Image,
       Link.configure({
-        openOnClick: false,
+        openOnClick: false
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ['heading', 'paragraph']
       }),
       Underline,
       TextStyle,
       Color,
       Highlight.configure({
-        multicolor: true,
-      }),
+        multicolor: true
+      })
     ],
     content,
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML())
     },
     // 서버 사이드 렌더링 방지
-    immediatelyRender: false,
+    immediatelyRender: false
   })
 
   return (
-    <div className='border border-gray-200 rounded-lg'>
+    <div className="border border-gray-200 rounded-lg">
       <RichEditorTools editor={editor} />
       <EditorContent
-        className='prose prose-sm max-w-none p-4 max-h-[50lvh] overflow-y-auto'
+        className="prose prose-sm max-w-none p-4 max-h-[50lvh] overflow-y-auto"
         editor={editor}
       />
     </div>

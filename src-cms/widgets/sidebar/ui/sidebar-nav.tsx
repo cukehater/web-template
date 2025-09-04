@@ -7,7 +7,8 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
-  SidebarMenuSubItem
+  SidebarMenuSubItem,
+  useSidebar
 } from '@cms/shared/shadcn'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
@@ -17,6 +18,15 @@ import useActiveNav from '../models/use-active-nav'
 
 export default function SidebarNav() {
   const { pathname, isMenuActive } = useActiveNav()
+
+  const { isMobile, setOpenMobile } = useSidebar()
+
+  // 모바일에서 메뉴 클릭 시 사이드바를 닫는 함수
+  const handleMobileMenuClick = () => {
+    if (isMobile) {
+      setOpenMobile(false)
+    }
+  }
 
   return (
     <SidebarMenu>
@@ -54,7 +64,11 @@ export default function SidebarNav() {
 
                       return (
                         <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild isActive={!!isSubItemActive}>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={!!isSubItemActive}
+                            onClick={handleMobileMenuClick}
+                          >
                             <Link href={subItem.url!}>{subItem.title}</Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>

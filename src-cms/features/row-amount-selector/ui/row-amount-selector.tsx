@@ -4,19 +4,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Eye } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-interface RowAmountSelectorPropsType {
-  currentLimit: 10 | 20 | 50
-}
+import { RowAmountSelectorPropsType } from '../models/types'
 
 export default function RowAmountSelector({ currentLimit }: RowAmountSelectorPropsType) {
   const searchParams = useSearchParams() as URLSearchParams
   const router = useRouter()
 
-  const handleLimitChange = (limit: number) => {
+  const handleLimitChange = (limit: string) => {
     const params = new URLSearchParams(searchParams)
-    params.set('limit', limit.toString())
+    params.set('limit', limit)
     params.set('page', '1')
-    router.push(`?${params.toString()}`)
+    router.push(`?${params}`)
   }
 
   return (
@@ -25,10 +23,7 @@ export default function RowAmountSelector({ currentLimit }: RowAmountSelectorPro
         <Eye className="size-4 text-muted-foreground" />
         <p className="text-sm text-muted-foreground">노출 개수</p>
       </div>
-      <Select
-        value={currentLimit.toString()}
-        onValueChange={(value) => handleLimitChange(parseInt(value))}
-      >
+      <Select value={currentLimit} onValueChange={(value) => handleLimitChange(value)}>
         <SelectTrigger className="w-20">
           <SelectValue />
         </SelectTrigger>

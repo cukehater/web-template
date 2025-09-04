@@ -3,6 +3,8 @@ export const ALERT_MESSAGES = {
   PASSWORD_LENGTH: '비밀번호는 15자 이하여야 합니다.',
   REQUEST_SUCCESS: '요청이 성공적으로 처리되었습니다.',
   REQUEST_ERROR: '요청 처리 중 에러가 발생했습니다.',
+  NOT_SUPPORTED_TABLE: '지원하지 않는 테이블입니다.',
+  POST_DELETE_SUCCESS: '게시글이 성공적으로 삭제되었습니다.',
   LOGIN_ERROR: '로그인 정보가 일치하지 않습니다.',
   SAVE_SUCCESS: '성공적으로 저장되었습니다.',
   SAVE_ERROR: '저장에 실패했습니다.',
@@ -20,5 +22,6 @@ export const ALERT_MESSAGES = {
   ORDER_CHANGE_LAST: '더 이상 아래로 이동할 수 없습니다.',
   CANCEL: '작업을 취소하시겠습니까?',
   CANCEL_DESCRIPTION: '작업을 취소하면 작성된 내용이 사라집니다.',
-  TYPE_PARAMETER_REQUIRED: '타입 파라미터가 필요합니다.'
+  TYPE_PARAMETER_REQUIRED: '타입 파라미터가 필요합니다.',
+  NOT_SUPPORTED_TYPE: '지원하지 않는 업데이트 타입입니다.'
 }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { TokenVerificationError, verifyToken } from '@/tokens'
+import { TokenVerificationError, verifyToken } from './app/tokens'
 
 /**
  * Next.js 미들웨어 함수

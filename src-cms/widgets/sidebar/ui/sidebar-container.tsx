@@ -23,7 +23,7 @@ export default function SidebarContainer({
   children: React.ReactNode
 }) {
   return (
-    <SidebarProvider defaultOpen={false}>
+    <SidebarProvider defaultOpen>
       <Sidebar className="group/sidebar" collapsible="icon">
         <SidebarAccount companyName={companyName} favicon={favicon} />
         <SidebarContent>

@@ -6,11 +6,6 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'images.unsplash.com'
-      },
-      // TODO: 삭제
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos'
       }
     ]
   }

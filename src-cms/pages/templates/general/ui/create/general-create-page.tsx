@@ -1,8 +1,7 @@
 'use client'
 
-import { apiPost, uploadFilesFormFields } from '@cms/shared/api'
-import { ALERT_MESSAGES, errorToast, fileChangeHandler, successToast } from '@cms/shared/lib'
-import { UploadResponseType } from '@cms/shared/models'
+import { apiPost } from '@cms/shared/api'
+import { ALERT_MESSAGES, errorToast, successToast } from '@cms/shared/lib'
 import {
   AlertDialog,
   Button,
@@ -10,7 +9,6 @@ import {
   CardContent,
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,7 +18,6 @@ import {
 import {
   ConfirmDialog,
   DateTimePicker,
-  ImagePreview,
   PageTopTitle,
   RichEditor,
   SwitchField
@@ -33,26 +30,21 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
-  galleryFormSchema,
-  GalleryFormSchemaType,
-  initialGalleryFormData
+  generalFormSchema,
+  GeneralFormSchemaType,
+  initialGeneralFormData
 } from '../../models/schema'
 
-export default function GalleryCreatePage() {
+export default function GeneralCreatePage() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = async (values: GalleryFormSchemaType) => {
+  const handleSubmit = async (values: GeneralFormSchemaType) => {
     setIsSubmitting(true)
 
     try {
-      const uploadImageValues = (await uploadFilesFormFields(values, [
-        'thumbnail'
-      ])) as UploadResponseType
-
-      await apiPost('/api/post?table=gallery', {
+      await apiPost('/api/post?table=general', {
         ...values,
-        ...uploadImageValues,
         createdAt: values.createdAt || new Date().toISOString()
       })
 
@@ -66,12 +58,12 @@ export default function GalleryCreatePage() {
   }
 
   const handleBack = () => {
-    router.push('../gallery')
+    router.push('../general')
   }
 
-  const form = useForm<GalleryFormSchemaType>({
-    resolver: zodResolver(galleryFormSchema),
-    defaultValues: initialGalleryFormData
+  const form = useForm<GeneralFormSchemaType>({
+    resolver: zodResolver(generalFormSchema),
+    defaultValues: initialGeneralFormData
   })
 
   return (
@@ -91,33 +83,6 @@ export default function GalleryCreatePage() {
                     <Input {...field} placeholder="제목을 입력하세요." />
                   </FormControl>
                   <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="thumbnail"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>썸네일 이미지</FormLabel>
-                  <FormControl>
-                    <Input
-                      name={field.name}
-                      placeholder="썸네일 이미지를 입력하세요."
-                      type="file"
-                      onChange={(e) =>
-                        fileChangeHandler(e, {
-                          allowedFormat: 'IMAGE',
-                          maxSize: 1024 * 1024,
-                          field
-                        })
-                      }
-                    />
-                  </FormControl>
-                  <FormDescription>권장 파일 크기: 1MB 이하</FormDescription>
-                  <FormMessage />
-                  <ImagePreview alt="썸네일 이미지" field={field} width={300} />
                 </FormItem>
               )}
             />

@@ -27,19 +27,18 @@ import {
   TableEmptyData,
   TableNumberText,
   TableOrderButtons,
-  TableStatusIndicator,
-  TableThumbnailImage
+  TableStatusIndicator
 } from '@cms/shared/ui'
-import { Gallery } from '@prisma/client'
+import { General } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
-export default function GalleryTable({
+export default function GeneralTable({
   initialData,
   pagination,
   currentPage,
   currentLimit
-}: TableListPropsType<Gallery>) {
+}: TableListPropsType<General>) {
   const router = useRouter()
   const [isFetching, setIsFetching] = useState(false)
   const [data, setData] = useState(initialData)
@@ -49,10 +48,10 @@ export default function GalleryTable({
     try {
       setIsFetching(true)
       const { data, pagination } = (await fetchTableData({
-        table: 'gallery',
+        table: 'general',
         page: currentPage,
         limit: currentLimit
-      })) as TableDataResponseType<Gallery>
+      })) as TableDataResponseType<General>
 
       setData(data)
       setPaginationInfo(pagination)
@@ -64,7 +63,7 @@ export default function GalleryTable({
   }, [currentPage, currentLimit])
 
   const handleEdit = (id: string) => {
-    router.push(`../templates/gallery/edit/${id}`)
+    router.push(`../templates/general/edit/${id}`)
   }
 
   useEffect(() => {
@@ -82,7 +81,6 @@ export default function GalleryTable({
               <TableHead className="w-[50px]">번호</TableHead>
               <TableHead className="w-[75px]">순서 정렬</TableHead>
               <TableHead className="w-[100px]">상태</TableHead>
-              <TableHead className="w-[100px]">이미지</TableHead>
               <TableHead>제목</TableHead>
               <TableHead className="w-[120px]">작성일</TableHead>
               <TableHead className="w-[100px]">작업</TableHead>
@@ -103,7 +101,7 @@ export default function GalleryTable({
                     <TableOrderButtons
                       onOrderChangeDown={async () =>
                         await handleTableOrderChange({
-                          table: 'gallery',
+                          table: 'general',
                           id: column.id,
                           currentOrder: column.order,
                           direction: 'down',
@@ -113,7 +111,7 @@ export default function GalleryTable({
                       }
                       onOrderChangeUp={async () =>
                         await handleTableOrderChange({
-                          table: 'gallery',
+                          table: 'general',
                           id: column.id,
                           currentOrder: column.order,
                           direction: 'up',
@@ -130,15 +128,6 @@ export default function GalleryTable({
                       activeText="활성"
                       currentStatus={column.isVisible}
                       inactiveText="비활성"
-                    />
-                  </TableCell>
-
-                  {/* 이미지 */}
-                  <TableCell>
-                    <TableThumbnailImage
-                      alt={column.title}
-                      thumbnail={column.thumbnail}
-                      visibleStatus={column.isVisible}
                     />
                   </TableCell>
 
@@ -159,7 +148,7 @@ export default function GalleryTable({
                       visibleStatus={column.isVisible}
                       onDelete={async () =>
                         await handleTableItemDelete({
-                          table: 'gallery',
+                          table: 'general',
                           id: column.id,
                           order: column.order,
                           onSuccess: fetchData
@@ -168,10 +157,10 @@ export default function GalleryTable({
                       onEdit={() => handleEdit(column.id)}
                       onToggleVisible={async () =>
                         await handleTableVisibleToggle({
-                          table: 'gallery',
+                          table: 'general',
                           id: column.id,
                           isVisible: column.isVisible,
-                          onSuccess: () => visibleToggleSuccess<Gallery>(setData, column.id)
+                          onSuccess: () => visibleToggleSuccess<General>(setData, column.id)
                         })
                       }
                     />

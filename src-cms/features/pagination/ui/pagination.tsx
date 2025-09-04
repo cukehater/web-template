@@ -1,5 +1,6 @@
 'use client'
 
+import { PaginationType } from '@cms/shared/models'
 import {
   Pagination as PaginationContainer,
   PaginationContent,
@@ -13,7 +14,6 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useMemo } from 'react'
 
 import { generatePageNumbers } from '../lib/generate-page-numbers'
-import { PaginationType } from '../models/types'
 
 export default function Pagination({ paginationInfo }: { paginationInfo: PaginationType }) {
   const router = useRouter()
