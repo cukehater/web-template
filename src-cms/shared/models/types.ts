@@ -1,3 +1,5 @@
+import { User } from '@prisma/client'
+
 // API 성공/실패 응답 타입
 interface ApiSuccessResponseType<T> {
   data?: T
@@ -16,6 +18,9 @@ export type ApiResponseType<T> = ApiSuccessResponseType<T> | ApiErrorResponseTyp
 export interface UploadResponseType {
   [key: string]: string
 }
+
+// 계정 타입
+export type AccountType = Pick<User, 'userId' | 'name' | 'createdAt'>
 
 // 행 개수 선택기 타입
 export type RowAmountLimitType = '10' | '20' | '50'

@@ -14,21 +14,20 @@ import { TableDataResponseType, TableListPropsType } from '@cms/shared/models'
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
   TableHeader,
   TableRow
 } from '@cms/shared/shadcn'
 import {
-  TableActionDropdown,
+  TableCellActionDropdown,
+  TableCellDate,
+  TableCellNumberText,
+  TableCellOrderButtons,
+  TableCellStatusIndicator,
+  TableCellThumbnailImage,
   TableCellTitle,
-  TableDate,
-  TableEmptyData,
-  TableNumberText,
-  TableOrderButtons,
-  TableStatusIndicator,
-  TableThumbnailImage
+  TableEmptyData
 } from '@cms/shared/ui'
 import { Gallery } from '@prisma/client'
 import { useRouter } from 'next/navigation'
@@ -89,18 +88,20 @@ export default function GalleryTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data
-              .sort((a, b) => b.order - a.order)
-              .map((column) => (
-                <TableRow key={column.id}>
-                  {/* 인덱스 */}
-                  <TableCell>
-                    <TableNumberText text={(paginationInfo.total + 1 - column.order).toString()} />
-                  </TableCell>
+            {!data || data.length === 0 ? (
+              <TableEmptyData colSpan={7} />
+            ) : (
+              data
+                .sort((a, b) => b.order - a.order)
+                .map((column) => (
+                  <TableRow key={column.id}>
+                    {/* 인덱스 */}
+                    <TableCellNumberText
+                      text={(paginationInfo.total + 1 - column.order).toString()}
+                    />
 
-                  {/* 순서 */}
-                  <TableCell>
-                    <TableOrderButtons
+                    {/* 순서 */}
+                    <TableCellOrderButtons
                       onOrderChangeDown={async () =>
                         await handleTableOrderChange({
                           table: 'gallery',
@@ -122,39 +123,29 @@ export default function GalleryTable({
                         })
                       }
                     />
-                  </TableCell>
 
-                  {/* 상태 */}
-                  <TableCell>
-                    <TableStatusIndicator
+                    {/* 상태 */}
+                    <TableCellStatusIndicator
                       activeText="활성"
                       currentStatus={column.isVisible}
                       inactiveText="비활성"
                     />
-                  </TableCell>
 
-                  {/* 이미지 */}
-                  <TableCell>
-                    <TableThumbnailImage
+                    {/* 이미지 */}
+                    <TableCellThumbnailImage
                       alt={column.title}
                       thumbnail={column.thumbnail}
                       visibleStatus={column.isVisible}
                     />
-                  </TableCell>
 
-                  {/* 제목 */}
-                  <TableCell>
+                    {/* 제목 */}
                     <TableCellTitle title={column.title} />
-                  </TableCell>
 
-                  {/* 작성일 */}
-                  <TableCell>
-                    <TableDate date={column.createdAt} />
-                  </TableCell>
+                    {/* 작성일 */}
+                    <TableCellDate date={column.createdAt} />
 
-                  {/* 작업 */}
-                  <TableCell>
-                    <TableActionDropdown
+                    {/* 작업 */}
+                    <TableCellActionDropdown
                       disabled={isFetching}
                       visibleStatus={column.isVisible}
                       onDelete={async () =>
@@ -175,10 +166,9 @@ export default function GalleryTable({
                         })
                       }
                     />
-                  </TableCell>
-                </TableRow>
-              ))}
-            {data.length === 0 && <TableEmptyData colSpan={7} />}
+                  </TableRow>
+                ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

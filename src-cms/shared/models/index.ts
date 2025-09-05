@@ -1,4 +1,5 @@
 export type {
+  AccountType,
   ApiResponseType,
   PaginationType,
   RowAmountLimitType,
