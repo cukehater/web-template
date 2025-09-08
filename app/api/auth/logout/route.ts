@@ -2,7 +2,7 @@ import { ALERT_MESSAGES, setHttpOnlyCookie } from '@cms/shared/lib'
 import { ApiResponseType } from '@cms/shared/models'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { deleteUserRefreshToken, verifyToken } from '@/tokens'
+import { deleteAccountRefreshToken, verifyToken } from '@/tokens'
 
 export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseType<never>>> {
   try {
@@ -11,7 +11,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseTy
     const payload = await verifyToken(refreshToken as string)
 
     if (refreshToken) {
-      await deleteUserRefreshToken(payload.userId)
+      await deleteAccountRefreshToken(payload.accountId)
     }
 
     const response = NextResponse.json(

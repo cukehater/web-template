@@ -19,5 +19,5 @@ export async function GET() {
 
   const session = await verifyToken(accessToken)
 
-  return NextResponse.json({ userId: session.userId, name: session.name })
+  return NextResponse.json({ accountId: session.accountId, name: session.name })
 }

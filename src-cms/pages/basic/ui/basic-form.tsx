@@ -1,6 +1,15 @@
 'use client'
 
-import { fileChangeHandler } from '@cms/shared/lib'
+import { apiPost, uploadFilesFormFields } from '@cms/shared/api'
+import {
+  ALERT_MESSAGES,
+  errorToast,
+  fileChangeHandler,
+  hasFormChange,
+  infoToast,
+  successToast
+} from '@cms/shared/lib'
+import { UploadResponseType } from '@cms/shared/models'
 import {
   Button,
   Card,
@@ -18,13 +27,55 @@ import {
   Textarea
 } from '@cms/shared/shadcn'
 import { ImagePreview, PageTopTitle } from '@cms/shared/ui'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { BarChart3, Building2, Cog, Globe, Loader2, Save, Search, Share2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 
-import type { BasicFormSchemaType } from '../models/schema'
-import useBasicForm from '../models/use-basic-form'
+import { basicFormSchema, type BasicFormSchemaType } from '../models/schema'
 
 export default function BasicForm({ defaultValues }: { defaultValues: BasicFormSchemaType }) {
-  const { form, onSubmit } = useBasicForm(defaultValues)
+  const router = useRouter()
+  const form = useForm<BasicFormSchemaType>({
+    resolver: zodResolver(basicFormSchema),
+    // TODO: 초기 값 설정 수정
+    defaultValues
+  })
+
+  async function onSubmit(values: BasicFormSchemaType) {
+    try {
+      const watchedValues = form.watch()
+
+      if (!hasFormChange(watchedValues, defaultValues)) {
+        infoToast(ALERT_MESSAGES.NO_CHANGES)
+        return
+      }
+
+      const uploadImageValues = (await uploadFilesFormFields(values, [
+        'logo',
+        'favicon',
+        'ogImage'
+      ])) as UploadResponseType
+
+      const result = await apiPost('/api/basic', {
+        body: {
+          ...values,
+          ...uploadImageValues
+        }
+      })
+
+      if (!result.ok) {
+        errorToast(ALERT_MESSAGES.SAVE_ERROR)
+        return
+      }
+
+      successToast(ALERT_MESSAGES.SAVE_SUCCESS)
+      form.reset({ ...values, ...uploadImageValues })
+      router.refresh()
+    } catch {
+      errorToast(ALERT_MESSAGES.REQUEST_ERROR)
+    }
+  }
 
   return (
     <>

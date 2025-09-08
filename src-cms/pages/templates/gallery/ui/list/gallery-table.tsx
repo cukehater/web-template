@@ -74,6 +74,7 @@ export default function GalleryTable({
     <>
       <RowAmountSelector currentLimit={currentLimit} />
 
+      {/* // TODO: 게시글 작성자 추가 */}
       <TableContainer>
         <Table>
           <TableHeader>

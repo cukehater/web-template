@@ -6,10 +6,11 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const GET = async (): Promise<NextResponse<ApiResponseType<AccountType[]>>> => {
   try {
-    const data = await prisma.user.findMany({
-      where: { userId: { not: 'master' } },
+    const data = await prisma.account.findMany({
+      where: { accountId: { not: 'master' } },
       select: {
-        userId: true,
+        id: true,
+        accountId: true,
         name: true,
         createdAt: true
       }
@@ -30,12 +31,32 @@ export const GET = async (): Promise<NextResponse<ApiResponseType<AccountType[]>
 
 export const PATCH = async (req: NextRequest): Promise<NextResponse<ApiResponseType<never>>> => {
   try {
-    const payload = await req.json()
-    await prisma.user.update({
-      where: { id: payload.id },
+    const body = await req.json()
+
+    const account = await prisma.account.findUnique({
+      where: { id: body.id }
+    })
+
+    if (!account) {
+      return NextResponse.json(
+        { message: ALERT_MESSAGES.REQUEST_ERROR, ok: false },
+        { status: 404 }
+      )
+    }
+
+    const isPasswordMatch = await bcrypt.compare(body.password, account.password)
+
+    if (!isPasswordMatch) {
+      return NextResponse.json(
+        { message: ALERT_MESSAGES.PASSWORD_NOT_MATCH_CURRENT, ok: false },
+        { status: 400 }
+      )
+    }
+
+    await prisma.account.update({
+      where: { id: body.id },
       data: {
-        name: payload.name,
-        password: await bcrypt.hash(payload.newPassword, 10)
+        password: await bcrypt.hash(body.newPassword, 10)
       }
     })
 

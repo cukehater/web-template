@@ -5,19 +5,19 @@ const prisma = new PrismaClient()
 
 async function main() {
   // 기존 데이터 삭제 (선택사항)
-  await prisma.user.deleteMany()
+  await prisma.account.deleteMany()
 
   await Promise.all([
-    prisma.user.create({
+    prisma.account.create({
       data: {
-        userId: 'master',
+        accountId: 'master',
         name: '마스터',
         password: await bcrypt.hash('master', 10) // 'password'
       }
     }),
-    prisma.user.create({
+    prisma.account.create({
       data: {
-        userId: 'admin',
+        accountId: 'admin',
         name: '관리자',
         password: await bcrypt.hash('admin', 10) // 'password'
       }

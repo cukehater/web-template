@@ -1,9 +1,7 @@
 import { apiGet } from '@cms/shared/api'
 import { AccountType } from '@cms/shared/models'
 import {
-  Button,
   Dialog,
-  DialogTrigger,
   Table,
   TableBody,
   TableCell,
@@ -13,9 +11,9 @@ import {
   TableRow
 } from '@cms/shared/shadcn'
 import { PageTopTitle, TableCellDate, TableCellText, TableEmptyData } from '@cms/shared/ui'
-import { KeyRound, UserCog2 } from 'lucide-react'
+import { Info, UserCog2 } from 'lucide-react'
 
-import PasswordUpdateModal from './password-update-modal'
+import PasswordUpdateTrigger from './password-update-trigger'
 
 export default async function AccountPage() {
   const { data } = await apiGet<AccountType[]>('/api/account')
@@ -44,18 +42,12 @@ export default async function AccountPage() {
                 <TableEmptyData colSpan={4} />
               ) : (
                 data.map((column) => (
-                  <TableRow key={column.userId}>
-                    <TableCellText text={column.userId} />
+                  <TableRow key={column.id}>
+                    <TableCellText text={column.accountId} />
                     <TableCellText text={column.name} />
                     <TableCellDate date={column.createdAt} />
                     <TableCell className="text-center">
-                      <Button asChild size="icon" variant="ghost">
-                        <DialogTrigger asChild>
-                          <Button className="flex items-center gap-2" size="icon" variant="outline">
-                            <KeyRound className="size-4" />
-                          </Button>
-                        </DialogTrigger>
-                      </Button>
+                      <PasswordUpdateTrigger id={column.id} />
                     </TableCell>
                   </TableRow>
                 ))
@@ -63,8 +55,10 @@ export default async function AccountPage() {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <PasswordUpdateModal />
+        <p className="flex items-center justify-end gap-1 text-right text-xs text-muted-foreground">
+          <Info className="size-3" />
+          추가 관리자 계정을 생성하려면 별도로 문의 바랍니다.
+        </p>
       </Dialog>
     </>
   )

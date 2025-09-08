@@ -6,55 +6,55 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import {
   ACCESS_TOKEN_MAX_AGE,
-  deleteUserRefreshToken,
+  deleteAccountRefreshToken,
   generateAccessToken,
   generateRefreshToken,
   REFRESH_TOKEN_MAX_AGE,
   saveRefreshToken
 } from '@/tokens'
 
-async function validateUser(userId: string, password: string) {
-  const user = await getUserByUserID(userId)
+async function validateAccount(accountId: string, password: string) {
+  const account = await getAccountByAccountId(accountId)
 
-  if (!user) {
+  if (!account) {
     return null
   }
 
-  const isValidPassword = await verifyPassword(password, user.password)
+  const isValidPassword = await verifyPassword(password, account.password)
 
   if (!isValidPassword) {
     return null
   }
 
-  return user
+  return account
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseType<never>>> {
   try {
     const {
-      body: { userId, password }
+      body: { accountId, password }
     } = await req.json()
 
-    const user = await validateUser(userId, password)
+    const account = await validateAccount(accountId, password)
 
-    if (!user) {
+    if (!account) {
       return NextResponse.json({ message: ALERT_MESSAGES.LOGIN_ERROR, ok: false }, { status: 401 })
     }
 
     const accessToken = await generateAccessToken({
-      id: user.id,
-      userId: user.userId,
-      name: user.name
+      id: account.id,
+      accountId: account.accountId,
+      name: account.name
     })
 
     const refreshToken = await generateRefreshToken({
-      id: user.id,
-      userId: user.userId,
-      name: user.name
+      id: account.id,
+      accountId: account.accountId,
+      name: account.name
     })
 
-    await deleteUserRefreshToken(user.userId)
-    await saveRefreshToken(refreshToken, user.userId)
+    await deleteAccountRefreshToken(account.accountId)
+    await saveRefreshToken(refreshToken, account.accountId)
 
     const response = NextResponse.json(
       { message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true },
@@ -72,9 +72,9 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseTy
   }
 }
 
-const getUserByUserID = async (userId: string) => {
-  return prisma.user.findUnique({
-    where: { userId }
+const getAccountByAccountId = async (accountId: string) => {
+  return prisma.account.findUnique({
+    where: { accountId }
   })
 }
 

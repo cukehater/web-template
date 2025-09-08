@@ -1,5 +1,7 @@
 'use client'
 
+import { apiPost } from '@cms/shared/api'
+import { ALERT_MESSAGES } from '@cms/shared/lib'
 import {
   Alert,
   AlertTitle,
@@ -12,12 +14,48 @@ import {
   FormMessage,
   Input
 } from '@cms/shared/shadcn'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircleIcon, GalleryVerticalEnd, Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-import useLogin from '../models/use-login'
+import { initialLoginFormData, loginFormSchema, LoginFormSchemaType } from '../models/schema'
 
 export default function LoginForm({ logo }: { logo: string }) {
-  const { form, onSubmit, isLoading, error } = useLogin()
+  const router = useRouter()
+
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const form = useForm<LoginFormSchemaType>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: initialLoginFormData
+  })
+
+  async function onSubmit(values: LoginFormSchemaType) {
+    if (isLoading) return
+
+    setIsLoading(true)
+
+    try {
+      const result = await apiPost('/api/auth/login', {
+        body: values,
+        credentials: 'include'
+      })
+
+      if (!result.ok) {
+        setError(result.message)
+        return
+      }
+
+      router.push('/admin')
+    } catch {
+      setError(ALERT_MESSAGES.REQUEST_ERROR)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <Form {...form}>
@@ -35,7 +73,7 @@ export default function LoginForm({ logo }: { logo: string }) {
           </div>
           <FormField
             control={form.control}
-            name="userId"
+            name="accountId"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>아이디</FormLabel>

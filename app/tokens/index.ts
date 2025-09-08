@@ -1,5 +1,5 @@
 export {
-  deleteUserRefreshToken,
+  deleteAccountRefreshToken,
   generateAccessToken,
   generateRefreshToken,
   getRefreshTokenFromDB,

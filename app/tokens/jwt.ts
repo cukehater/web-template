@@ -8,7 +8,7 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
 
 export interface TokenPayloadType {
   id: string
-  userId: string
+  accountId: string
   name: string
   exp?: number
   iat?: number
@@ -44,22 +44,22 @@ export const generateRefreshToken = async (payload: TokenPayloadType): Promise<s
 }
 
 // 데이터베이스에 리프레시 토큰 저장
-export const saveRefreshToken = async (token: string, userId: string): Promise<void> => {
+export const saveRefreshToken = async (token: string, accountId: string): Promise<void> => {
   const expiresAt = new Date(Date.now() + REFRESH_TOKEN_MAX_AGE * 1000)
 
   await prisma.refreshToken.create({
     data: {
       token,
-      userId,
+      accountId,
       expiresAt
     }
   })
 }
 
 // 사용자의 모든 리프레시 토큰 삭제
-export const deleteUserRefreshToken = async (userId: string): Promise<void> => {
+export const deleteAccountRefreshToken = async (accountId: string): Promise<void> => {
   await prisma.refreshToken.deleteMany({
-    where: { userId }
+    where: { accountId }
   })
 }
 
@@ -79,9 +79,9 @@ export const verifyToken = async (token: string): Promise<TokenPayloadType & { t
   }
 }
 
-export const getRefreshTokenFromDB = async (userId: string): Promise<string | null> => {
+export const getRefreshTokenFromDB = async (accountId: string): Promise<string | null> => {
   const refreshToken = await prisma.refreshToken.findFirst({
-    where: { userId }
+    where: { accountId }
   })
   return refreshToken?.token || null
 }
@@ -95,18 +95,18 @@ export const rotateRefreshToken = async (
 
     const newAccessToken = await generateAccessToken({
       id: payload.id,
-      userId: payload.userId,
+      accountId: payload.accountId,
       name: payload.name
     })
 
     const newRefreshToken = await generateRefreshToken({
       id: payload.id,
-      userId: payload.userId,
+      accountId: payload.accountId,
       name: payload.name
     })
 
-    await deleteUserRefreshToken(payload.userId)
-    await saveRefreshToken(newRefreshToken, payload.userId)
+    await deleteAccountRefreshToken(payload.accountId)
+    await saveRefreshToken(newRefreshToken, payload.accountId)
 
     return { newAccessToken, newRefreshToken }
   } catch (error) {

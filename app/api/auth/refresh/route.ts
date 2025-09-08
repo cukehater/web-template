@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import {
   ACCESS_TOKEN_MAX_AGE,
-  deleteUserRefreshToken,
+  deleteAccountRefreshToken,
   getRefreshTokenFromDB,
   REFRESH_TOKEN_MAX_AGE,
   rotateRefreshToken,
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = await verifyToken(refreshToken)
-    const currentRefreshToken = await getRefreshTokenFromDB(payload.userId)
+    const currentRefreshToken = await getRefreshTokenFromDB(payload.accountId)
 
     if (payload.type !== 'refresh') {
       return NextResponse.json({ error: 'Invalid refresh token' }, { status: 400 })
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
         error: 'Invalid refresh token'
       })
 
-      await deleteUserRefreshToken(payload.userId)
+      await deleteAccountRefreshToken(payload.accountId)
 
       setHttpOnlyCookie(response, 'accessToken', '', 0)
       setHttpOnlyCookie(response, 'refreshToken', '', 0)

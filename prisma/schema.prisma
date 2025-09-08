@@ -10,9 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Account {
   id        String   @id @default(cuid())
-  userId    String   @unique
+  accountId    String   @unique
   password  String
   name      String
   createdAt DateTime @default(now())
@@ -24,13 +24,13 @@ model User {
 model RefreshToken {
   id        String   @id @default(cuid())
   token     String   @unique
-  userId    String
+  accountId    String
   expiresAt DateTime
   createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  account Account @relation(fields: [accountId], references: [accountId], onDelete: Cascade)
 
-  @@index([userId])
+  @@index([accountId])
 }
 
 model Basic {

@@ -1,6 +1,11 @@
 export const ALERT_MESSAGES = {
   ID_LENGTH: '아이디는 15자 이하여야 합니다.',
-  PASSWORD_LENGTH: '비밀번호는 15자 이하여야 합니다.',
+  PASSWORD_MAX_LENGTH: '비밀번호는 15자 이하여야 합니다.',
+  PASSWORD_MIN_LENGTH: '비밀번호는 최소 8자 이상이어야 합니다.',
+  PASSWORD_PATTERN: '비밀번호는 영문과 숫자를 포함하여 8-15자로 입력해주세요.',
+  PASSWORD_MATCH: '새 비밀번호가 일치하지 않습니다.',
+  PASSWORD_NOT_MATCH: '새 비밀번호는 현재 비밀번호와 달라야 합니다.',
+  PASSWORD_NOT_MATCH_CURRENT: '현재 비밀번호가 일치하지 않습니다.',
   REQUEST_SUCCESS: '요청이 성공적으로 처리되었습니다.',
   REQUEST_ERROR: '요청 처리 중 에러가 발생했습니다.',
   NOT_SUPPORTED_TABLE: '지원하지 않는 테이블입니다.',

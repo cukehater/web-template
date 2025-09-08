@@ -1,7 +1,11 @@
 'use client'
 
+import { apiPatch } from '@cms/shared/api'
+import { ALERT_MESSAGES, successToast } from '@cms/shared/lib'
 import {
+  Alert,
   AlertDialogHeader,
+  AlertTitle,
   Button,
   DialogClose,
   DialogContent,
@@ -9,36 +13,128 @@ import {
   DialogFooter,
   DialogTitle,
   Form,
-  Input,
-  Label
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input
 } from '@cms/shared/shadcn'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { AlertCircleIcon, Loader2 } from 'lucide-react'
+import { useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-export default function PasswordUpdateModal() {
+import {
+  initialPasswordUpdateFormData,
+  passwordUpdateFormSchema,
+  PasswordUpdateFormSchemaType
+} from '../models/schema'
+
+export default function PasswordUpdateModal({ id }: { id: string }) {
+  const dialogCloseRef = useRef<HTMLButtonElement>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+  const form = useForm<PasswordUpdateFormSchemaType>({
+    resolver: zodResolver(passwordUpdateFormSchema),
+    defaultValues: initialPasswordUpdateFormData
+  })
+
+  async function onSubmit(values: PasswordUpdateFormSchemaType) {
+    try {
+      setIsLoading(true)
+
+      const res = await apiPatch('/api/account', {
+        id,
+        password: values.password,
+        newPassword: values.newPassword
+      })
+
+      if (!res.ok) {
+        setError(res.message || ALERT_MESSAGES.REQUEST_ERROR)
+        return
+      }
+
+      successToast(ALERT_MESSAGES.REQUEST_SUCCESS)
+      form.reset()
+      dialogCloseRef.current?.click()
+    } catch {
+      setError(ALERT_MESSAGES.REQUEST_ERROR)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
-    <Form>
+    <Form {...form}>
       <DialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DialogDescription>
+          <DialogTitle>관리자 계정 비밀번호 변경</DialogTitle>
+          <DialogDescription>현재 비밀번호와 새 비밀번호를 입력해 주세요.</DialogDescription>
         </AlertDialogHeader>
-        <div className="grid gap-4">
-          <div className="grid gap-3">
-            <Label htmlFor="name-1">Name</Label>
-            <Input defaultValue="Pedro Duarte" id="name-1" name="name" />
-          </div>
-          <div className="grid gap-3">
-            <Label htmlFor="username-1">Username</Label>
-            <Input defaultValue="@peduarte" id="username-1" name="username" />
-          </div>
-        </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>현재 비밀번호</FormLabel>
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="newPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>새 비밀번호</FormLabel>
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>새 비밀번호 확인</FormLabel>
+                <FormControl>
+                  <Input {...field} type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircleIcon />
+              <AlertTitle>{error}</AlertTitle>
+            </Alert>
+          )}
+
+          <DialogFooter>
+            <DialogClose ref={dialogCloseRef} asChild>
+              <Button variant="outline">취소</Button>
+            </DialogClose>
+            <Button disabled={isLoading} type="submit">
+              {isLoading ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" /> 변경 중
+                </>
+              ) : (
+                '변경 완료'
+              )}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Form>
   )
