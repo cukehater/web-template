@@ -31,3 +31,16 @@ export const initialPasswordUpdateFormData: PasswordUpdateFormSchemaType = {
   newPassword: '',
   confirmPassword: ''
 }
+
+export const nameUpdateFormSchema = z.object({
+  name: z
+    .string()
+    .nonempty(ALERT_MESSAGES.NONE_EMPTY)
+    .regex(REGEX.NO_SPECIAL_CHARACTER, ALERT_MESSAGES.NO_SPECIAL_CHARACTER)
+})
+
+export type NameUpdateFormSchemaType = z.infer<typeof nameUpdateFormSchema>
+
+export const initialNameUpdateFormData: NameUpdateFormSchemaType = {
+  name: ''
+}

@@ -15,6 +15,7 @@ interface TableCellActionDropdownPropsType {
   visibleStatus?: boolean
   onEdit?: () => void
   onDelete?: () => void
+  children?: React.ReactNode
 }
 
 export default function TableCellActionDropdown({
@@ -22,7 +23,8 @@ export default function TableCellActionDropdown({
   onToggleVisible,
   visibleStatus,
   onEdit,
-  onDelete
+  onDelete,
+  children
 }: TableCellActionDropdownPropsType) {
   return (
     <TableCell>
@@ -51,16 +53,18 @@ export default function TableCellActionDropdown({
             )}
             {onEdit && (
               <DropdownMenuItem onClick={onEdit}>
-                <SquarePen />
+                <SquarePen className="size-4" />
                 편집
               </DropdownMenuItem>
             )}
             {onDelete && (
               <DropdownMenuItem className="text-red-600" onClick={onDelete}>
-                <Trash2 />
+                <Trash2 className="size-4" />
                 삭제
               </DropdownMenuItem>
             )}
+            {/* children을 렌더링할 때 Dialog 컴포넌트들을 포함 */}
+            {children}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

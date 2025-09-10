@@ -3,7 +3,15 @@ export const extractDefaultValues = (
   initialValues: Record<string, unknown>,
   excludedFields: string[]
 ) => {
+  if (!dbValues) {
+    return Object.fromEntries(
+      Object.entries(initialValues).filter(([key]) => !excludedFields.includes(key))
+    )
+  }
+
+  const mergedValues = { ...initialValues, ...dbValues }
+
   return Object.fromEntries(
-    Object.entries(dbValues || initialValues).filter(([key]) => !excludedFields.includes(key))
+    Object.entries(mergedValues).filter(([key]) => !excludedFields.includes(key))
   )
 }

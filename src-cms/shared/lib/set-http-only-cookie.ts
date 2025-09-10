@@ -14,3 +14,8 @@ export const setHttpOnlyCookie = (
     path: '/'
   })
 }
+
+export const resetHttpOnlyCookie = (response: NextResponse) => {
+  setHttpOnlyCookie(response, 'accessToken', '', 0)
+  setHttpOnlyCookie(response, 'refreshToken', '', 0)
+}

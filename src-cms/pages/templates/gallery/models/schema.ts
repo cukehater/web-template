@@ -4,9 +4,10 @@ import { z } from 'zod'
 export const galleryFormSchema = z.object({
   title: z.string().nonempty(ALERT_MESSAGES.NONE_EMPTY),
   thumbnail: z.union([z.string(), z.instanceof(File, { message: ALERT_MESSAGES.FILE })]),
-  createdAt: z.union([z.date(), z.literal('')]),
+  writer: z.string().nonempty(ALERT_MESSAGES.NONE_EMPTY),
   content: z.string().nonempty(ALERT_MESSAGES.NONE_EMPTY),
-  isVisible: z.boolean()
+  isVisible: z.boolean(),
+  createdAt: z.union([z.date(), z.literal('')])
 })
 
 export type GalleryFormSchemaType = z.infer<typeof galleryFormSchema>
@@ -14,7 +15,8 @@ export type GalleryFormSchemaType = z.infer<typeof galleryFormSchema>
 export const initialGalleryFormData: GalleryFormSchemaType = {
   title: '',
   thumbnail: '',
-  createdAt: '',
   content: '',
-  isVisible: true
+  writer: '',
+  isVisible: true,
+  createdAt: ''
 }

@@ -1,5 +1,6 @@
 'use client'
 
+import { useSessionContext } from '@cms/app/context'
 import { apiPatch } from '@cms/shared/api'
 import { ALERT_MESSAGES, successToast } from '@cms/shared/lib'
 import {
@@ -27,33 +28,33 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
-  initialPasswordUpdateFormData,
-  passwordUpdateFormSchema,
-  PasswordUpdateFormSchemaType
+  initialNameUpdateFormData,
+  nameUpdateFormSchema,
+  NameUpdateFormSchemaType
 } from '../models/schema'
 
-interface PasswordUpdateModalPropsType {
+interface NameUpdateModalPropsType {
   id: string
   onClose: () => void
 }
 
-export default function PasswordUpdateModal({ id, onClose }: PasswordUpdateModalPropsType) {
+export default function NameUpdateModal({ id, onClose }: NameUpdateModalPropsType) {
+  const sessionContext = useSessionContext()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
-  const form = useForm<PasswordUpdateFormSchemaType>({
-    resolver: zodResolver(passwordUpdateFormSchema),
-    defaultValues: initialPasswordUpdateFormData
+  const form = useForm<NameUpdateFormSchemaType>({
+    resolver: zodResolver(nameUpdateFormSchema),
+    defaultValues: initialNameUpdateFormData
   })
 
-  async function onSubmit(values: PasswordUpdateFormSchemaType) {
+  async function onSubmit(values: NameUpdateFormSchemaType) {
     try {
       setIsLoading(true)
 
-      const res = await apiPatch('/api/account?type=password', {
+      const res = await apiPatch('/api/account?type=name', {
         id,
-        password: values.password,
-        newPassword: values.newPassword
+        name: values.name
       })
 
       if (!res.ok) {
@@ -61,6 +62,7 @@ export default function PasswordUpdateModal({ id, onClose }: PasswordUpdateModal
         return
       }
 
+      sessionContext?.refetchSession()
       successToast(ALERT_MESSAGES.REQUEST_SUCCESS)
       form.reset()
       onClose()
@@ -76,44 +78,18 @@ export default function PasswordUpdateModal({ id, onClose }: PasswordUpdateModal
     <Form {...form}>
       <DialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
-          <DialogTitle>관리자 계정 비밀번호 변경</DialogTitle>
-          <DialogDescription>현재 비밀번호와 새 비밀번호를 입력해 주세요.</DialogDescription>
+          <DialogTitle>관리자 계정 이름 변경</DialogTitle>
+          <DialogDescription>새 이름을 입력해 주세요.</DialogDescription>
         </AlertDialogHeader>
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
-            name="password"
+            name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>현재 비밀번호</FormLabel>
+                <FormLabel>새 이름</FormLabel>
                 <FormControl>
-                  <Input {...field} type="password" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="newPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>새 비밀번호</FormLabel>
-                <FormControl>
-                  <Input {...field} type="password" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>새 비밀번호 확인</FormLabel>
-                <FormControl>
-                  <Input {...field} type="password" />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

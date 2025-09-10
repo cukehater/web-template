@@ -6,21 +6,22 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import {
   ACCESS_TOKEN_MAX_AGE,
+  createRefreshToken,
   deleteAccountRefreshToken,
-  generateAccessToken,
-  generateRefreshToken,
-  REFRESH_TOKEN_MAX_AGE,
-  saveRefreshToken
+  generateToken,
+  REFRESH_TOKEN_MAX_AGE
 } from '@/tokens'
 
 async function validateAccount(accountId: string, password: string) {
-  const account = await getAccountByAccountId(accountId)
+  const account = await prisma.account.findUnique({
+    where: { accountId }
+  })
 
   if (!account) {
     return null
   }
 
-  const isValidPassword = await verifyPassword(password, account.password)
+  const isValidPassword = await bcrypt.compare(password, account.password)
 
   if (!isValidPassword) {
     return null
@@ -41,20 +42,22 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseTy
       return NextResponse.json({ message: ALERT_MESSAGES.LOGIN_ERROR, ok: false }, { status: 401 })
     }
 
-    const accessToken = await generateAccessToken({
+    const accessToken = await generateToken({
       id: account.id,
       accountId: account.accountId,
-      name: account.name
+      name: account.name,
+      type: 'access'
     })
 
-    const refreshToken = await generateRefreshToken({
+    const refreshToken = await generateToken({
       id: account.id,
       accountId: account.accountId,
-      name: account.name
+      name: account.name,
+      type: 'refresh'
     })
 
     await deleteAccountRefreshToken(account.accountId)
-    await saveRefreshToken(refreshToken, account.accountId)
+    await createRefreshToken(refreshToken, account.accountId)
 
     const response = NextResponse.json(
       { message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true },
@@ -70,14 +73,4 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseTy
   } catch {
     return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
   }
-}
-
-const getAccountByAccountId = async (accountId: string) => {
-  return prisma.account.findUnique({
-    where: { accountId }
-  })
-}
-
-const verifyPassword = async (password: string, hashedPassword: string): Promise<boolean> => {
-  return bcrypt.compare(password, hashedPassword)
 }

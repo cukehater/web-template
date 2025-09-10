@@ -6,13 +6,10 @@ import { deleteAccountRefreshToken, verifyToken } from '@/tokens'
 
 export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseType<never>>> {
   try {
-    const refreshToken = req.cookies.get('refreshToken')?.value
+    const refreshToken: string = req.cookies.get('refreshToken')?.value || ''
+    const payload = await verifyToken(refreshToken)
 
-    const payload = await verifyToken(refreshToken as string)
-
-    if (refreshToken) {
-      await deleteAccountRefreshToken(payload.accountId)
-    }
+    await deleteAccountRefreshToken(payload.accountId)
 
     const response = NextResponse.json(
       {

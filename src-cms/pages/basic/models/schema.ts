@@ -9,8 +9,11 @@ export const basicFormSchema = z.object({
     .string()
     .nonempty(ALERT_MESSAGES.NONE_EMPTY)
     .max(13, ALERT_MESSAGES.TELEPHONE)
-    .regex(REGEX.TELEPHONE, ALERT_MESSAGES.TELEPHONE),
-  fax: z.union([z.string().regex(REGEX.TELEPHONE, ALERT_MESSAGES.TELEPHONE), z.literal('')]),
+    .regex(REGEX.TELEPHONE_PATTERN, ALERT_MESSAGES.TELEPHONE),
+  fax: z.union([
+    z.string().regex(REGEX.TELEPHONE_PATTERN, ALERT_MESSAGES.TELEPHONE),
+    z.literal('')
+  ]),
   email: z.string().nonempty(ALERT_MESSAGES.NONE_EMPTY).email(ALERT_MESSAGES.EMAIL),
   address: z.string().nonempty(ALERT_MESSAGES.NONE_EMPTY),
   businessNumber: z.union([

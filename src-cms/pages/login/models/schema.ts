@@ -5,7 +5,7 @@ export const loginFormSchema = z.object({
   accountId: z
     .string()
     .nonempty(ALERT_MESSAGES.NONE_EMPTY)
-    .regex(REGEX.ONLY_ENGLISH, ALERT_MESSAGES.ONLY_ENGLISH)
+    .regex(REGEX.ID_PATTERN, ALERT_MESSAGES.ID_PATTERN)
     .max(15, ALERT_MESSAGES.ID_LENGTH),
   password: z
     .string()

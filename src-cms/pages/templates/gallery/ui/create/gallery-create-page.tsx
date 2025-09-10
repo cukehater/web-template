@@ -1,5 +1,6 @@
 'use client'
 
+import { useSessionContext } from '@cms/app/context'
 import { apiPost, uploadFilesFormFields } from '@cms/shared/api'
 import { ALERT_MESSAGES, errorToast, fileChangeHandler, successToast } from '@cms/shared/lib'
 import { UploadResponseType } from '@cms/shared/models'
@@ -29,7 +30,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog'
 import { Loader2, Save, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -39,6 +40,7 @@ import {
 } from '../../models/schema'
 
 export default function GalleryCreatePage() {
+  const sessionContext = useSessionContext()
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -74,6 +76,12 @@ export default function GalleryCreatePage() {
     defaultValues: initialGalleryFormData
   })
 
+  useEffect(() => {
+    if (sessionContext?.session?.name) {
+      form.setValue('writer', sessionContext.session.name)
+    }
+  }, [sessionContext, form])
+
   return (
     <AlertDialog>
       <PageTopTitle description="갤러리 게시글 작성합니다." title="갤러리 게시글 작성" />
@@ -89,6 +97,20 @@ export default function GalleryCreatePage() {
                   <FormLabel required>제목</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="제목을 입력하세요." />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="writer"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>작성자</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled readOnly />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -25,6 +25,7 @@ import {
   TableCellNumberText,
   TableCellOrderButtons,
   TableCellStatusIndicator,
+  TableCellText,
   TableCellThumbnailImage,
   TableCellTitle,
   TableEmptyData
@@ -74,7 +75,6 @@ export default function GalleryTable({
     <>
       <RowAmountSelector currentLimit={currentLimit} />
 
-      {/* // TODO: 게시글 작성자 추가 */}
       <TableContainer>
         <Table>
           <TableHeader>
@@ -84,8 +84,9 @@ export default function GalleryTable({
               <TableHead className="w-[100px]">상태</TableHead>
               <TableHead className="w-[100px]">이미지</TableHead>
               <TableHead>제목</TableHead>
-              <TableHead className="w-[120px]">작성일</TableHead>
-              <TableHead className="w-[100px]">작업</TableHead>
+              <TableHead className="w-[100px]">작성자</TableHead>
+              <TableHead className="w-[100px]">작성일</TableHead>
+              <TableHead className="w-[80px]">작업</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -141,6 +142,9 @@ export default function GalleryTable({
 
                     {/* 제목 */}
                     <TableCellTitle title={column.title} />
+
+                    {/* 작성자 */}
+                    <TableCellText text={column.writer} />
 
                     {/* 작성일 */}
                     <TableCellDate date={column.createdAt} />

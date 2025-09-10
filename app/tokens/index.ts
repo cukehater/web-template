@@ -1,11 +1,9 @@
 export {
+  createRefreshToken,
   deleteAccountRefreshToken,
-  generateAccessToken,
-  generateRefreshToken,
-  getRefreshTokenFromDB,
+  generateToken,
+  getRefreshToken,
   rotateRefreshToken,
-  saveRefreshToken,
-  TokenVerificationError,
   verifyToken
 } from './jwt'
 export {

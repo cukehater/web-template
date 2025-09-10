@@ -1,4 +1,6 @@
+// TODO: 경고 메시지 정리
 export const ALERT_MESSAGES = {
+  ID_PATTERN: '아이디는 영문과 숫자만 입력 가능합니다.',
   ID_LENGTH: '아이디는 15자 이하여야 합니다.',
   PASSWORD_MAX_LENGTH: '비밀번호는 15자 이하여야 합니다.',
   PASSWORD_MIN_LENGTH: '비밀번호는 최소 8자 이상이어야 합니다.',
@@ -6,6 +8,7 @@ export const ALERT_MESSAGES = {
   PASSWORD_MATCH: '새 비밀번호가 일치하지 않습니다.',
   PASSWORD_NOT_MATCH: '새 비밀번호는 현재 비밀번호와 달라야 합니다.',
   PASSWORD_NOT_MATCH_CURRENT: '현재 비밀번호가 일치하지 않습니다.',
+  NO_SPECIAL_CHARACTER: '띄어쓰기 및 특수문자를 포함할 수 없습니다.',
   REQUEST_SUCCESS: '요청이 성공적으로 처리되었습니다.',
   REQUEST_ERROR: '요청 처리 중 에러가 발생했습니다.',
   NOT_SUPPORTED_TABLE: '지원하지 않는 테이블입니다.',
@@ -28,5 +31,15 @@ export const ALERT_MESSAGES = {
   CANCEL: '작업을 취소하시겠습니까?',
   CANCEL_DESCRIPTION: '작업을 취소하면 작성된 내용이 사라집니다.',
   TYPE_PARAMETER_REQUIRED: '타입 파라미터가 필요합니다.',
-  NOT_SUPPORTED_TYPE: '지원하지 않는 업데이트 타입입니다.'
+  NOT_SUPPORTED_TYPE: '지원하지 않는 업데이트 타입입니다.',
+  ACCESS_TOKEN_MISSING: '❌ 액세스 토큰이 없습니다.',
+  REFRESH_TOKEN_MISSING: '❌ 리프레시 토큰이 없습니다.',
+  TOKEN_VERIFICATION_FAILED: '❌ 토큰 검증에 실패했습니다.',
+  REFRESH_TOKEN_EXPIRED: '❌ 리프레시 토큰이 만료되었습니다.',
+  REFRESH_TOKEN_TYPE_ERROR: '❌ 리프레시 토큰 타입이 올바르지 않습니다.',
+  REFRESH_TOKEN_MISMATCH:
+    '❌ DB에 저장된 리프레시 토큰이 없거나 현재 리프레시 토큰과 불일치합니다.',
+  REFRESH_TOKEN_ROTATION_STARTED: '🔁 리프레시 토큰 로테이션을 시작합니다.',
+  REFRESH_TOKEN_ROTATION_FAILED: '❌ 리프레시 토큰 로테이션에 실패했습니다.',
+  REFRESH_TOKEN_ROTATION_SUCCESS: '✅ 리프레시 토큰 로테이션이 성공적으로 완료되었습니다.'
 }

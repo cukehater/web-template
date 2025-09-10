@@ -38,7 +38,6 @@ export default function BasicForm({ defaultValues }: { defaultValues: BasicFormS
   const router = useRouter()
   const form = useForm<BasicFormSchemaType>({
     resolver: zodResolver(basicFormSchema),
-    // TODO: 초기 값 설정 수정
     defaultValues
   })
 

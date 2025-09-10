@@ -98,6 +98,7 @@ model Gallery {
   title     String
   thumbnail String
   content   String
+  writer    String
   isVisible Boolean  @default(true)
   order     Int
   createdAt DateTime @default(now())
@@ -111,6 +112,7 @@ model General {
   id        String   @id @default(cuid())
   title     String
   content   String
+  writer    String
   isVisible Boolean  @default(true)
   order     Int
   createdAt DateTime @default(now())
