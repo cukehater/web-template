@@ -7,7 +7,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger
-} from '@cms/shared/shadcn'
+} from '@cms/shared/ui/shadcn'
 import { ChevronDownIcon } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'

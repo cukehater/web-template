@@ -1,5 +1,5 @@
 import { cn } from '../../lib'
-import { TableCell } from '../../shadcn'
+import { TableCell } from '../shadcn'
 
 export default function TableCellStatusIndicator({
   currentStatus,

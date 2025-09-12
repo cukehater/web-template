@@ -1,4 +1,4 @@
-import { DropdownMenuItem } from '@cms/shared/shadcn'
+import { DropdownMenuItem } from '@cms/shared/ui/shadcn'
 import { LucideIcon } from 'lucide-react'
 
 interface ModalTriggerPropsType {

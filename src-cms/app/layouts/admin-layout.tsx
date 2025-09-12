@@ -1,4 +1,4 @@
-import { Toaster } from '@cms/shared/shadcn'
+import { Toaster } from '@cms/shared/ui/shadcn'
 import React from 'react'
 
 import { SessionProvider } from '../context/session-context'

@@ -7,7 +7,7 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarRail
-} from '@cms/shared/shadcn'
+} from '@cms/shared/ui/shadcn'
 
 import Breadcrumb from './breadcrumb'
 import SidebarAccount from './sidebar-account'

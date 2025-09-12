@@ -11,7 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar
-} from '@cms/shared/shadcn'
+} from '@cms/shared/ui/shadcn'
 import { GalleryVerticalEnd, Link2Icon, LogOutIcon, MoreVerticalIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'

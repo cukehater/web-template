@@ -1,6 +1,12 @@
 'use client'
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@cms/shared/shadcn'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@cms/shared/ui/shadcn'
 import { Eye } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 

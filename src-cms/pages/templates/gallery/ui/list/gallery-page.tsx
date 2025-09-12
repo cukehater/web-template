@@ -4,8 +4,8 @@ import {
   TableDataResponseType,
   TableSearchParamsType
 } from '@cms/shared/models'
-import { Button } from '@cms/shared/shadcn'
 import { PageTopTitle } from '@cms/shared/ui'
+import { Button } from '@cms/shared/ui/shadcn'
 import { Gallery } from '@prisma/client'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'

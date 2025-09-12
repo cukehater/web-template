@@ -9,7 +9,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   useSidebar
-} from '@cms/shared/shadcn'
+} from '@cms/shared/ui/shadcn'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'

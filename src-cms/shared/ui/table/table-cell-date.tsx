@@ -1,7 +1,7 @@
 import { formatDate } from 'date-fns'
 import { Calendar } from 'lucide-react'
 
-import { TableCell } from '../../shadcn'
+import { TableCell } from '../shadcn'
 
 export default function TableCellDate({ date }: { date: Date }) {
   return (

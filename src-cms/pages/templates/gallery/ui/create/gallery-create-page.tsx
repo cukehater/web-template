@@ -5,6 +5,13 @@ import { apiPost, uploadFilesFormFields } from '@cms/shared/api'
 import { ALERT_MESSAGES, errorToast, fileChangeHandler, successToast } from '@cms/shared/lib'
 import { UploadResponseType } from '@cms/shared/models'
 import {
+  ConfirmDialog,
+  DateTimePicker,
+  ImagePreview,
+  PageTopTitle,
+  SwitchField
+} from '@cms/shared/ui'
+import {
   AlertDialog,
   Button,
   Card,
@@ -17,15 +24,7 @@ import {
   FormLabel,
   FormMessage,
   Input
-} from '@cms/shared/shadcn'
-import {
-  ConfirmDialog,
-  DateTimePicker,
-  ImagePreview,
-  PageTopTitle,
-  RichEditor,
-  SwitchField
-} from '@cms/shared/ui'
+} from '@cms/shared/ui/shadcn'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog'
 import { Loader2, Save, X } from 'lucide-react'
@@ -81,6 +80,8 @@ export default function GalleryCreatePage() {
       form.setValue('writer', sessionContext.session.name)
     }
   }, [sessionContext, form])
+
+  const mdHeadingId = (_text: string, _level: number, index: number) => `heading-${index}`
 
   return (
     <AlertDialog>
@@ -158,21 +159,17 @@ export default function GalleryCreatePage() {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="content"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel required>내용</FormLabel>
-                  <RichEditor
-                    content={field.value}
-                    placeholder="내용을 입력하세요."
-                    onChange={(value) => field.onChange(value)}
-                  />
+
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}

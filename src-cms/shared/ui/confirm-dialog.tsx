@@ -7,7 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   Button
-} from '../shadcn'
+} from './shadcn'
 
 export default function ConfirmDialog({
   title,

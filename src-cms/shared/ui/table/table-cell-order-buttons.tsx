@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
-import { Button, TableCell } from '../../shadcn'
+import { Button, TableCell } from '../shadcn'
 
 export default function TableCellOrderButtons({
   onOrderChangeUp,

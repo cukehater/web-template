@@ -1,6 +1,6 @@
 import { EyeOff, Image } from 'lucide-react'
 
-import { TableCell } from '../../shadcn'
+import { TableCell } from '../shadcn'
 
 export default function TableCellThumbnailImage({
   thumbnail,

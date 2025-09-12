@@ -1,4 +1,4 @@
-import { Label, Switch } from '../shadcn'
+import { Label, Switch } from './shadcn'
 
 export default function SwitchField({
   checked,

@@ -1,35 +1,33 @@
 import { prisma } from '@cms/shared/api'
 import { ALERT_MESSAGES } from '@cms/shared/lib'
-import { ApiResponseType, TableDataResponseType } from '@cms/shared/models'
-import { PrismaClient } from '@prisma/client'
+import { ApiResponseType, PrismaModelType, TableDataResponseType } from '@cms/shared/models'
 import { NextRequest, NextResponse } from 'next/server'
 
-// 테이블 설정 타입 정의
 type TableNameType = 'gallery' | 'general'
+
+// Prisma 모델의 공통 메서드들을 정의하는 타입
+
 type TableConfigType = {
   [K in TableNameType]: {
-    model: PrismaClient[`${K}`]
+    model: PrismaModelType
   }
 }
 
 const TABLE_CONFIG: TableConfigType = {
   gallery: {
-    model: prisma.gallery
+    model: prisma.gallery as unknown as PrismaModelType
   },
   general: {
-    model: prisma.general
+    model: prisma.general as unknown as PrismaModelType
   }
 }
 
-// 유틸리티 함수들
 const validateTable = (table: string | null): table is TableNameType => {
   return table !== null && table in TABLE_CONFIG
 }
 
-const getTableModel = (table: TableNameType) => {
-  // TODO: 타입 정의
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return TABLE_CONFIG[table].model as any
+const getTableModel = (table: TableNameType): PrismaModelType => {
+  return TABLE_CONFIG[table].model
 }
 
 const createErrorResponse = (message: string, status: number = 400) => {
@@ -145,7 +143,6 @@ export async function PUT(
   }
 }
 
-// TODO: 삭제 후 순서 재정렬 로직 확인
 // DELETE 요청 처리
 export async function DELETE(req: NextRequest): Promise<NextResponse<ApiResponseType<never>>> {
   try {
@@ -157,7 +154,6 @@ export async function DELETE(req: NextRequest): Promise<NextResponse<ApiResponse
     }
 
     const model = getTableModel(table)
-    await model.delete({ where: { id: body.id } })
 
     // 순서 재정렬
     await model.updateMany({
@@ -165,6 +161,7 @@ export async function DELETE(req: NextRequest): Promise<NextResponse<ApiResponse
       data: { order: { decrement: 1 } }
     })
 
+    await model.delete({ where: { id: body.id } })
     return createSuccessResponse()
   } catch {
     return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
@@ -172,9 +169,7 @@ export async function DELETE(req: NextRequest): Promise<NextResponse<ApiResponse
 }
 
 async function handleOrderChange(
-  // TODO: 타입 정의
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  model: any,
+  model: PrismaModelType,
   body: { id: string; currentOrder: number; newOrder: number }
 ) {
   const siblingData = await model.findFirst({
@@ -195,9 +190,7 @@ async function handleOrderChange(
 }
 
 async function handleVisibleChange(
-  // TODO: 타입 정의
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  model: any,
+  model: PrismaModelType,
   body: { id: string; isVisible: boolean }
 ) {
   await model.update({

@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   TableCell
-} from '../../shadcn'
+} from '../shadcn'
 
 interface TableCellActionDropdownPropsType {
   disabled?: boolean

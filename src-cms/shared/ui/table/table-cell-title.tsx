@@ -1,4 +1,4 @@
-import { TableCell } from '../../shadcn'
+import { TableCell } from '../shadcn'
 
 export default function TableCellTitle({ title }: { title: string }) {
   return (

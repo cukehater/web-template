@@ -5,7 +5,7 @@ import { useRef } from 'react'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
 
 import { cn } from '../lib'
-import { Button } from '../shadcn'
+import { Button } from './shadcn'
 
 export default function ImagePreview<T extends FieldValues>({
   alt,

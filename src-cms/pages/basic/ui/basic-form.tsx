@@ -10,6 +10,7 @@ import {
   successToast
 } from '@cms/shared/lib'
 import { UploadResponseType } from '@cms/shared/models'
+import { ImagePreview, PageTopTitle } from '@cms/shared/ui'
 import {
   Button,
   Card,
@@ -25,8 +26,7 @@ import {
   FormMessage,
   Input,
   Textarea
-} from '@cms/shared/shadcn'
-import { ImagePreview, PageTopTitle } from '@cms/shared/ui'
+} from '@cms/shared/ui/shadcn'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BarChart3, Building2, Cog, Globe, Loader2, Save, Search, Share2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'

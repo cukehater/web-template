@@ -5,7 +5,7 @@ import { cva, VariantProps } from 'class-variance-authority'
 import { PanelLeftIcon } from 'lucide-react'
 import React from 'react'
 
-import { cn } from '../lib'
+import { cn } from '../../lib'
 import { Button } from './button'
 import { Input } from './input'
 import { Separator } from './separator'

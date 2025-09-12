@@ -9,7 +9,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious
-} from '@cms/shared/shadcn'
+} from '@cms/shared/ui/shadcn'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useMemo } from 'react'
 
@@ -102,7 +102,7 @@ export default function Pagination({ paginationInfo }: { paginationInfo: Paginat
                   handlePageChange(paginationInfo.totalPages)
                 }}
               >
-                k{paginationInfo.totalPages}
+                {paginationInfo.totalPages}
               </PaginationLink>
             </PaginationItem>
           </>

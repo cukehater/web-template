@@ -6,6 +6,7 @@ const prisma = new PrismaClient()
 async function main() {
   // 기존 데이터 삭제 (선택사항)
   await prisma.account.deleteMany()
+  await prisma.gallery.deleteMany()
 
   await Promise.all([
     prisma.account.create({
@@ -31,139 +32,18 @@ async function main() {
     })
   ])
 
-  await Promise.all([
-    prisma.gallery.create({
+  for (let i = 1; i <= 10; i++) {
+    await prisma.gallery.create({
       data: {
-        title: 'test',
+        title: `test${i}`,
         content: 'test',
         thumbnail: '',
         writer: '관리자',
         isVisible: true,
-        order: 1
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 2
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 3
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 4
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 5
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 6
-      }
-    }),
-
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 7
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 8
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 9
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 10
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 11
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 12
-      }
-    }),
-    prisma.gallery.create({
-      data: {
-        title: 'test',
-        content: 'test',
-        thumbnail: '',
-        writer: '관리자',
-        isVisible: true,
-        order: 13
+        order: i
       }
     })
-  ])
+  }
 }
 
 main()

@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@cms/shared/shadcn",
+    "components": "@cms/shared/ui/shadcn",
     "utils": "@cms/shared/lib",
-    "ui": "@cms/shared/shadcn",
+    "ui": "@cms/shared/ui/shadcn",
     "lib": "@cms/shared/lib",
-    "hooks": "@cms/shared/model"
+    "hooks": "@cms/shared/models"
   },
   "iconLibrary": "lucide"
 }

@@ -20,7 +20,7 @@ import {
   FormLabel,
   FormMessage,
   Input
-} from '@cms/shared/shadcn'
+} from '@cms/shared/ui/shadcn'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircleIcon, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'

@@ -18,7 +18,7 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@cms/shared/shadcn'
+} from '@cms/shared/ui/shadcn'
 import {
   TableCellActionDropdown,
   TableCellDate,
@@ -29,7 +29,7 @@ import {
   TableCellThumbnailImage,
   TableCellTitle,
   TableEmptyData
-} from '@cms/shared/ui'
+} from '@cms/shared/ui/table'
 import { Gallery } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
@@ -41,6 +41,7 @@ export default function GalleryTable({
   currentLimit
 }: TableListPropsType<Gallery>) {
   const router = useRouter()
+  const [isUpdating, setIsUpdating] = useState(false)
   const [isFetching, setIsFetching] = useState(false)
   const [data, setData] = useState(initialData)
   const [paginationInfo, setPaginationInfo] = useState(pagination)
@@ -67,6 +68,17 @@ export default function GalleryTable({
     router.push(`../templates/gallery/edit/${id}`)
   }
 
+  const handleUpdate = async (handler: () => void): Promise<void> => {
+    if (isUpdating) return
+
+    setIsUpdating(true)
+    try {
+      await handler()
+    } finally {
+      setIsUpdating(false)
+    }
+  }
+
   useEffect(() => {
     fetchData()
   }, [fetchData])
@@ -80,7 +92,7 @@ export default function GalleryTable({
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">번호</TableHead>
-              <TableHead className="w-[75px]">순서 정렬</TableHead>
+              <TableHead className="w-[75px]">순서</TableHead>
               <TableHead className="w-[100px]">상태</TableHead>
               <TableHead className="w-[100px]">이미지</TableHead>
               <TableHead>제목</TableHead>
@@ -104,25 +116,29 @@ export default function GalleryTable({
 
                     {/* 순서 */}
                     <TableCellOrderButtons
-                      onOrderChangeDown={async () =>
-                        await handleTableOrderChange({
-                          table: 'gallery',
-                          id: column.id,
-                          currentOrder: column.order,
-                          direction: 'down',
-                          totalCount: paginationInfo.total,
-                          onSuccess: fetchData
-                        })
+                      onOrderChangeDown={() =>
+                        handleUpdate(() =>
+                          handleTableOrderChange({
+                            table: 'gallery',
+                            id: column.id,
+                            currentOrder: column.order,
+                            direction: 'down',
+                            totalCount: paginationInfo.total,
+                            onSuccess: fetchData
+                          })
+                        )
                       }
-                      onOrderChangeUp={async () =>
-                        await handleTableOrderChange({
-                          table: 'gallery',
-                          id: column.id,
-                          currentOrder: column.order,
-                          direction: 'up',
-                          totalCount: paginationInfo.total,
-                          onSuccess: fetchData
-                        })
+                      onOrderChangeUp={() =>
+                        handleUpdate(() =>
+                          handleTableOrderChange({
+                            table: 'gallery',
+                            id: column.id,
+                            currentOrder: column.order,
+                            direction: 'up',
+                            totalCount: paginationInfo.total,
+                            onSuccess: fetchData
+                          })
+                        )
                       }
                     />
 
@@ -153,22 +169,26 @@ export default function GalleryTable({
                     <TableCellActionDropdown
                       disabled={isFetching}
                       visibleStatus={column.isVisible}
-                      onDelete={async () =>
-                        await handleTableItemDelete({
-                          table: 'gallery',
-                          id: column.id,
-                          order: column.order,
-                          onSuccess: fetchData
-                        })
-                      }
+                      onDelete={() => {
+                        handleUpdate(() =>
+                          handleTableItemDelete({
+                            table: 'gallery',
+                            id: column.id,
+                            order: column.order,
+                            onSuccess: fetchData
+                          })
+                        )
+                      }}
                       onEdit={() => handleEdit(column.id)}
-                      onToggleVisible={async () =>
-                        await handleTableVisibleToggle({
-                          table: 'gallery',
-                          id: column.id,
-                          isVisible: column.isVisible,
-                          onSuccess: () => visibleToggleSuccess<Gallery>(setData, column.id)
-                        })
+                      onToggleVisible={() =>
+                        handleUpdate(() =>
+                          handleTableVisibleToggle({
+                            table: 'gallery',
+                            id: column.id,
+                            isVisible: column.isVisible,
+                            onSuccess: () => visibleToggleSuccess<Gallery>(setData, column.id)
+                          })
+                        )
                       }
                     />
                   </TableRow>

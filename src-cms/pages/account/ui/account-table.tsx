@@ -9,13 +9,13 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@cms/shared/shadcn'
+} from '@cms/shared/ui/shadcn'
 import {
   TableCellActionDropdown,
   TableCellDate,
   TableCellText,
   TableEmptyData
-} from '@cms/shared/ui'
+} from '@cms/shared/ui/table'
 import { Info, KeyRound, User } from 'lucide-react'
 import React, { useState } from 'react'
 
