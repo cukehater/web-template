@@ -1,6 +1,4 @@
-import './assets/styles'
-
-import { FONT_NOTO_SANS_KR } from './assets/fonts'
+import { FONT_NOTO_SANS_KR } from '@/assets/fonts'
 
 export default function RootLayout({
   children

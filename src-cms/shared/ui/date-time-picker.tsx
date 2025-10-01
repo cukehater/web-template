@@ -9,7 +9,7 @@ import {
   PopoverTrigger
 } from '@cms/shared/ui/shadcn'
 import { ChevronDownIcon } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
 
 import SwitchField from './switch-field'
@@ -20,7 +20,10 @@ export default function DateTimePicker<T extends FieldValues>({
   field: ControllerRenderProps<T, Path<T>>
 }) {
   const [isCustom, setIsCustom] = useState(false)
-  const [date, setDate] = useState<Date | string>('')
+  const [date, setDate] = useState<Date | string>(() => {
+    if (!field.value) return ''
+    return new Date(field.value)
+  })
   const [open, setOpen] = useState(false)
 
   const handleDateSelect = useCallback(
@@ -51,8 +54,13 @@ export default function DateTimePicker<T extends FieldValues>({
       setIsCustom(isChecked)
 
       if (!isChecked) {
-        setDate('')
-        field.onChange('')
+        if (field.value) {
+          const date = new Date(field.value)
+          setDate(date)
+        } else {
+          setDate('')
+          field.onChange('')
+        }
       }
     },
     [field]
@@ -65,6 +73,12 @@ export default function DateTimePicker<T extends FieldValues>({
   const getTimeDefaultValue = () => {
     return date ? new Date(date).toTimeString().slice(0, 8) : ''
   }
+
+  useEffect(() => {
+    if (field.value) {
+      field.onChange(new Date(field.value))
+    }
+  }, [])
 
   return (
     <div className="space-y-2">

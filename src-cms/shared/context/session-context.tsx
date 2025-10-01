@@ -1,8 +1,9 @@
 'use client'
 
-import { apiGet } from '@cms/shared/api'
 import { Account } from '@prisma/client'
 import { createContext, useContext, useEffect, useState } from 'react'
+
+import { apiGet } from '../api'
 
 const SessionContext = createContext<{
   session: Pick<Account, 'name' | 'accountId'> | null

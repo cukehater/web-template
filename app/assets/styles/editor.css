@@ -1,0 +1,128 @@
+@layer utilities {
+  :root {
+    --primary-color: #ffffff;
+    --secondary-color: #f6f6f6;
+    --tertiary-color: #eeeeee;
+    --accent-color: #333575;
+    --accent-color-hover: #5a5db2;
+    --text-color: #333333;
+    --code-text-color: #d33033;
+  }
+
+  .md-editor {
+    --md-scrollbar-bg-color: var(--secondary-color) !important;
+    --md-color: var(--text-color) !important;
+    --md-hover-color: var(--text-color) !important;
+    --md-bk-color: var(--primary-color) !important;
+    --md-bk-color-outstand: var(--primary-color) !important;
+    --md-bk-hover-color: var(--primary-color) !important;
+    --md-border-color: var(--secondary-color) !important;
+    --md-border-hover-color: var(--secondary-color) !important;
+    --md-border-active-color: var(--secondary-color) !important;
+    --md-scrollbar-thumb-color: var(--text-color) !important;
+    --md-scrollbar-thumb-hover-color: var(--text-color) !important;
+    --md-scrollbar-thumb-active-color: var(--text-color) !important;
+    --md-theme-border-color: var(--secondary-color) !important;
+    ul,
+    ol {
+      list-style: revert;
+    }
+  }
+
+  .custom-preview.detail .md-editor-preview-wrapper {
+    padding: 0 !important;
+  }
+  .md-editor-preview {
+    --md-theme-heading-color: var(--text-color) !important;
+
+    line-height: 1.6 !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      border-bottom: none !important;
+      margin-top: 1em !important;
+      padding-bottom: 0 !important;
+    }
+    hr {
+      margin: 1em 0 !important;
+      --md-theme-border-color: var(--secondary-color) !important;
+    }
+    :not(pre) > code {
+      font-size: 0.85em !important;
+      word-break: keep-all;
+      border-radius: 0.2em !important;
+      margin-right: 0.15em !important;
+    }
+    blockquote {
+      --md-theme-quote-border: 0.25em solid var(--accent-color) !important;
+    }
+  }
+  .md-editor-preview ul.contains-task-list {
+    padding-left: 1rem;
+  }
+  .md-editor-preview ol .task-list-item,
+  .md-editor-preview ul .task-list-item {
+    padding-left: 0.5rem;
+    input {
+      transform: translateY(0.1rem);
+    }
+  }
+  .md-editor-preview ol,
+  .md-editor-preview ul {
+    padding-left: 1em;
+  }
+  svg.md-editor-icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .md-editor-preview-wrapper {
+    overflow: hidden !important;
+  }
+  .md-editor div.github-theme {
+    --md-theme-code-inline-color: var(--code-text-color) !important;
+  }
+
+  @media (max-width: 1024px) {
+    .md-editor-preview {
+      font-size: 1rem;
+    }
+    .md-editor-preview .md-editor-code pre code {
+      font-size: 0.8rem;
+    }
+    div.github-theme p,
+    div.github-theme blockquote,
+    div.github-theme ul,
+    div.github-theme ol,
+    div.github-theme dl,
+    div.github-theme table,
+    div.github-theme pre,
+    div.github-theme details,
+    div.github-theme h1,
+    div.github-theme h2,
+    div.github-theme h3,
+    div.github-theme h4,
+    div.github-theme h5,
+    div.github-theme h6 {
+      margin-bottom: 0.75rem !important;
+    }
+    .md-editor-preview .md-editor-code .md-editor-code-head {
+      font-size: 0.7rem;
+    }
+    .md-editor-preview ul.contains-task-list {
+      padding-left: 1.5rem;
+    }
+    .md-editor-preview ol .task-list-item,
+    .md-editor-preview ul .task-list-item {
+      padding-left: 0rem;
+      input {
+        width: 1rem;
+        height: 1rem;
+        transform: translateY(0.2rem);
+      }
+    }
+  }
+}

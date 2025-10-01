@@ -1,7 +1,7 @@
 'use client'
 
-import { useSessionContext } from '@cms/app/context'
 import { apiPatch } from '@cms/shared/api'
+import { useSessionContext } from '@cms/shared/context'
 import { ALERT_MESSAGES, successToast } from '@cms/shared/lib'
 import {
   Alert,

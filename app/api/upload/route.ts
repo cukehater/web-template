@@ -24,10 +24,9 @@ export async function POST(
         await mkdir(uploadDir, { recursive: true })
       }
 
-      const timestamp = Date.now()
       const originalName = value.name
       const extension = originalName.split('.').pop()
-      const fileName = `${originalName.split('.')[0]}_${timestamp}.${extension}`
+      const fileName = `${crypto.randomUUID()}.${extension}`
       const filePath = join(uploadDir, fileName)
 
       const bytes = await value.arrayBuffer()

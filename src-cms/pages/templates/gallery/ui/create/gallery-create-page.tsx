@@ -1,7 +1,7 @@
 'use client'
 
-import { useSessionContext } from '@cms/app/context'
-import { apiPost, uploadFilesFormFields } from '@cms/shared/api'
+import { apiPost, apiPut, uploadFilesFormFields } from '@cms/shared/api'
+import { useSessionContext } from '@cms/shared/context'
 import { ALERT_MESSAGES, errorToast, fileChangeHandler, successToast } from '@cms/shared/lib'
 import { UploadResponseType } from '@cms/shared/models'
 import {
@@ -11,6 +11,7 @@ import {
   PageTopTitle,
   SwitchField
 } from '@cms/shared/ui'
+import { RichEditor } from '@cms/shared/ui/editor'
 import {
   AlertDialog,
   Button,
@@ -26,6 +27,7 @@ import {
   Input
 } from '@cms/shared/ui/shadcn'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Gallery } from '@prisma/client'
 import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog'
 import { Loader2, Save, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -38,7 +40,11 @@ import {
   initialGalleryFormData
 } from '../../models/schema'
 
-export default function GalleryCreatePage() {
+interface GalleryCreatePagePropsType {
+  editData?: Gallery | null
+}
+
+export default function GalleryCreatePage({ editData = null }: GalleryCreatePagePropsType) {
   const sessionContext = useSessionContext()
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -51,11 +57,19 @@ export default function GalleryCreatePage() {
         'thumbnail'
       ])) as UploadResponseType
 
-      await apiPost('/api/post?table=gallery', {
-        ...values,
-        ...uploadImageValues,
-        createdAt: values.createdAt || new Date().toISOString()
-      })
+      if (editData) {
+        await apiPut('/api/post/detail?slug=' + editData.id, {
+          ...values,
+          ...uploadImageValues,
+          createdAt: values.createdAt || new Date().toISOString()
+        })
+      } else {
+        await apiPost('/api/post?table=gallery', {
+          ...values,
+          ...uploadImageValues,
+          createdAt: values.createdAt || new Date().toISOString()
+        })
+      }
 
       successToast(ALERT_MESSAGES.SAVE_SUCCESS)
       handleBack()
@@ -67,25 +81,30 @@ export default function GalleryCreatePage() {
   }
 
   const handleBack = () => {
-    router.push('../gallery')
+    if (editData) {
+      router.push('../../gallery')
+    } else {
+      router.push('../gallery')
+    }
   }
 
   const form = useForm<GalleryFormSchemaType>({
     resolver: zodResolver(galleryFormSchema),
-    defaultValues: initialGalleryFormData
+    defaultValues: editData ? editData : initialGalleryFormData
   })
 
   useEffect(() => {
-    if (sessionContext?.session?.name) {
+    if (sessionContext?.session?.name && !editData) {
       form.setValue('writer', sessionContext.session.name)
     }
-  }, [sessionContext, form])
-
-  const mdHeadingId = (_text: string, _level: number, index: number) => `heading-${index}`
+  }, [sessionContext, form, editData])
 
   return (
     <AlertDialog>
-      <PageTopTitle description="갤러리 게시글 작성합니다." title="갤러리 게시글 작성" />
+      <PageTopTitle
+        description={`갤러리 게시글 ${editData ? '수정' : '작성'}합니다.`}
+        title={`갤러리 게시글 ${editData ? '수정' : '작성'}`}
+      />
 
       <Card>
         <CardContent className="space-y-4">
@@ -159,17 +178,19 @@ export default function GalleryCreatePage() {
               )}
             />
 
-            {/* <FormField
+            <FormField
               control={form.control}
               name="content"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel required>내용</FormLabel>
-
+                  <FormControl>
+                    <RichEditor field={field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            />
 
             <FormField
               control={form.control}
@@ -177,10 +198,10 @@ export default function GalleryCreatePage() {
               render={({ field }) => (
                 <FormItem>
                   <SwitchField
-                    activeDescription="게시글을 게시 상태로 설정합니다."
+                    activeDescription="현재 게시글이 활성화 상태입니다."
                     checked={field.value}
-                    inactiveDescription="게시글을 비게시 상태로 설정합니다."
-                    label="게시글 상태"
+                    inactiveDescription="현재 게시글이 비활성화 상태입니다."
+                    label="게시글 활성화 여부"
                     onCheckedChange={(value) => field.onChange(value)}
                   />
                   <FormMessage />
@@ -199,7 +220,7 @@ export default function GalleryCreatePage() {
             ) : (
               <Save className="size-4" />
             )}
-            작성 완료
+            {`${editData ? '수정' : '작성'}`} 완료
           </>
         </Button>
         <AlertDialogTrigger asChild>

@@ -1,7 +1,6 @@
+import { SessionProvider } from '@cms/shared/context'
 import { Toaster } from '@cms/shared/ui/shadcn'
 import React from 'react'
-
-import { SessionProvider } from '../context/session-context'
 
 export default function Layout({
   children
