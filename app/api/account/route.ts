@@ -4,6 +4,8 @@ import { AccountType, ApiResponseType } from '@cms/shared/models'
 import bcrypt from 'bcryptjs'
 import { NextRequest, NextResponse } from 'next/server'
 
+import { createErrorResponse, createSuccessResponse } from '@/lib'
+
 export const GET = async (): Promise<NextResponse<ApiResponseType<AccountType[]>>> => {
   try {
     const data = await prisma.account.findMany({
@@ -16,16 +18,9 @@ export const GET = async (): Promise<NextResponse<ApiResponseType<AccountType[]>
       }
     })
 
-    return NextResponse.json(
-      {
-        data: data as AccountType[],
-        message: ALERT_MESSAGES.REQUEST_SUCCESS,
-        ok: true
-      },
-      { status: 200 }
-    )
+    return createSuccessResponse(data as AccountType[])
   } catch {
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
+    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
   }
 }
 
@@ -35,10 +30,7 @@ export const PATCH = async (req: NextRequest): Promise<NextResponse<ApiResponseT
     const body = await req.json()
 
     if (!type) {
-      return NextResponse.json(
-        { message: ALERT_MESSAGES.TYPE_PARAMETER_REQUIRED, ok: false },
-        { status: 400 }
-      )
+      return createErrorResponse(ALERT_MESSAGES.TYPE_PARAMETER_REQUIRED, 400)
     }
 
     switch (type) {
@@ -47,13 +39,10 @@ export const PATCH = async (req: NextRequest): Promise<NextResponse<ApiResponseT
       case 'name':
         return await handleNameUpdate(body)
       default:
-        return NextResponse.json(
-          { message: ALERT_MESSAGES.REQUEST_ERROR, ok: false },
-          { status: 400 }
-        )
+        return createErrorResponse(ALERT_MESSAGES.NOT_SUPPORTED_TYPE, 400)
     }
   } catch {
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
+    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
   }
 }
 
@@ -68,19 +57,13 @@ async function handlePasswordUpdate(body: {
     })
 
     if (!account) {
-      return NextResponse.json(
-        { message: ALERT_MESSAGES.REQUEST_ERROR, ok: false },
-        { status: 404 }
-      )
+      return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 404)
     }
 
     const isPasswordMatch = await bcrypt.compare(body.password, account.password)
 
     if (!isPasswordMatch) {
-      return NextResponse.json(
-        { message: ALERT_MESSAGES.PASSWORD_NOT_MATCH_CURRENT, ok: false },
-        { status: 400 }
-      )
+      return createErrorResponse(ALERT_MESSAGES.PASSWORD_NOT_MATCH_CURRENT, 400)
     }
 
     await prisma.account.update({
@@ -90,9 +73,9 @@ async function handlePasswordUpdate(body: {
       }
     })
 
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true }, { status: 200 })
+    return createSuccessResponse()
   } catch {
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
+    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
   }
 }
 
@@ -106,8 +89,8 @@ async function handleNameUpdate(body: {
       data: { name: body.name }
     })
 
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true }, { status: 200 })
+    return createSuccessResponse()
   } catch {
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
+    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
   }
 }

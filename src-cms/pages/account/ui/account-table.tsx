@@ -78,7 +78,7 @@ export default function AccountTable({ accountData }: { accountData: AccountType
 
       <p className="flex items-center justify-end gap-1 text-right text-xs text-muted-foreground">
         <Info className="size-3" />
-        추가 관리자 계정을 생성하려면 별도로 문의 바랍니다.
+        관리자 계정 생성은 별도 문의 바랍니다.
       </p>
 
       {/* Dialogs */}

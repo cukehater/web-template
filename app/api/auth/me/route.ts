@@ -5,6 +5,7 @@ import { Account } from '@prisma/client'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
+import { createErrorResponse, createSuccessResponse } from '@/lib'
 import { verifyToken } from '@/tokens'
 
 export const GET = async (): Promise<
@@ -24,11 +25,8 @@ export const GET = async (): Promise<
       }
     })) as Pick<Account, 'name' | 'accountId'>
 
-    return NextResponse.json(
-      { data: account, message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true },
-      { status: 200 }
-    )
+    return createSuccessResponse(account)
   } catch {
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
+    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
   }
 }

@@ -4,6 +4,8 @@ import { ApiResponseType } from '@cms/shared/models'
 import { Basic } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
+import { createErrorResponse, createSuccessResponse } from '@/lib'
+
 export async function GET(req: NextRequest): Promise<NextResponse<ApiResponseType<Basic>>> {
   try {
     const { searchParams } = new URL(req.url)
@@ -25,16 +27,9 @@ export async function GET(req: NextRequest): Promise<NextResponse<ApiResponseTyp
       select
     })
 
-    return NextResponse.json(
-      {
-        data: basicData as Basic,
-        message: ALERT_MESSAGES.REQUEST_SUCCESS,
-        ok: true
-      },
-      { status: 200 }
-    )
+    return createSuccessResponse(basicData as Basic)
   } catch {
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
+    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
   }
 }
 
@@ -53,8 +48,8 @@ export async function POST(req: NextRequest): Promise<NextResponse<ApiResponseTy
       }
     })
 
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true }, { status: 200 })
+    return createSuccessResponse()
   } catch {
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
+    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
   }
 }

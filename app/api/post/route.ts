@@ -1,46 +1,9 @@
-import { prisma } from '@cms/shared/api'
 import { ALERT_MESSAGES } from '@cms/shared/lib'
-import { ApiResponseType, PrismaModelType, TableDataResponseType } from '@cms/shared/models'
+import { ApiResponseType, TableDataResponseType } from '@cms/shared/models'
 import { NextRequest, NextResponse } from 'next/server'
 
-type TableNameType = 'gallery' | 'general'
-
-// Prisma 모델의 공통 메서드들을 정의하는 타입
-
-type TableConfigType = {
-  [K in TableNameType]: {
-    model: PrismaModelType
-  }
-}
-
-const TABLE_CONFIG: TableConfigType = {
-  gallery: {
-    model: prisma.gallery as unknown as PrismaModelType
-  },
-  general: {
-    model: prisma.general as unknown as PrismaModelType
-  }
-}
-
-const validateTable = (table: string | null): table is TableNameType => {
-  return table !== null && table in TABLE_CONFIG
-}
-
-const getTableModel = (table: TableNameType): PrismaModelType => {
-  return TABLE_CONFIG[table].model
-}
-
-const createErrorResponse = (message: string, status: number = 400) => {
-  return NextResponse.json({ message, ok: false }, { status })
-}
-
-const createSuccessResponse = <T>(data?: T, message: string = ALERT_MESSAGES.REQUEST_SUCCESS) => {
-  return NextResponse.json({
-    data,
-    message,
-    ok: true
-  })
-}
+import { createErrorResponse, createSuccessResponse, getTableModel, validateTable } from '@/lib'
+import { PrismaModelType } from '@/models'
 
 // GET 요청 처리
 export async function GET(
@@ -75,7 +38,7 @@ export async function GET(
       }
     })
   } catch {
-    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
+    return createErrorResponse(ALERT_MESSAGES.NOT_SUPPORTED_TABLE, 400)
   }
 }
 

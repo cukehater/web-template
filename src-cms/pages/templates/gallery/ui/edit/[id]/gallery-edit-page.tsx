@@ -13,7 +13,7 @@ export default async function GalleryEditPage({ params }: GalleryEditPagePropsTy
   const routerParams = await params
   const slug = routerParams.id[0]
 
-  const { data } = await apiGet(`/api/post/detail?slug=${slug}`)
+  const { data } = await apiGet(`/api/post/detail?table=gallery&slug=${slug}`)
 
   return <GalleryCreatePage editData={data as Gallery} />
 }

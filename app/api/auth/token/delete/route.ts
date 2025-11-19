@@ -3,6 +3,8 @@ import { ALERT_MESSAGES } from '@cms/shared/lib'
 import { ApiResponseType } from '@cms/shared/models'
 import { NextRequest, NextResponse } from 'next/server'
 
+import { createErrorResponse, createSuccessResponse } from '@/lib'
+
 export async function DELETE(req: NextRequest): Promise<NextResponse<ApiResponseType<never>>> {
   try {
     const { accountId } = await req.json()
@@ -11,8 +13,8 @@ export async function DELETE(req: NextRequest): Promise<NextResponse<ApiResponse
       where: { accountId }
     })
 
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_SUCCESS, ok: true }, { status: 200 })
+    return createSuccessResponse()
   } catch {
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
+    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
   }
 }

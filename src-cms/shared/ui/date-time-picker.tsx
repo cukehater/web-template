@@ -78,6 +78,7 @@ export default function DateTimePicker<T extends FieldValues>({
     if (field.value) {
       field.onChange(new Date(field.value))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

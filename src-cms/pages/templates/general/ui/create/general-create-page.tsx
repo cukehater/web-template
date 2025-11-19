@@ -1,16 +1,9 @@
 'use client'
 
-import { apiPost, apiPut, uploadFilesFormFields } from '@cms/shared/api'
+import { apiPost, apiPut } from '@cms/shared/api'
 import { useSessionContext } from '@cms/shared/context'
-import { ALERT_MESSAGES, errorToast, fileChangeHandler, successToast } from '@cms/shared/lib'
-import { UploadResponseType } from '@cms/shared/models'
-import {
-  ConfirmDialog,
-  DateTimePicker,
-  ImagePreview,
-  PageTopTitle,
-  SwitchField
-} from '@cms/shared/ui'
+import { ALERT_MESSAGES, errorToast, successToast } from '@cms/shared/lib'
+import { ConfirmDialog, DateTimePicker, PageTopTitle, SwitchField } from '@cms/shared/ui'
 import { RichEditor } from '@cms/shared/ui/editor'
 import {
   AlertDialog,
@@ -19,7 +12,6 @@ import {
   CardContent,
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,7 +19,7 @@ import {
   Input
 } from '@cms/shared/ui/shadcn'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Gallery } from '@prisma/client'
+import { General } from '@prisma/client'
 import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog'
 import { Loader2, Save, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -35,38 +27,32 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
-  galleryFormSchema,
-  GalleryFormSchemaType,
-  initialGalleryFormData
+  generalFormSchema,
+  GeneralFormSchemaType,
+  initialGeneralFormData
 } from '../../models/schema'
 
-interface GalleryCreatePagePropsType {
-  editData?: Gallery | null
+interface GeneralCreatePagePropsType {
+  editData?: General | null
 }
 
-export default function GalleryCreatePage({ editData = null }: GalleryCreatePagePropsType) {
+export default function GeneralCreatePage({ editData = null }: GeneralCreatePagePropsType) {
   const sessionContext = useSessionContext()
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = async (values: GalleryFormSchemaType) => {
+  const handleSubmit = async (values: GeneralFormSchemaType) => {
     setIsSubmitting(true)
 
     try {
-      const uploadImageValues = (await uploadFilesFormFields(values, [
-        'thumbnail'
-      ])) as UploadResponseType
-
       if (editData) {
-        await apiPut(`/api/post/detail?table=gallery&slug=${editData.id}`, {
+        await apiPut(`/api/post/detail?table=general&slug=${editData.id}`, {
           ...values,
-          ...uploadImageValues,
           createdAt: values.createdAt || new Date().toISOString()
         })
       } else {
-        await apiPost('/api/post?table=gallery', {
+        await apiPost('/api/post?table=general', {
           ...values,
-          ...uploadImageValues,
           createdAt: values.createdAt || new Date().toISOString()
         })
       }
@@ -82,15 +68,15 @@ export default function GalleryCreatePage({ editData = null }: GalleryCreatePage
 
   const handleBack = () => {
     if (editData) {
-      router.push('../../gallery')
+      router.push('../../general')
     } else {
-      router.push('../gallery')
+      router.push('../general')
     }
   }
 
-  const form = useForm<GalleryFormSchemaType>({
-    resolver: zodResolver(galleryFormSchema),
-    defaultValues: editData ? editData : initialGalleryFormData
+  const form = useForm<GeneralFormSchemaType>({
+    resolver: zodResolver(generalFormSchema),
+    defaultValues: editData ? editData : initialGeneralFormData
   })
 
   useEffect(() => {
@@ -102,8 +88,8 @@ export default function GalleryCreatePage({ editData = null }: GalleryCreatePage
   return (
     <AlertDialog>
       <PageTopTitle
-        description={`갤러리 게시글 ${editData ? '수정' : '작성'}합니다.`}
-        title={`갤러리 게시글 ${editData ? '수정' : '작성'}`}
+        description={`일반 게시글 ${editData ? '수정' : '작성'}합니다.`}
+        title={`일반 게시글 ${editData ? '수정' : '작성'}`}
       />
 
       <Card>
@@ -133,33 +119,6 @@ export default function GalleryCreatePage({ editData = null }: GalleryCreatePage
                     <Input {...field} disabled readOnly />
                   </FormControl>
                   <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="thumbnail"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>썸네일 이미지</FormLabel>
-                  <FormControl>
-                    <Input
-                      name={field.name}
-                      placeholder="썸네일 이미지를 입력하세요."
-                      type="file"
-                      onChange={(e) =>
-                        fileChangeHandler(e, {
-                          allowedFormat: 'IMAGE',
-                          maxSize: 1024 * 1024,
-                          field
-                        })
-                      }
-                    />
-                  </FormControl>
-                  <FormDescription>권장 파일 크기: 1MB 이하</FormDescription>
-                  <FormMessage />
-                  <ImagePreview alt="썸네일 이미지" field={field} width={300} />
                 </FormItem>
               )}
             />

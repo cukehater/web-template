@@ -5,6 +5,8 @@ import { mkdir, writeFile } from 'fs/promises'
 import { NextRequest, NextResponse } from 'next/server'
 import { join } from 'path'
 
+import { createErrorResponse, createSuccessResponse } from '@/lib'
+
 export async function POST(
   req: NextRequest
 ): Promise<NextResponse<ApiResponseType<UploadResponseType>>> {
@@ -37,15 +39,8 @@ export async function POST(
       urls.set(key, fileUrl)
     }
 
-    return NextResponse.json(
-      {
-        data: Object.fromEntries(urls),
-        message: ALERT_MESSAGES.REQUEST_SUCCESS,
-        ok: true
-      },
-      { status: 200 }
-    )
+    return createSuccessResponse(Object.fromEntries(urls))
   } catch {
-    return NextResponse.json({ message: ALERT_MESSAGES.REQUEST_ERROR, ok: false }, { status: 500 })
+    return createErrorResponse(ALERT_MESSAGES.REQUEST_ERROR, 500)
   }
 }
