@@ -2,8 +2,13 @@ import { ALERT_MESSAGES } from '@cms/shared/lib'
 import { ApiResponseType, TableDataResponseType } from '@cms/shared/models'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createErrorResponse, createSuccessResponse, getTableModel, validateTable } from '@/lib'
-import { PrismaModelType } from '@/models'
+import {
+  createErrorResponse,
+  createSuccessResponse,
+  getTableModel,
+  PrismaModelType,
+  validateTable
+} from '@/lib'
 
 // GET 요청 처리
 export async function GET(
